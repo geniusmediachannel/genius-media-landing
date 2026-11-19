@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>CMS &amp; Admin Editor — Genius Media Channel</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Firebase Compat SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <!-- Shared Firebase Config -->
+  <script src="firebase-config.js"></script>
+
+  <style>
+    :root {
+      --bg: #070913;
+      --bg-card: #0d1226;
+      --bg-surface: #141b38;
+      --border: rgba(255, 255, 255, 0.09);
+      --border-focus: #6366f1;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --secondary: #06b6d4;
+      --success: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --gradient: linear-gradient(135deg, #6366f1, #06b6d4);
+      --radius: 12px;
+      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      display: flex;
+      min-height: 100vh;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    /* Lock Screen Modal */
+    #lock-screen {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at center, #111736 0%, #060814 100%);
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      backdrop-filter: blur(16px);
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    #lock-screen.unlocked {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .lock-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px 36px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(99, 102, 241, 0.2);
+      animation: popIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes popIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .lock-icon {
+      width: 64px;
+      height: 64px;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      font-size: 2rem;
+      margin: 0 auto 20px;
+      color: var(--secondary);
+    }
+    .lock-title {
+      font-size: 1.45rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .lock-sub {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      margin-bottom: 24px;
+    }
+    .pin-input {
+      width: 100%;
+      text-align: center;
+      font-size: 1.8rem;
+      letter-spacing: 0.35em;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      color: var(--secondary);
+      font-family: var(--font-mono);
+      margin-bottom: 20px;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .pin-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+    }
+    .shake {
+      animation: shake 0.4s ease;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-10px); }
+      40%, 80% { transform: translateX(10px); }
+    }
+
+    /* Sidebar Navigation */
+    aside {
+      width: 280px;
+      background: #090d1f;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 10;
+    }
+    .brand-header {
+      padding: 22px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .brand-badge {
+      width: 38px;
+      height: 38px;
+      background: var(--gradient);
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: white;
+    }
+    .brand-title {
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: -0.01em;
+    }
+    .brand-sub {
+      font-size: 0.72rem;
+      color: var(--secondary);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Cloud Connection Status Badge */
+    .cloud-status-badge {
+      margin: 12px 14px 4px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #34d399;
+    }
+    .cloud-status-badge.offline {
+      background: rgba(245, 158, 11, 0.1);
+      border-color: rgba(245, 158, 11, 0.3);
+      color: #fbbf24;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 8px currentColor;
+    }
+
+    .nav-menu {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex-grow: 1;
+    }
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 16px;
+      border-radius: var(--radius);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+    }
+    .nav-btn.active {
+      background: rgba(99, 102, 241, 0.16);
+      color: #fff;
+      border: 1px solid rgba(99, 102, 241, 0.35);
+    }
+    .nav-btn span.icon { font-size: 1.15rem; }
+
+    .sidebar-footer {
+      padding: 16px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* Main Content Area */
+    main {
+      flex: 1;
+      padding: 36px 44px 80px;
+      max-width: 1040px;
+      overflow-y: auto;
+    }
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .page-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .page-desc {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      margin-top: 4px;
+    }
+
+    /* Top Action Bar Buttons */
+    .top-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid transparent;
+      font-family: inherit;
+      text-decoration: none;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--gradient);
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
+    }
+    .btn-primary:hover {
+      filter: brightness(1.1);
+      transform: translateY(-2px);
+    }
+    .btn-secondary {
+      background: var(--bg-card);
+      border-color: var(--border);
+      color: var(--text);
+    }
+    .btn-secondary:hover {
+      background: var(--bg-surface);
+      border-color: var(--primary);
+    }
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: rgba(239, 68, 68, 0.3);
+      color: #f87171;
+    }
+    .btn-danger:hover {
+      background: var(--danger);
+      color: white;
+    }
+    .btn-sm {
+      padding: 6px 14px;
+      font-size: 0.8rem;
+      border-radius: 8px;
+    }
+
+    /* Tab Panels */
+    .tab-panel {
+      display: none;
+      animation: fadeIn 0.25s ease;
+    }
+    .tab-panel.active { display: block; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Cards & Forms */
+    .panel-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+    .panel-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .form-full { grid-column: span 2; }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 11px 14px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.92rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+    }
+
+    /* Items List */
+    .items-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .items-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .item-row {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s;
+    }
+    .item-row:hover {
+      border-color: rgba(99, 102, 241, 0.35);
+      background: rgba(20, 27, 56, 0.3);
+    }
+    .item-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: 1;
+      overflow: hidden;
+    }
+    .item-badge-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: rgba(99, 102, 241, 0.15);
+      display: grid;
+      place-items: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .item-info { overflow: hidden; }
+    .item-title {
+      font-weight: 700;
+      font-size: 0.98rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .item-desc {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 2px;
+    }
+    .item-actions {
+      display: flex;
+      gap: 8px;
+      margin-left: 14px;
+    }
+
+    /* Toast Notification */
+    #toast {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background: #1e293b;
+      color: #fff;
+      padding: 14px 24px;
+      border-radius: 999px;
+      border: 1px solid var(--primary);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      font-size: 0.9rem;
+      font-weight: 600;
+      transform: translateY(100px);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 1000;
+    }
+    #toast.show { transform: translateY(0); }
+
+    /* Modal for Edit / Add Item */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(6px);
+      z-index: 100;
+      display: none;
+      place-items: center;
+      padding: 20px;
+    }
+    .modal-overlay.open { display: grid; }
+    .modal-box {
+      background: #0d1226;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      width: 100%;
+      max-width: 580px;
+      padding: 28px;
+      position: relative;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+
+    @media (max-width: 860px) {
+      body { flex-direction: column; }
+      aside { width: 100%; height: auto; position: static; }
+      main { padding: 24px 20px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .form-full { grid-column: span 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Lock Screen with Secure PIN -->
+  <div id="lock-screen">
+    <div class="lock-box" id="lock-card">
+      <div class="lock-icon">🔐</div>
+      <h2 class="lock-title">Genius Media Admin</h2>
+      <p class="lock-sub">Masukkan PIN Keamanan untuk mengelola konten website.</p>
+      
+      <input type="password" id="pin-input" class="pin-input" placeholder="••••" maxlength="8" autofocus autocomplete="off">
+      
+      <button class="btn btn-primary" id="btn-unlock" style="width:100%; justify-content:center">
+        <span>Buka Panel Admin</span>
+      </button>
+
+      <p style="font-size:0.75rem; color:var(--text-dim); margin-top:16px">
+        PIN Bawaan Awal: <code style="color:var(--secondary)">8888</code>
+      </p>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <aside>
+    <div class="brand-header">
+      <div class="brand-badge">G</div>
+      <div>
+        <div class="brand-title">Genius Media</div>
+        <div class="brand-sub">Admin CMS Studio</div>
+      </div>
+    </div>
+
+    <!-- Live Cloud Indicator -->
+    <div class="cloud-status-badge" id="cloud-badge">
+      <span class="status-dot"></span>
+      <span id="cloud-status-text">Memeriksa Database...</span>
+    </div>
+
+    <nav class="nav-menu">
+      <button class="nav-btn active" data-tab="tab-brand"><span class="icon">🏢</span> Brand &amp; Kontak</button>
+      <button class="nav-btn" data-tab="tab-hero"><span class="icon">🚀</span> Hero &amp; Headline</button>
+      <button class="nav-btn" data-tab="tab-stats"><span class="icon">📊</span> Angka Statistik</button>
+      <button class="nav-btn" data-tab="tab-services"><span class="icon">🛠️</span> Layanan Unggulan</button>
+      <button class="nav-btn" data-tab="tab-portfolio"><span class="icon">📁</span> Portofolio Demo</button>
+      <button class="nav-btn" data-tab="tab-steps"><span class="icon">🔄</span> Alur Metodologi</button>
+      <button class="nav-btn" data-tab="tab-testi"><span class="icon">💬</span> Testimoni Klien</button>
+      <button class="nav-btn" data-tab="tab-faq"><span class="icon">❓</span> FAQ Tanya Jawab</button>
+      <button class="nav-btn" data-tab="tab-settings"><span class="icon">⚙️</span> Database &amp; PIN</button>
+      <button class="nav-btn" data-tab="tab-deploy"><span class="icon">📦</span> Download Backup</button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="index.html" target="_blank" class="btn btn-secondary btn-sm" style="text-align:center; justify-content:center">
+        <span>👁️ Buka Pratinjau Web</span>
+      </a>
+      <button class="btn btn-primary btn-sm" id="btn-save-all" style="justify-content:center">
+        <span>💾 Simpan ke Cloud</span>
+      </button>
+      <button class="btn btn-secondary btn-sm" id="btn-lock-again" style="justify-content:center; margin-top:2px; font-size:0.75rem">
+        <span>🔒 Kunci Kembali</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main>
+    <div class="page-header">
+      <div>
+        <h1 class="page-title" id="page-heading">Brand &amp; Kontak Bisnis</h1>
+        <p class="page-desc" id="page-subheading">Kelola informasi nama brand, nomor WhatsApp tujuan, dan deskripsi footer.</p>
+      </div>
+      <div class="top-actions">
+        <button class="btn btn-primary" id="btn-quick-save">💾 Simpan ke Cloud (Real-time)</button>
+      </div>
+    </div>
+
+    <!-- TAB 1: BRAND & KONTAK -->
+    <div class="tab-panel active" id="tab-brand">
+      <div class="panel-card">
+        <h3>🏢 Identitas Brand</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Nama Brand Bagian 1 (Gradasi Berwarna)</label>
+            <input type="text" id="f-b1" placeholder="Genius">
+          </div>
+          <div class="form-group">
+            <label>Nama Brand Bagian 2</label>
+            <input type="text" id="f-b2" placeholder="Media Channel">
+          </div>
+          <div class="form-group">
+            <label>Nomor WhatsApp Admin (Format 628xxxxxxxxxx tanpa tanda +)</label>
+            <input type="text" id="f-wa" placeholder="6281234567890">
+          </div>
+          <div class="form-group">
+            <label>Teks Status Badge Hero</label>
+            <input type="text" id="f-badge" placeholder="Open for Q1/Q2 Projects • Software House">
+          </div>
+          <div class="form-group form-full">
+            <label>Teks Deskripsi Footer</label>
+            <textarea id="f-footer" rows="2" placeholder="Deskripsi singkat profil software house di bagian bawah web..."></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: HERO & HEADLINE -->
+    <div class="tab-panel" id="tab-hero">
+      <div class="panel-card">
+        <h3>🚀 Teks Utama (Hero Section)</h3>
+        <div class="form-grid">
+          <div class="form-group form-full">
+            <label>Deskripsi Hero (Sub-headline)</label>
+            <textarea id="f-hero-sub" rows="3"></textarea>
+          </div>
+          <div class="form-group form-full">
+            <label>Daftar Kata Efek Mengetik (Typing Animation) — Pisahkan dengan baris baru (Enter)</label>
+            <textarea id="f-hero-words" rows="5"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: STATISTIK -->
+    <div class="tab-panel" id="tab-stats">
+      <div class="panel-card">
+        <h3>📊 4 Kartu Angka Statistik</h3>
+        <div class="form-grid" id="stats-inputs-container"></div>
+      </div>
+    </div>
+
+    <!-- TAB 4: LAYANAN -->
+    <div class="tab-panel" id="tab-services">
+      <div class="items-header">
+        <div>
+          <h2 style="font-size:1.25rem; font-weight:700">Daftar Layanan</h2>
+          <p style="font-size:0.85rem; color:var(--text-muted)">Tambah, ubah, atau hapus layanan spesialisasi yang Anda tawarkan.</p>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="openAddModal('service')">+ Tambah Layanan</button>
+      </div>
+      <div class="items-list" id="services-list-container"></div>
+    </div>
+
+    <!-- TAB 5: PORTOFOLIO / DEMOS -->
+    <div class="tab-panel" id="tab-portfolio">
+      <div class="items-header">
+        <div>
+          <h2 style="font-size:1.25rem; font-weight:700">Portofolio &amp; Demo Interaktif</h2>
+          <p style="font-size:0.85rem; color:var(--text-muted)">Kelola karya aplikasi yang ditampilkan pada kartu demo dan modal pop-up.</p>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="openAddModal('portfolio')">+ Tambah Portofolio</button>
+      </div>
+      <div class="items-list" id="portfolio-list-container"></div>
+    </div>
+
+    <!-- TAB 6: ALUR METODOLOGI -->
+    <div class="tab-panel" id="tab-steps">
+      <div class="items-header">
+        <div>
+          <h2 style="font-size:1.25rem; font-weight:700">Alur Kerja (Metodologi)</h2>
+          <p style="font-size:0.85rem; color:var(--text-muted)">Tahapan cara kerja dari konsultasi awal hingga rilis aplikasi.</p>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="openAddModal('step')">+ Tambah Tahap</button>
+      </div>
+      <div class="items-list" id="steps-list-container"></div>
+    </div>
+
+    <!-- TAB 7: TESTIMONI KLIEN -->
+    <div class="tab-panel" id="tab-testi">
+      <div class="items-header">
+        <div>
+          <h2 style="font-size:1.25rem; font-weight:700">Testimoni Klien</h2>
+          <p style="font-size:0.85rem; color:var(--text-muted)">Ulasan dan feedback dari founder atau klien Anda.</p>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="openAddModal('testimonial')">+ Tambah Testimoni</button>
+      </div>
+      <div class="items-list" id="testi-list-container"></div>
+    </div>
+
+    <!-- TAB 8: FAQ -->
+    <div class="tab-panel" id="tab-faq">
+      <div class="items-header">
+        <div>
+          <h2 style="font-size:1.25rem; font-weight:700">Pertanyaan yang Sering Diajukan (FAQ)</h2>
+          <p style="font-size:0.85rem; color:var(--text-muted)">Tanya jawab seputar harga, garansi, dan hak cipta source code.</p>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="openAddModal('faq')">+ Tambah FAQ</button>
+      </div>
+      <div class="items-list" id="faq-list-container"></div>
+    </div>
+
+    <!-- TAB 9: SETTINGS & FIREBASE CONFIG & PIN -->
+    <div class="tab-panel" id="tab-settings">
+      <div class="panel-card">
+        <h3>🔒 Keamanan PIN Admin</h3>
+        <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:16px">
+          Ubah PIN yang digunakan untuk masuk ke halaman admin ini.
+        </p>
+        <div class="form-grid" style="max-width:400px">
+          <div class="form-group form-full">
+            <label>PIN Admin Baru (4-8 Digit)</label>
+            <input type="password" id="f-new-pin" placeholder="Masukkan PIN Baru">
+          </div>
+          <div class="form-group form-full">
+            <button class="btn btn-primary btn-sm" id="btn-change-pin">Simpan PIN Baru</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-card">
+        <h3>🔥 Pengaturan Firebase Firestore (Cloud Database)</h3>
+        <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:16px; line-height:1.7">
+          Kunci konfigurasi ini menghubungkan website Anda ke database cloud Firebase gratis. Anda dapat menempelkan konfigurasi Anda di sini:
+        </p>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>apiKey</label>
+            <input type="text" id="cfg-apikey" placeholder="AIzaSy...">
+          </div>
+          <div class="form-group">
+            <label>projectId</label>
+            <input type="text" id="cfg-projid" placeholder="genius-media-xxxx">
+          </div>
+          <div class="form-group">
+            <label>authDomain</label>
+            <input type="text" id="cfg-authdom" placeholder="genius-media-xxxx.firebaseapp.com">
+          </div>
+          <div class="form-group">
+            <label>storageBucket</label>
+            <input type="text" id="cfg-bucket" placeholder="genius-media-xxxx.firebasestorage.app">
+          </div>
+          <div class="form-group">
+            <label>messagingSenderId</label>
+            <input type="text" id="cfg-sender" placeholder="1234567890">
+          </div>
+          <div class="form-group">
+            <label>appId</label>
+            <input type="text" id="cfg-appid" placeholder="1:123456:web:abcdef">
+          </div>
+          <div class="form-group form-full" style="margin-top:8px">
+            <button class="btn btn-primary btn-sm" id="btn-save-firebase-cfg">💾 Simpan Kunci Firebase</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 10: DEPLOY & DOWNLOAD -->
+    <div class="tab-panel" id="tab-deploy">
+      <div class="panel-card">
+        <h3>📦 Download File Cadangan &amp; Offline</h3>
+        <p style="color:var(--text-muted); font-size:0.92rem; margin-bottom:20px; line-height:1.7">
+          Jika Firebase Anda sudah terhubung, perubahan tersimpan langsung ke cloud tanpa perlu download file. Namun Anda tetap dapat mengunduh backup offline kapan saja:
+        </p>
+        <div style="display:flex; gap:14px; flex-wrap:wrap">
+          <button class="btn btn-primary" id="btn-download-html">
+            <span>📥 Download index.html Offline</span>
+          </button>
+          <button class="btn btn-secondary" id="btn-export-json">
+            <span>💾 Export Cadangan Data (JSON)</span>
+          </button>
+          <label class="btn btn-secondary" style="margin:0; cursor:pointer">
+            <span>📤 Import Data (JSON)</span>
+            <input type="file" id="f-import-json" accept=".json" style="display:none">
+          </label>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal Popup for Add/Edit Items -->
+  <div class="modal-overlay" id="item-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="modal-item-title">Edit Item</h3>
+        <button class="modal-close" onclick="closeItemModal()">✕</button>
+      </div>
+      <div id="modal-item-fields"></div>
+      <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:24px">
+        <button class="btn btn-secondary btn-sm" onclick="closeItemModal()">Batal</button>
+        <button class="btn btn-primary btn-sm" id="btn-modal-save">Simpan Item</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast">Data berhasil disimpan! ✨</div>
+
+  <script>
+    // --------------------------------------------------------------------------
+    // 1. PIN SECURITY LOGIC
+    // --------------------------------------------------------------------------
+    let currentAdminPin = localStorage.getItem('genius_admin_pin') || (typeof DEFAULT_ADMIN_PIN !== 'undefined' ? DEFAULT_ADMIN_PIN : '8888');
+    const lockScreen = document.getElementById('lock-screen');
+    const pinInput = document.getElementById('pin-input');
+    const lockCard = document.getElementById('lock-card');
+    const btnUnlock = document.getElementById('btn-unlock');
+
+    // Auto unlock if session is active
+    if (sessionStorage.getItem('genius_admin_session') === 'active') {
+      lockScreen.classList.add('unlocked');
+    }
+
+    function checkPin() {
+      const entered = pinInput.value.trim();
+      if (entered === currentAdminPin) {
+        sessionStorage.setItem('genius_admin_session', 'active');
+        lockScreen.classList.add('unlocked');
+        showToast('Login berhasil! Selamat datang Admin 🚀');
+        pinInput.value = '';
+      } else {
+        lockCard.classList.add('shake');
+        pinInput.value = '';
+        setTimeout(() => lockCard.classList.remove('shake'), 400);
+        showToast('❌ PIN salah! Coba lagi.');
+      }
+    }
+
+    btnUnlock.onclick = checkPin;
+    pinInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') checkPin();
+    });
+
+    document.getElementById('btn-lock-again').onclick = () => {
+      sessionStorage.removeItem('genius_admin_session');
+      lockScreen.classList.remove('unlocked');
+      pinInput.value = '';
+      showToast('Panel admin dikunci kembali 🔒');
+    };
+
+    document.getElementById('btn-change-pin').onclick = () => {
+      const newPin = document.getElementById('f-new-pin').value.trim();
+      if (newPin.length < 4) {
+        alert('PIN minimal 4 digit!');
+        return;
+      }
+      currentAdminPin = newPin;
+      localStorage.setItem('genius_admin_pin', newPin);
+      document.getElementById('f-new-pin').value = '';
+      showToast('PIN keamanan berhasil diperbarui! 🔑');
+    };
+
+    // --------------------------------------------------------------------------
+    // 2. MASTER DATA & FIREBASE SYNC LOGIC
+    // --------------------------------------------------------------------------
+    const DEFAULT_DATA = {
+      brand: {
+        b1: "Genius",
+        b2: "Media Channel",
+        wa: "6280000000000",
+        badge: "Open for Q1/Q2 Projects • Software House",
+        footer: "Studio rekayasa software terdepan di Indonesia. Spesialis pengembangan Web Application canggih, Aplikasi Mobile, dan Solusi Digital yang terukur."
+      },
+      hero: {
+        sub: "Genius Media Channel mentransformasi ide bisnis Anda menjadi Web Application performa tinggi, Mobile App native, dan Ekosistem Software enterprise dengan arsitektur masa depan.",
+        words: [
+          "Web App Modern",
+          "Aplikasi Mobile Skalabel",
+          "Software Desktop Kasir & ERP",
+          "Solusi AI & Automasi Bisnis"
+        ]
+      },
+      stats: [
+        { count: "50", label: "Proyek Sukses Dirilis" },
+        { count: "99", label: "Client Satisfaction Rate" },
+        { count: "3", label: "Akselerasi Efisiensi Bisnis" },
+        { count: "24", label: "Dedicated Technical Support" }
+      ],
+      services: [
+        {
+          icon: "🌐",
+          title: "Custom Web Application",
+          desc: "SaaS platforms, enterprise dashboard, CRM internal, e-commerce b2b, dan portal web kompleks dengan UX responsif, SEO-ready, dan performa kilat.",
+          tags: ["Next.js", "React", "Tailwind", "REST / GraphQL"]
+        },
+        {
+          icon: "📱",
+          title: "Mobile App (Android & iOS)",
+          desc: "Aplikasi mobile lintas platform dengan sentuhan native, animasi 60fps, offline mode, notifikasi push real-time, dan integrasi hardware perangkat.",
+          tags: ["Flutter", "React Native", "Firebase", "Push Notification"]
+        },
+        {
+          icon: "🖥️",
+          title: "Desktop & Enterprise Software",
+          desc: "Sistem kasir (POS), inventory gudang, software manufaktur, dan software multi-platform (Windows, macOS, Linux) dengan akses printer & barcode reader.",
+          tags: ["Electron", "Tauri", "Local SQLite", "Hardware Sync"]
+        },
+        {
+          icon: "⚡",
+          title: "Backend Architecture & API",
+          desc: "Pondasi server yang tangguh, database terindeks rapi, integrasi Payment Gateway (Midtrans/Xendit), otentikasi JWT/OAuth, dan rate-limiting.",
+          tags: ["Node.js", "Python", "PostgreSQL", "Redis Cache"]
+        },
+        {
+          icon: "🤖",
+          title: "AI Integration & Automation",
+          desc: "Pemberdayaan aplikasi dengan kemampuan Generative AI, smart chatbot CS otomatis, ekstraksi data OCR, dan integrasi WhatsApp Business API.",
+          tags: ["OpenAI / Claude", "WA Gateway", "LangChain", "Auto-Workflow"]
+        },
+        {
+          icon: "🎨",
+          title: "UI/UX & Product Prototyping",
+          desc: "Perancangan antarmuka pengguna intuitif berbasis riset perilaku pengguna, design system Figma modular, dan wireframe interaktif sebelum coding.",
+          tags: ["Figma", "Design System", "Wireframing", "User Testing"]
+        }
+      ],
+      portfolio: [
+        {
+          category: "web",
+          icon: "📊",
+          title: "Analytics & KPI Executive Dashboard",
+          desc: "Dashboard analitik real-time dengan grafik interaktif multi-tenant, agregasi data transaksi kilat, dan ekspor laporan PDF otomatis.",
+          fullDesc: "Arsitektur dashboard real-time yang memproses ribuan data transaksi per detik. Dilengkapi sistem RBAC (Role-Based Access Control), kustomisasi widget grafik, ekspor format XLSX/PDF otomatis, serta webhook integrasi ke Slack dan Telegram.",
+          tech: ["Next.js 15", "TypeScript", "Tailwind CSS", "PostgreSQL", "Recharts", "Prisma ORM"]
+        },
+        {
+          category: "web",
+          icon: "🛒",
+          title: "Next-Gen E-Commerce & Inventory",
+          desc: "Toko online responsif dengan payment gateway terintegrasi, manajemen stok multi-gudang, dan sinkronisasi pesanan ke kurir.",
+          fullDesc: "Solusi e-commerce bertenaga tinggi dengan checkout kilat satu halaman. Terintegrasi payment gateway otomatis (Virtual Account, QRIS, Kartu Kredit), kalkulasi ongkos kirim real-time (JNE, SiCepat, J&T), dan manajemen mutasi stok gudang.",
+          tech: ["React", "Node.js Express", "Midtrans / Xendit API", "RajaOngkir", "Redis Cache", "PostgreSQL"]
+        },
+        {
+          category: "mobile",
+          icon: "🚚",
+          title: "Live Courier & Logistics Tracking",
+          desc: "Aplikasi pelacakan ekspedisi real-time di peta interaktif, tanda tangan digital penerima barang, dan notifikasi status instan.",
+          fullDesc: "Aplikasi driver & user mobile untuk monitoring armada secara real-time di atas peta live. Dilengkapi fitur routing rute terpendek, tanda tangan digital bukti terima paket, serta push notification Firebase.",
+          tech: ["Flutter", "Dart", "Google Maps SDK", "Firebase Cloud Messaging", "WebSockets"]
+        },
+        {
+          category: "mobile",
+          icon: "🎓",
+          title: "EduTech Interactive Learning App",
+          desc: "Platform kursus online dengan streaming video adaptif, kuis gamifikasi, sertifikat digital otomatis, dan forum diskusi.",
+          fullDesc: "Platform edukasi digital masa depan dengan fitur video streaming berteknologi HLS (HTTP Live Streaming), pengerjaan kuis bertenggat waktu, leaderboard gamifikasi, dan unduh materi untuk akses offline.",
+          tech: ["Flutter / React Native", "Node.js", "AWS S3 / Cloudflare Stream", "SQLite Offline"]
+        },
+        {
+          category: "desktop",
+          icon: "🧾",
+          title: "Fast POS Kasir & Multi-Outlet",
+          desc: "Software kasir desktop dengan dukungan mode offline, cetak struk thermal via bluetooth/USB, barcode scanner, dan rekap shift kasir.",
+          fullDesc: "Software kasir desktop dengan performa super cepat tanpa lag. Bekerja sempurna secara offline dan otomatis melakukan sinkronisasi data ke cloud ketika internet terhubung. Terintegrasi printer thermal 58mm/80mm dan barcode scanner USB.",
+          tech: ["Electron", "Tauri", "React", "Local SQLite", "ESC/POS Thermal Driver"]
+        },
+        {
+          category: "desktop",
+          icon: "📦",
+          title: "Smart Warehouse & Supply Chain",
+          desc: "Sistem kendali inventori gudang otomatis, pelacakan barcode batch barang, mutasi stok antar cabang, dan kartu stok digital.",
+          fullDesc: "Sistem manajemen operasional gudang skala menengah-besar. Mengelola keluar masuk stok dengan serial number / barcode, peringatan stok menipis otomatis via WhatsApp, serta laporan audit berkala.",
+          tech: ["React Desktop", "Python FastAPI", "PostgreSQL", "Docker", "Tailwind"]
+        }
+      ],
+      steps: [
+        {
+          num: "01",
+          title: "Discovery & Blueprint",
+          desc: "Kami membedah proses bisnis Anda, menyusun diagram arsitektur sistem, database schema, dan spesifikasi fungsional yang solid."
+        },
+        {
+          num: "02",
+          title: "UI/UX & Prototype",
+          desc: "Pembuatan wireframe dan mockup Figma interaktif dengan design system modern untuk divalidasi sebelum mulai baris kode."
+        },
+        {
+          num: "03",
+          title: "Agile Sprints & Demo",
+          desc: "Pengembangan bertahap dalam sprint mingguan. Anda mendapatkan link demo live untuk memantau progres secara transparan."
+        },
+        {
+          num: "04",
+          title: "QA, Deploy & Warranty",
+          desc: "Uji performa, audit keamanan, deployment ke server cloud, pelatihan admin, serta garansi bug-free dan technical support gratis."
+        }
+      ],
+      testimonials: [
+        {
+          name: "Rian Hidayat",
+          role: "Founder & COO, Logistik Express",
+          stars: 5,
+          text: "Genius Media Channel berhasil membangun web app logistik kami dari nol hingga rilis dalam 6 minggu. Kecepatan loadingnya luar biasa dan tim kami sangat terbantu dengan dashboard adminnya!"
+        },
+        {
+          name: "Dewi Sartika",
+          role: "Product Lead, EduNusantara",
+          stars: 5,
+          text: "Aplikasi mobile kami lancar tanpa crash sama sekali di Android maupun iOS. Komunikasi tim Genius Media sangat profesional dan selalu memberikan solusi teknis yang efisien."
+        },
+        {
+          name: "Budi Wicaksono",
+          role: "Owner, Retail Network Group",
+          stars: 5,
+          text: "Software kasir dan inventori gudang yang dibuat bekerja sangat mulus meskipun koneksi internet toko kadang offline. Source code diserahkan rapi lengkap dengan dokumentasi."
+        }
+      ],
+      faq: [
+        {
+          q: "Apakah source code aplikasi sepenuhnya menjadi milik klien?",
+          a: "Ya, 100%! Setelah pelunasan proyek, seluruh hak cipta dan repository source code (GitHub/GitLab) beserta aset desain diserahkan penuh kepada Anda tanpa adanya vendor lock-in."
+        },
+        {
+          q: "Berapa lama rata-rata durasi pengerjaan aplikasi?",
+          a: "Tergantung kompleksitas fitur. Untuk MVP atau sistem berukuran sedang rata-rata memakan waktu 3 sampai 6 minggu, sedangkan sistem enterprise berskala besar berkisar antara 2 sampai 4 bulan dengan sprint mingguan."
+        },
+        {
+          q: "Apakah ada garansi setelah aplikasi resmi diluncurkan?",
+          a: "Tentu. Kami memberikan garansi bug-free dan perbaikan teknis gratis selama 30 hingga 90 hari setelah go-live untuk memastikan operasional bisnis Anda berjalan tanpa kendala."
+        },
+        {
+          q: "Bagaimana sistem pembayaran untuk proyek custom?",
+          a: "Pembayaran dibagi menjadi termin bertahap berbasis milestone (misal: DP awal 30%, termin progres 40% setelah lolos demo fitur utama, dan pelunasan 30% setelah deployment final)."
+        },
+        {
+          q: "Apakah Genius Media dapat membantu pengurusan server cloud dan domain?",
+          a: "Ya, kami mendampingi setup infrastruktur server (AWS, GCP, DigitalOcean, Vercel), konfigurasi SSL HTTPS, domain perusahaan, serta akun developer Google Play Store & Apple App Store."
+        }
+      ]
+    };
+
+    let AppData = JSON.parse(JSON.stringify(DEFAULT_DATA));
+    let db = null;
+    let isCloudConnected = false;
+
+    // Initialize Firebase
+    function initFirebase() {
+      // Priority: saved config in localStorage, then firebase-config.js
+      let activeConfig = null;
+      try {
+        const savedCfg = localStorage.getItem('genius_firebase_config');
+        if (savedCfg) activeConfig = JSON.parse(savedCfg);
+      } catch (e) {}
+
+      if (!activeConfig && typeof firebaseConfig !== 'undefined') {
+        activeConfig = firebaseConfig;
+      }
+
+      if (activeConfig && activeConfig.apiKey && !activeConfig.apiKey.includes('PASTE_API_KEY')) {
+        try {
+          if (!firebase.apps.length) {
+            firebase.initializeApp(activeConfig);
+          }
+          db = firebase.firestore();
+          isCloudConnected = true;
+          document.getElementById('cloud-badge').classList.remove('offline');
+          document.getElementById('cloud-status-text').textContent = '🟢 Terhubung ke Firebase Cloud';
+
+          // Pre-fill config form in Settings
+          document.getElementById('cfg-apikey').value = activeConfig.apiKey || '';
+          document.getElementById('cfg-projid').value = activeConfig.projectId || '';
+          document.getElementById('cfg-authdom').value = activeConfig.authDomain || '';
+          document.getElementById('cfg-bucket').value = activeConfig.storageBucket || '';
+          document.getElementById('cfg-sender').value = activeConfig.messagingSenderId || '';
+          document.getElementById('cfg-appid').value = activeConfig.appId || '';
+
+          // Load live cloud data
+          loadCloudData();
+          return;
+        } catch (err) {
+          console.warn('Firebase init error:', err);
+        }
+      }
+
+      // Offline / Local fallback
+      document.getElementById('cloud-badge').classList.add('offline');
+      document.getElementById('cloud-status-text').textContent = '🟡 Mode Lokal (Atur Firebase di Menu Database)';
+      try {
+        const saved = localStorage.getItem('genius_media_full_data');
+        if (saved) AppData = JSON.parse(saved);
+      } catch (e) {}
+      renderForms();
+    }
+
+    // Load data from Firestore
+    async function loadCloudData() {
+      if (!db) return;
+      try {
+        const docRef = db.collection('content').doc('landing_page');
+        const docSnap = await docRef.get();
+        if (docSnap.exists) {
+          AppData = { ...DEFAULT_DATA, ...docSnap.data() };
+          localStorage.setItem('genius_media_full_data', JSON.stringify(AppData));
+          showToast('Data terbaru dimuat dari Cloud! ☁️');
+        } else {
+          // Initialize first cloud document with default data
+          await docRef.set(AppData);
+        }
+      } catch (err) {
+        console.warn('Firestore load error:', err);
+      }
+      renderForms();
+    }
+
+    // Save Data to Cloud & Local
+    async function saveData() {
+      // Gather inputs into AppData
+      AppData.brand.b1 = document.getElementById('f-b1').value.trim() || DEFAULT_DATA.brand.b1;
+      AppData.brand.b2 = document.getElementById('f-b2').value.trim() || DEFAULT_DATA.brand.b2;
+      AppData.brand.wa = document.getElementById('f-wa').value.trim() || DEFAULT_DATA.brand.wa;
+      AppData.brand.badge = document.getElementById('f-badge').value.trim() || DEFAULT_DATA.brand.badge;
+      AppData.brand.footer = document.getElementById('f-footer').value.trim() || DEFAULT_DATA.brand.footer;
+
+      AppData.hero.sub = document.getElementById('f-hero-sub').value.trim() || DEFAULT_DATA.hero.sub;
+      AppData.hero.words = document.getElementById('f-hero-words').value
+        .split('\n')
+        .map(w => w.trim())
+        .filter(Boolean);
+
+      document.querySelectorAll('.stat-input-row').forEach((row, i) => {
+        if (AppData.stats[i]) {
+          AppData.stats[i].count = row.querySelector('.stat-count').value.trim();
+          AppData.stats[i].label = row.querySelector('.stat-label').value.trim();
+        }
+      });
+
+      // Always save to localStorage
+      localStorage.setItem('genius_media_full_data', JSON.stringify(AppData));
+
+      // Save to Firebase Cloud if connected
+      if (db && isCloudConnected) {
+        showToast('Menyimpan ke Cloud Database... ⏳');
+        try {
+          await db.collection('content').doc('landing_page').set(AppData);
+          showToast('✅ Berhasil disimpan ke Cloud! Landing page langsung terupdate otomatis di seluruh dunia 🚀');
+          return;
+        } catch (err) {
+          console.error('Firebase save error:', err);
+          showToast('⚠️ Gagal simpan ke Firebase: ' + err.message);
+        }
+      } else {
+        showToast('Tersimpan di lokal! (Hubungkan Firebase untuk auto-sync online) ✨');
+      }
+    }
+
+    document.getElementById('btn-save-all').onclick = saveData;
+    document.getElementById('btn-quick-save').onclick = saveData;
+
+    // Save Custom Firebase Config from Settings Tab
+    document.getElementById('btn-save-firebase-cfg').onclick = () => {
+      const cfg = {
+        apiKey: document.getElementById('cfg-apikey').value.trim(),
+        projectId: document.getElementById('cfg-projid').value.trim(),
+        authDomain: document.getElementById('cfg-authdom').value.trim(),
+        storageBucket: document.getElementById('cfg-bucket').value.trim(),
+        messagingSenderId: document.getElementById('cfg-sender').value.trim(),
+        appId: document.getElementById('cfg-appid').value.trim()
+      };
+
+      if (!cfg.apiKey || !cfg.projectId) {
+        alert('Harap isi minimal apiKey dan projectId!');
+        return;
+      }
+
+      localStorage.setItem('genius_firebase_config', JSON.stringify(cfg));
+      showToast('Kunci Firebase disimpan! Memulai ulang koneksi... 🔄');
+      setTimeout(() => location.reload(), 1200);
+    };
+
+    // Toast Notification Helper
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3500);
+    }
+
+    // --------------------------------------------------------------------------
+    // 3. UI RENDERING & FORM BUILDERS
+    // --------------------------------------------------------------------------
+    const navButtons = document.querySelectorAll('.nav-menu .nav-btn');
+    const tabPanels = document.querySelectorAll('.tab-panel');
+    const headings = {
+      'tab-brand': ['Brand & Kontak Bisnis', 'Kelola informasi nama brand, nomor WhatsApp tujuan, dan deskripsi footer.'],
+      'tab-hero': ['Hero & Headline', 'Ubah teks sambutan utama dan kata animasi mengetik.'],
+      'tab-stats': ['Angka Statistik', 'Ubah angka pencapaian dan label statistik di bawah hero.'],
+      'tab-services': ['Layanan Unggulan', 'Tambah, edit, atau hapus layanan spesialisasi Genius Media.'],
+      'tab-portfolio': ['Portofolio & Demo', 'Kelola kartu demo aplikasi dan detail spesifikasi teknologinya.'],
+      'tab-steps': ['Alur Metodologi', 'Tahapan kerja dari blueprint hingga garansi purna jual.'],
+      'tab-testi': ['Testimoni Klien', 'Ulasan dan kepuasan klien atas pengerjaan aplikasi.'],
+      'tab-faq': ['FAQ Tanya Jawab', 'Jawaban pertanyaan umum calon klien.'],
+      'tab-settings': ['Pengaturan Database & PIN', 'Kelola kunci koneksi Firebase Cloud Database dan PIN login admin.'],
+      'tab-deploy': ['Download & Deploy', 'Unduh file index.html terbaru untuk cadangan offline.']
+    };
+
+    navButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        navButtons.forEach(b => b.classList.remove('active'));
+        tabPanels.forEach(p => p.classList.remove('active'));
+
+        btn.classList.add('active');
+        const targetId = btn.dataset.tab;
+        document.getElementById(targetId).classList.add('active');
+
+        if (headings[targetId]) {
+          document.getElementById('page-heading').textContent = headings[targetId][0];
+          document.getElementById('page-subheading').textContent = headings[targetId][1];
+        }
+      });
+    });
+
+    function renderForms() {
+      // Brand
+      document.getElementById('f-b1').value = AppData.brand.b1 || '';
+      document.getElementById('f-b2').value = AppData.brand.b2 || '';
+      document.getElementById('f-wa').value = AppData.brand.wa || '';
+      document.getElementById('f-badge').value = AppData.brand.badge || '';
+      document.getElementById('f-footer').value = AppData.brand.footer || '';
+
+      // Hero
+      document.getElementById('f-hero-sub').value = AppData.hero.sub || '';
+      document.getElementById('f-hero-words').value = (AppData.hero.words || []).join('\n');
+
+      // Stats
+      const statsBox = document.getElementById('stats-inputs-container');
+      statsBox.innerHTML = AppData.stats.map((s, i) => `
+        <div class="stat-input-row" style="background:rgba(0,0,0,0.2); padding:16px; border-radius:10px; border:1px solid var(--border)">
+          <div style="font-weight:700; margin-bottom:8px; font-size:0.85rem">Statistik #${i+1}</div>
+          <div style="display:flex; gap:10px">
+            <input type="text" class="stat-count" value="${s.count}" placeholder="Angka (misal: 50)" style="width:110px">
+            <input type="text" class="stat-label" value="${s.label}" placeholder="Label teks">
+          </div>
+        </div>
+      `).join('');
+
+      renderServices();
+      renderPortfolio();
+      renderSteps();
+      renderTestimonials();
+      renderFAQ();
+    }
+
+    function renderServices() {
+      const container = document.getElementById('services-list-container');
+      container.innerHTML = AppData.services.map((item, idx) => `
+        <div class="item-row">
+          <div class="item-left">
+            <div class="item-badge-icon">${item.icon}</div>
+            <div class="item-info">
+              <div class="item-title">${item.title}</div>
+              <div class="item-desc">${item.desc}</div>
+              <div style="margin-top:4px">${(item.tags||[]).map(t => `<span style="font-size:0.75rem; background:rgba(255,255,255,0.06); padding:2px 7px; border-radius:4px; margin-right:4px">${t}</span>`).join('')}</div>
+            </div>
+          </div>
+          <div class="item-actions">
+            <button class="btn btn-secondary btn-sm" onclick="openEditModal('service', ${idx})">✏️ Edit</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteItem('service', ${idx})">🗑️ Hapus</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderPortfolio() {
+      const container = document.getElementById('portfolio-list-container');
+      container.innerHTML = AppData.portfolio.map((item, idx) => `
+        <div class="item-row">
+          <div class="item-left">
+            <div class="item-badge-icon">${item.icon}</div>
+            <div class="item-info">
+              <div class="item-title">[${item.category.toUpperCase()}] ${item.title}</div>
+              <div class="item-desc">${item.desc}</div>
+            </div>
+          </div>
+          <div class="item-actions">
+            <button class="btn btn-secondary btn-sm" onclick="openEditModal('portfolio', ${idx})">✏️ Edit</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteItem('portfolio', ${idx})">🗑️ Hapus</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderSteps() {
+      const container = document.getElementById('steps-list-container');
+      container.innerHTML = AppData.steps.map((item, idx) => `
+        <div class="item-row">
+          <div class="item-left">
+            <div class="item-badge-icon">${item.num}</div>
+            <div class="item-info">
+              <div class="item-title">${item.title}</div>
+              <div class="item-desc">${item.desc}</div>
+            </div>
+          </div>
+          <div class="item-actions">
+            <button class="btn btn-secondary btn-sm" onclick="openEditModal('step', ${idx})">✏️ Edit</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteItem('step', ${idx})">🗑️ Hapus</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderTestimonials() {
+      const container = document.getElementById('testi-list-container');
+      container.innerHTML = AppData.testimonials.map((item, idx) => `
+        <div class="item-row">
+          <div class="item-left">
+            <div class="item-badge-icon">⭐</div>
+            <div class="item-info">
+              <div class="item-title">${item.name} (${item.role})</div>
+              <div class="item-desc">"${item.text}"</div>
+            </div>
+          </div>
+          <div class="item-actions">
+            <button class="btn btn-secondary btn-sm" onclick="openEditModal('testimonial', ${idx})">✏️ Edit</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteItem('testimonial', ${idx})">🗑️ Hapus</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderFAQ() {
+      const container = document.getElementById('faq-list-container');
+      container.innerHTML = AppData.faq.map((item, idx) => `
+        <div class="item-row">
+          <div class="item-left">
+            <div class="item-badge-icon">❓</div>
+            <div class="item-info">
+              <div class="item-title">${item.q}</div>
+              <div class="item-desc">${item.a}</div>
+            </div>
+          </div>
+          <div class="item-actions">
+            <button class="btn btn-secondary btn-sm" onclick="openEditModal('faq', ${idx})">✏️ Edit</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteItem('faq', ${idx})">🗑️ Hapus</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function deleteItem(type, idx) {
+      if (!confirm('Apakah Anda yakin ingin menghapus item ini?')) return;
+      if (type === 'service') AppData.services.splice(idx, 1);
+      if (type === 'portfolio') AppData.portfolio.splice(idx, 1);
+      if (type === 'step') AppData.steps.splice(idx, 1);
+      if (type === 'testimonial') AppData.testimonials.splice(idx, 1);
+      if (type === 'faq') AppData.faq.splice(idx, 1);
+
+      saveData();
+      renderForms();
+    }
+
+    let currentModalType = null;
+    let currentEditIndex = -1;
+
+    function openAddModal(type) {
+      currentModalType = type;
+      currentEditIndex = -1;
+      document.getElementById('modal-item-title').textContent = '+ Tambah Item Baru';
+      buildModalFields(type, null);
+      document.getElementById('item-modal').classList.add('open');
+    }
+
+    function openEditModal(type, idx) {
+      currentModalType = type;
+      currentEditIndex = idx;
+      document.getElementById('modal-item-title').textContent = '✏️ Edit Item';
+      let data = null;
+      if (type === 'service') data = AppData.services[idx];
+      if (type === 'portfolio') data = AppData.portfolio[idx];
+      if (type === 'step') data = AppData.steps[idx];
+      if (type === 'testimonial') data = AppData.testimonials[idx];
+      if (type === 'faq') data = AppData.faq[idx];
+
+      buildModalFields(type, data);
+      document.getElementById('item-modal').classList.add('open');
+    }
+
+    function closeItemModal() {
+      document.getElementById('item-modal').classList.remove('open');
+    }
+
+    function buildModalFields(type, data) {
+      const box = document.getElementById('modal-item-fields');
+      let html = '';
+
+      if (type === 'service') {
+        html = `
+          <div class="form-group" style="margin-bottom:14px">
+            <label>Emoji / Ikon Layanan</label>
+            <input type="text" id="m-serv-icon" value="${data ? data.icon : '🚀'}" style="width:100px">
+          </div>
+          <div class="form-group" style="margin-bottom:14px">
+            <label>Judul Layanan</label>
+            <input type="text" id="m-serv-title" value="${data ? data.title : ''}" placeholder="Misal: SaaS & Web App">
+          </div>
+          <div class="form-group" style="margin-bottom:14px">
+            <label>Deskripsi Layanan</label>
+            <textarea id="m-serv-desc" rows="3">${data ? data.desc : ''}</textarea>
+          </div>
+          <div class="form-group">
+            <label>Tags Teknologi (Pisahkan dengan koma)</label>
+            <input type="text" id="m-serv-tags" value="${data ? data.tags.join(', ') : 'Next.js, React, Tailwind'}">
+          </div>
+        `;
+      } else if (type === 'portfolio') {
+        html = `
+          <div class="form-group" style="margin-bottom:14px">
+            <label>Kategori</label>
+            <select id="m-port-cat">
+              <option value="web" ${data && data.category==='web'?'selected':''}>Web Application</option>
+              <option value="mobile" ${data && data.category==='mobile'?'selected':''}>Aplikasi Mobile</option>
+              <option value="desktop" ${data && data.category==='desktop'?'selected':''}>Desktop & Enterprise</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom:14px">
+            <label>Ikon Emoji</label>
+            <input type="text" id="m-port-icon" value="${data ? data.icon : '💻'}" style="width:100px">
+          </div>
+          <div class="form-group" style="margin-bottom:14px">
+            <label>Judul Aplikasi</label>
+            <input type="text" id="m-port-title" value="${data ? data.title : ''}">
+          </div>
+          <div class="form-group" style="margin-bottom:14px">
+            <label>Deskripsi Singkat (Tampil di kartu)</label>
+            <textarea id="m-port-desc" rows="2">${data ? data.desc : ''}</textarea>
+          </div>
+          <div class="form-group" style="margin-bottom:14px">
+            <label>Deskripsi Lengkap (Tampil di pop-up modal saat diklik)</label>
+            <textarea id="m-port-full" rows="3">${data ? data.fullDesc : ''}</textarea>
+          </div>
+          <div class="form-group">
+            <label>Tech Stack (Pisahkan dengan koma)</label>
+            <input type="text" id="m-port-tech" value="${data ? data.tech.join(', ') : 'Flutter, Dart, Firebase'}">
+          </div>
+        `;
+      } else if (type === 'step') {
+        html = `
+          <div class="form-group" style="margin-bottom:14px">
+            <label>Nomor Urut (misal: 01, 02)</label>
+            <input type="text" id="m-step-num" value="${data ? data.num : '01'}" style="width:100px">
+          </div>
+          <div class="form-group" style="margin-bottom:14px">
+            <label>Judul Tahapan</label>
+            <input type="text" id="m-step-title" value="${data ? data.title : ''}">
+          </div>
+          <div class="form-group">
+            <label>Penjelasan Tahapan</label>
+            <textarea id="m-step-desc" rows="3">${data ? data.desc : ''}</textarea>
+          </div>
+        `;
+      } else if (type === 'testimonial') {
+        html = `
+          <div class="form-group" style="margin-bottom:14px">
+            <label>Nama Klien</label>
+            <input type="text" id="m-testi-name" value="${data ? data.name : ''}">
+          </div>
+          <div class="form-group" style="margin-bottom:14px">
+            <label>Jabatan / Nama Perusahaan</label>
+            <input type="text" id="m-testi-role" value="${data ? data.role : ''}">
+          </div>
+          <div class="form-group">
+            <label>Ulasan / Testimoni</label>
+            <textarea id="m-testi-text" rows="3">${data ? data.text : ''}</textarea>
+          </div>
+        `;
+      } else if (type === 'faq') {
+        html = `
+          <div class="form-group" style="margin-bottom:14px">
+            <label>Pertanyaan</label>
+            <input type="text" id="m-faq-q" value="${data ? data.q : ''}">
+          </div>
+          <div class="form-group">
+            <label>Jawaban</label>
+            <textarea id="m-faq-a" rows="4">${data ? data.a : ''}</textarea>
+          </div>
+        `;
+      }
+
+      box.innerHTML = html;
+    }
+
+    document.getElementById('btn-modal-save').onclick = () => {
+      if (currentModalType === 'service') {
+        const item = {
+          icon: document.getElementById('m-serv-icon').value.trim() || '🚀',
+          title: document.getElementById('m-serv-title').value.trim() || 'Layanan Baru',
+          desc: document.getElementById('m-serv-desc').value.trim(),
+          tags: document.getElementById('m-serv-tags').value.split(',').map(s=>s.trim()).filter(Boolean)
+        };
+        if (currentEditIndex >= 0) AppData.services[currentEditIndex] = item;
+        else AppData.services.push(item);
+      } else if (currentModalType === 'portfolio') {
+        const item = {
+          category: document.getElementById('m-port-cat').value,
+          icon: document.getElementById('m-port-icon').value.trim() || '💻',
+          title: document.getElementById('m-port-title').value.trim() || 'Aplikasi Baru',
+          desc: document.getElementById('m-port-desc').value.trim(),
+          fullDesc: document.getElementById('m-port-full').value.trim(),
+          tech: document.getElementById('m-port-tech').value.split(',').map(s=>s.trim()).filter(Boolean)
+        };
+        if (currentEditIndex >= 0) AppData.portfolio[currentEditIndex] = item;
+        else AppData.portfolio.push(item);
+      } else if (currentModalType === 'step') {
+        const item = {
+          num: document.getElementById('m-step-num').value.trim() || '01',
+          title: document.getElementById('m-step-title').value.trim() || 'Tahap Baru',
+          desc: document.getElementById('m-step-desc').value.trim()
+        };
+        if (currentEditIndex >= 0) AppData.steps[currentEditIndex] = item;
+        else AppData.steps.push(item);
+      } else if (currentModalType === 'testimonial') {
+        const item = {
+          name: document.getElementById('m-testi-name').value.trim() || 'Nama Klien',
+          role: document.getElementById('m-testi-role').value.trim() || 'Perusahaan',
+          stars: 5,
+          text: document.getElementById('m-testi-text').value.trim()
+        };
+        if (currentEditIndex >= 0) AppData.testimonials[currentEditIndex] = item;
+        else AppData.testimonials.push(item);
+      } else if (currentModalType === 'faq') {
+        const item = {
+          q: document.getElementById('m-faq-q').value.trim() || 'Pertanyaan?',
+          a: document.getElementById('m-faq-a').value.trim()
+        };
+        if (currentEditIndex >= 0) AppData.faq[currentEditIndex] = item;
+        else AppData.faq.push(item);
+      }
+
+      saveData();
+      renderForms();
+      closeItemModal();
+    };
+
+    // Export & Import Backup JSON
+    document.getElementById('btn-export-json').onclick = () => {
+      const blob = new Blob([JSON.stringify(AppData, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `genius-media-data-${new Date().toISOString().slice(0,10)}.json`;
+      a.click();
+      showToast('Cadangan data berhasil di-export! 💾');
+    };
+
+    document.getElementById('f-import-json').onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        try {
+          const imported = JSON.parse(evt.target.result);
+          AppData = { ...DEFAULT_DATA, ...imported };
+          saveData();
+          renderForms();
+          showToast('Data berhasil di-import! 🔄');
+        } catch (err) {
+          alert('Format file JSON tidak valid!');
+        }
+      };
+      reader.readAsText(file);
+    };
+
+    // Download Offline index.html
+    document.getElementById('btn-download-html').onclick = async () => {
+      showToast('Mempersiapkan index.html... ⏳');
+      try {
+        const resp = await fetch('index.html');
+        let html = await resp.text();
+        const dataScriptTag = `<script id="genius-embedded-data" type="application/json">${JSON.stringify(AppData)}<\/script>`;
+        if (html.includes('id="genius-embedded-data"')) {
+          html = html.replace(/<script id="genius-embedded-data"[\s\S]*?<\/script>/, dataScriptTag);
+        } else {
+          html = html.replace('</body>', `${dataScriptTag}\n</body>`);
+        }
+        const blob = new Blob([html], { type: 'text/html' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'index.html';
+        a.click();
+        showToast('File index.html berhasil diunduh! 🚀');
+      } catch (e) {
+        showToast('Buka halaman ini dari web browser untuk download file.');
+      }
+    };
+
+    // Start Firebase Initialization
+    initFirebase();
+  </script>
+</body>
+</html>

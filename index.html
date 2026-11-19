@@ -12,6 +12,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
+  <!-- Firebase Compat SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+
   <style>
     :root {
       --bg: #070913;
@@ -1553,108 +1558,8 @@
         </p>
       </div>
 
-      <div class="services-grid">
-        <!-- Service 1 -->
-        <div class="service-card">
-          <div>
-            <div class="service-icon">🌐</div>
-            <h3 class="service-title">Custom Web Application</h3>
-            <p class="service-desc">
-              SaaS platforms, enterprise dashboard, CRM internal, e-commerce b2b, dan portal web kompleks dengan UX responsif, SEO-ready, dan performa kilat.
-            </p>
-          </div>
-          <div class="service-tags">
-            <span class="service-tag">Next.js</span>
-            <span class="service-tag">React</span>
-            <span class="service-tag">Tailwind</span>
-            <span class="service-tag">REST / GraphQL</span>
-          </div>
-        </div>
-
-        <!-- Service 2 -->
-        <div class="service-card">
-          <div>
-            <div class="service-icon">📱</div>
-            <h3 class="service-title">Mobile App (Android &amp; iOS)</h3>
-            <p class="service-desc">
-              Aplikasi mobile lintas platform dengan sentuhan native, animasi 60fps, offline mode, notifikasi push real-time, dan integrasi hardware perangkat.
-            </p>
-          </div>
-          <div class="service-tags">
-            <span class="service-tag">Flutter</span>
-            <span class="service-tag">React Native</span>
-            <span class="service-tag">Firebase</span>
-            <span class="service-tag">Push Notification</span>
-          </div>
-        </div>
-
-        <!-- Service 3 -->
-        <div class="service-card">
-          <div>
-            <div class="service-icon">🖥️</div>
-            <h3 class="service-title">Desktop &amp; Enterprise Software</h3>
-            <p class="service-desc">
-              Sistem kasir (POS), inventory gudang, software manufaktur, dan software multi-platform (Windows, macOS, Linux) dengan akses printer &amp; barcode reader.
-            </p>
-          </div>
-          <div class="service-tags">
-            <span class="service-tag">Electron</span>
-            <span class="service-tag">Tauri</span>
-            <span class="service-tag">Local SQLite</span>
-            <span class="service-tag">Hardware Sync</span>
-          </div>
-        </div>
-
-        <!-- Service 4 -->
-        <div class="service-card">
-          <div>
-            <div class="service-icon">⚡</div>
-            <h3 class="service-title">Backend Architecture &amp; API</h3>
-            <p class="service-desc">
-              Pondasi server yang tangguh, database terindeks rapi, integrasi Payment Gateway (Midtrans/Xendit), otentikasi JWT/OAuth, dan rate-limiting.
-            </p>
-          </div>
-          <div class="service-tags">
-            <span class="service-tag">Node.js</span>
-            <span class="service-tag">Python</span>
-            <span class="service-tag">PostgreSQL</span>
-            <span class="service-tag">Redis Cache</span>
-          </div>
-        </div>
-
-        <!-- Service 5 -->
-        <div class="service-card">
-          <div>
-            <div class="service-icon">🤖</div>
-            <h3 class="service-title">AI Integration &amp; Automation</h3>
-            <p class="service-desc">
-              Pemberdayaan aplikasi dengan kemampuan Generative AI, smart chatbot CS otomatis, ekstraksi data OCR, dan integrasi WhatsApp Business API.
-            </p>
-          </div>
-          <div class="service-tags">
-            <span class="service-tag">OpenAI / Claude</span>
-            <span class="service-tag">WA Gateway</span>
-            <span class="service-tag">LangChain</span>
-            <span class="service-tag">Auto-Workflow</span>
-          </div>
-        </div>
-
-        <!-- Service 6 -->
-        <div class="service-card">
-          <div>
-            <div class="service-icon">🎨</div>
-            <h3 class="service-title">UI/UX &amp; Product Prototyping</h3>
-            <p class="service-desc">
-              Perancangan antarmuka pengguna intuitif berbasis riset perilaku pengguna, design system Figma modular, dan wireframe interaktif sebelum coding.
-            </p>
-          </div>
-          <div class="service-tags">
-            <span class="service-tag">Figma</span>
-            <span class="service-tag">Design System</span>
-            <span class="service-tag">Wireframing</span>
-            <span class="service-tag">User Testing</span>
-          </div>
-        </div>
+      <div class="services-grid" id="services-container">
+        <!-- Dynamic Services -->
       </div>
     </div>
   </section>
@@ -1902,30 +1807,8 @@
         </p>
       </div>
 
-      <div class="steps-grid">
-        <div class="step-card">
-          <div class="step-number">01</div>
-          <h3 class="step-title">Discovery &amp; Blueprint</h3>
-          <p class="step-desc">Kami membedah proses bisnis Anda, menyusun diagram arsitektur sistem, database schema, dan spesifikasi fungsional yang solid.</p>
-        </div>
-
-        <div class="step-card">
-          <div class="step-number">02</div>
-          <h3 class="step-title">UI/UX &amp; Prototype</h3>
-          <p class="step-desc">Pembuatan wireframe dan mockup Figma interaktif dengan design system modern untuk divalidasi sebelum mulai baris kode.</p>
-        </div>
-
-        <div class="step-card">
-          <div class="step-number">03</div>
-          <h3 class="step-title">Agile Sprints &amp; Demo</h3>
-          <p class="step-desc">Pengembangan bertahap dalam sprint mingguan. Anda mendapatkan link demo live untuk memantau progres secara transparan.</p>
-        </div>
-
-        <div class="step-card">
-          <div class="step-number">04</div>
-          <h3 class="step-title">QA, Deploy &amp; Warranty</h3>
-          <p class="step-desc">Uji performa, audit keamanan, deployment ke server cloud, pelatihan admin, serta garansi bug-free dan technical support gratis.</p>
-        </div>
+      <div class="steps-grid" id="steps-container">
+        <!-- Dynamic Steps -->
       </div>
     </div>
   </section>
@@ -1941,54 +1824,8 @@
         </p>
       </div>
 
-      <div class="testimonials-grid">
-        <div class="testimonial-card">
-          <div>
-            <div class="testi-stars">★★★★★</div>
-            <p class="testi-text">
-              "Genius Media Channel berhasil membangun web app logistik kami dari nol hingga rilis dalam 6 minggu. Kecepatan loadingnya luar biasa dan tim kami sangat terbantu dengan dashboard adminnya!"
-            </p>
-          </div>
-          <div class="testi-author">
-            <div class="author-avatar">RH</div>
-            <div>
-              <div class="author-name">Rian Hidayat</div>
-              <div class="author-role">Founder &amp; COO, Logistik Express</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="testimonial-card">
-          <div>
-            <div class="testi-stars">★★★★★</div>
-            <p class="testi-text">
-              "Aplikasi mobile kami lancar tanpa crash sama sekali di Android maupun iOS. Komunikasi tim Genius Media sangat profesional dan selalu memberikan solusi teknis yang efisien."
-            </p>
-          </div>
-          <div class="testi-author">
-            <div class="author-avatar">DS</div>
-            <div>
-              <div class="author-name">Dewi Sartika</div>
-              <div class="author-role">Product Lead, EduNusantara</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="testimonial-card">
-          <div>
-            <div class="testi-stars">★★★★★</div>
-            <p class="testi-text">
-              "Software kasir dan inventori gudang yang dibuat bekerja sangat mulus meskipun koneksi internet toko kadang offline. Source code diserahkan rapi lengkap dengan dokumentasi."
-            </p>
-          </div>
-          <div class="testi-author">
-            <div class="author-avatar">BW</div>
-            <div>
-              <div class="author-name">Budi Wicaksono</div>
-              <div class="author-role">Owner, Retail Network Group</div>
-            </div>
-          </div>
-        </div>
+      <div class="testimonials-grid" id="testimonials-container">
+        <!-- Dynamic Testimonials -->
       </div>
     </div>
   </section>
@@ -2004,56 +1841,8 @@
         </p>
       </div>
 
-      <div class="faq-container">
-        <div class="faq-item">
-          <div class="faq-question">
-            <span>Apakah source code aplikasi sepenuhnya menjadi milik klien?</span>
-            <span class="faq-icon">▼</span>
-          </div>
-          <div class="faq-answer">
-            Ya, 100%! Setelah pelunasan proyek, seluruh hak cipta dan repository source code (GitHub/GitLab) beserta aset desain diserahkan penuh kepada Anda tanpa adanya vendor lock-in.
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question">
-            <span>Berapa lama rata-rata durasi pengerjaan aplikasi?</span>
-            <span class="faq-icon">▼</span>
-          </div>
-          <div class="faq-answer">
-            Tergantung kompleksitas fitur. Untuk MVP atau sistem berukuran sedang rata-rata memakan waktu 3 sampai 6 minggu, sedangkan sistem enterprise berskala besar berkisar antara 2 sampai 4 bulan dengan sprint mingguan.
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question">
-            <span>Apakah ada garansi setelah aplikasi resmi diluncurkan?</span>
-            <span class="faq-icon">▼</span>
-          </div>
-          <div class="faq-answer">
-            Tentu. Kami memberikan garansi bug-free dan perbaikan teknis gratis selama 30 hingga 90 hari setelah go-live untuk memastikan operasional bisnis Anda berjalan tanpa kendala.
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question">
-            <span>Bagaimana sistem pembayaran untuk proyek custom?</span>
-            <span class="faq-icon">▼</span>
-          </div>
-          <div class="faq-answer">
-            Pembayaran dibagi menjadi termin bertahap berbasis milestone (misal: DP awal 30%, termin progres 40% setelah lolos demo fitur utama, dan pelunasan 30% setelah deployment final).
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question">
-            <span>Apakah Genius Media dapat membantu pengurusan server cloud dan domain?</span>
-            <span class="faq-icon">▼</span>
-          </div>
-          <div class="faq-answer">
-            Ya, kami mendampingi setup infrastruktur server (AWS, GCP, DigitalOcean, Vercel), konfigurasi SSL HTTPS, domain perusahaan, serta akun developer Google Play Store &amp; Apple App Store.
-          </div>
-        </div>
+      <div class="faq-container" id="faq-container">
+        <!-- Dynamic FAQ -->
       </div>
     </div>
   </section>
@@ -2164,7 +1953,7 @@
           <ul class="footer-links">
             <li><a href="#kontak" id="ft-wa-text">WhatsApp: +62 8xx-xxxx-xxxx</a></li>
             <li><a href="#kontak">Konsultasi Desain &amp; Code</a></li>
-            <li><a href="#admin-drawer" class="admin-link" id="admin-trigger">⚙️ Pengaturan Halaman</a></li>
+            <li><a href="admin.html" class="admin-link">⚙️ Dashboard Admin CMS</a></li>
           </ul>
         </div>
       </div>
@@ -2172,7 +1961,7 @@
       <div class="footer-bottom">
         <div>© 2026 Genius Media Channel. All rights reserved. Crafted with high-performance code.</div>
         <div>
-          <a href="#admin-drawer" class="admin-link" id="admin-trigger-bottom">Mode Editor / Admin</a>
+          <a href="admin.html" class="admin-link">⚙️ Kelola Konten (Halaman Admin)</a>
         </div>
       </div>
     </div>
@@ -2257,47 +2046,366 @@ Solusi AI & Automasi Bisnis</textarea>
 
   <!-- Interactive Logic Script -->
   <script>
-    // Configuration Data (stored in localStorage if edited)
-    const DEFAULT_CONFIG = {
-      b1: "Genius",
-      b2: "Media Channel",
-      wa: "6280000000000",
-      sub: "Genius Media Channel mentransformasi ide bisnis Anda menjadi Web Application performa tinggi, Mobile App native, dan Ekosistem Software enterprise dengan arsitektur masa depan.",
-      words: [
-        "Web App Modern",
-        "Aplikasi Mobile Skalabel",
-        "Software Desktop Kasir & ERP",
-        "Solusi AI & Automasi Bisnis"
+    // Master Data Synchronization with admin.html & localStorage
+    const DEFAULT_MASTER_DATA = {
+      brand: {
+        b1: "Genius",
+        b2: "Media Channel",
+        wa: "6280000000000",
+        badge: "Open for Q1/Q2 Projects • Software House",
+        footer: "Studio rekayasa software terdepan di Indonesia. Spesialis pengembangan Web Application canggih, Aplikasi Mobile, dan Solusi Digital yang terukur."
+      },
+      hero: {
+        sub: "Genius Media Channel mentransformasi ide bisnis Anda menjadi Web Application performa tinggi, Mobile App native, dan Ekosistem Software enterprise dengan arsitektur masa depan.",
+        words: [
+          "Web App Modern",
+          "Aplikasi Mobile Skalabel",
+          "Software Desktop Kasir & ERP",
+          "Solusi AI & Automasi Bisnis"
+        ]
+      },
+      stats: [
+        { count: "50", label: "Proyek Sukses Dirilis" },
+        { count: "99", label: "Client Satisfaction Rate" },
+        { count: "3", label: "Akselerasi Efisiensi Bisnis" },
+        { count: "24", label: "Dedicated Technical Support" }
+      ],
+      services: [
+        {
+          icon: "🌐",
+          title: "Custom Web Application",
+          desc: "SaaS platforms, enterprise dashboard, CRM internal, e-commerce b2b, dan portal web kompleks dengan UX responsif, SEO-ready, dan performa kilat.",
+          tags: ["Next.js", "React", "Tailwind", "REST / GraphQL"]
+        },
+        {
+          icon: "📱",
+          title: "Mobile App (Android & iOS)",
+          desc: "Aplikasi mobile lintas platform dengan sentuhan native, animasi 60fps, offline mode, notifikasi push real-time, dan integrasi hardware perangkat.",
+          tags: ["Flutter", "React Native", "Firebase", "Push Notification"]
+        },
+        {
+          icon: "🖥️",
+          title: "Desktop & Enterprise Software",
+          desc: "Sistem kasir (POS), inventory gudang, software manufaktur, dan software multi-platform (Windows, macOS, Linux) dengan akses printer & barcode reader.",
+          tags: ["Electron", "Tauri", "Local SQLite", "Hardware Sync"]
+        },
+        {
+          icon: "⚡",
+          title: "Backend Architecture & API",
+          desc: "Pondasi server yang tangguh, database terindeks rapi, integrasi Payment Gateway (Midtrans/Xendit), otentikasi JWT/OAuth, dan rate-limiting.",
+          tags: ["Node.js", "Python", "PostgreSQL", "Redis Cache"]
+        },
+        {
+          icon: "🤖",
+          title: "AI Integration & Automation",
+          desc: "Pemberdayaan aplikasi dengan kemampuan Generative AI, smart chatbot CS otomatis, ekstraksi data OCR, dan integrasi WhatsApp Business API.",
+          tags: ["OpenAI / Claude", "WA Gateway", "LangChain", "Auto-Workflow"]
+        },
+        {
+          icon: "🎨",
+          title: "UI/UX & Product Prototyping",
+          desc: "Perancangan antarmuka pengguna intuitif berbasis riset perilaku pengguna, design system Figma modular, dan wireframe interaktif sebelum coding.",
+          tags: ["Figma", "Design System", "Wireframing", "User Testing"]
+        }
+      ],
+      portfolio: [
+        {
+          category: "web",
+          icon: "📊",
+          title: "Analytics & KPI Executive Dashboard",
+          desc: "Dashboard analitik real-time dengan grafik interaktif multi-tenant, agregasi data transaksi kilat, dan ekspor laporan PDF otomatis.",
+          fullDesc: "Arsitektur dashboard real-time yang memproses ribuan data transaksi per detik. Dilengkapi sistem RBAC (Role-Based Access Control), kustomisasi widget grafik, ekspor format XLSX/PDF otomatis, serta webhook integrasi ke Slack dan Telegram.",
+          tech: ["Next.js 15", "TypeScript", "Tailwind CSS", "PostgreSQL", "Recharts", "Prisma ORM"]
+        },
+        {
+          category: "web",
+          icon: "🛒",
+          title: "Next-Gen E-Commerce & Inventory",
+          desc: "Toko online responsif dengan payment gateway terintegrasi, manajemen stok multi-gudang, dan sinkronisasi pesanan ke kurir.",
+          fullDesc: "Solusi e-commerce bertenaga tinggi dengan checkout kilat satu halaman. Terintegrasi payment gateway otomatis (Virtual Account, QRIS, Kartu Kredit), kalkulasi ongkos kirim real-time (JNE, SiCepat, J&T), dan manajemen mutasi stok gudang.",
+          tech: ["React", "Node.js Express", "Midtrans / Xendit API", "RajaOngkir", "Redis Cache", "PostgreSQL"]
+        },
+        {
+          category: "mobile",
+          icon: "🚚",
+          title: "Live Courier & Logistics Tracking",
+          desc: "Aplikasi pelacakan ekspedisi real-time di peta interaktif, tanda tangan digital penerima barang, dan notifikasi status instan.",
+          fullDesc: "Aplikasi driver & user mobile untuk monitoring armada secara real-time di atas peta live. Dilengkapi fitur routing rute terpendek, tanda tangan digital bukti terima paket, serta push notification Firebase.",
+          tech: ["Flutter", "Dart", "Google Maps SDK", "Firebase Cloud Messaging", "WebSockets"]
+        },
+        {
+          category: "mobile",
+          icon: "🎓",
+          title: "EduTech Interactive Learning App",
+          desc: "Platform kursus online dengan streaming video adaptif, kuis gamifikasi, sertifikat digital otomatis, dan forum diskusi.",
+          fullDesc: "Platform edukasi digital masa depan dengan fitur video streaming berteknologi HLS (HTTP Live Streaming), pengerjaan kuis bertenggat waktu, leaderboard gamifikasi, dan unduh materi untuk akses offline.",
+          tech: ["Flutter / React Native", "Node.js", "AWS S3 / Cloudflare Stream", "SQLite Offline"]
+        },
+        {
+          category: "desktop",
+          icon: "🧾",
+          title: "Fast POS Kasir & Multi-Outlet",
+          desc: "Software kasir desktop dengan dukungan mode offline, cetak struk thermal via bluetooth/USB, barcode scanner, dan rekap shift kasir.",
+          fullDesc: "Software kasir desktop dengan performa super cepat tanpa lag. Bekerja sempurna secara offline dan otomatis melakukan sinkronisasi data ke cloud ketika internet terhubung. Terintegrasi printer thermal 58mm/80mm dan barcode scanner USB.",
+          tech: ["Electron", "Tauri", "React", "Local SQLite", "ESC/POS Thermal Driver"]
+        },
+        {
+          category: "desktop",
+          icon: "📦",
+          title: "Smart Warehouse & Supply Chain",
+          desc: "Sistem kendali inventori gudang otomatis, pelacakan barcode batch barang, mutasi stok antar cabang, dan kartu stok digital.",
+          fullDesc: "Sistem manajemen operasional gudang skala menengah-besar. Mengelola keluar masuk stok dengan serial number / barcode, peringatan stok menipis otomatis via WhatsApp, serta laporan audit berkala.",
+          tech: ["React Desktop", "Python FastAPI", "PostgreSQL", "Docker", "Tailwind"]
+        }
+      ],
+      steps: [
+        {
+          num: "01",
+          title: "Discovery & Blueprint",
+          desc: "Kami membedah proses bisnis Anda, menyusun diagram arsitektur sistem, database schema, dan spesifikasi fungsional yang solid."
+        },
+        {
+          num: "02",
+          title: "UI/UX & Prototype",
+          desc: "Pembuatan wireframe dan mockup Figma interaktif dengan design system modern untuk divalidasi sebelum mulai baris kode."
+        },
+        {
+          num: "03",
+          title: "Agile Sprints & Demo",
+          desc: "Pengembangan bertahap dalam sprint mingguan. Anda mendapatkan link demo live untuk memantau progres secara transparan."
+        },
+        {
+          num: "04",
+          title: "QA, Deploy & Warranty",
+          desc: "Uji performa, audit keamanan, deployment ke server cloud, pelatihan admin, serta garansi bug-free dan technical support gratis."
+        }
+      ],
+      testimonials: [
+        {
+          name: "Rian Hidayat",
+          role: "Founder & COO, Logistik Express",
+          stars: 5,
+          text: "Genius Media Channel berhasil membangun web app logistik kami dari nol hingga rilis dalam 6 minggu. Kecepatan loadingnya luar biasa dan tim kami sangat terbantu dengan dashboard adminnya!"
+        },
+        {
+          name: "Dewi Sartika",
+          role: "Product Lead, EduNusantara",
+          stars: 5,
+          text: "Aplikasi mobile kami lancar tanpa crash sama sekali di Android maupun iOS. Komunikasi tim Genius Media sangat profesional dan selalu memberikan solusi teknis yang efisien."
+        },
+        {
+          name: "Budi Wicaksono",
+          role: "Owner, Retail Network Group",
+          stars: 5,
+          text: "Software kasir dan inventori gudang yang dibuat bekerja sangat mulus meskipun koneksi internet toko kadang offline. Source code diserahkan rapi lengkap dengan dokumentasi."
+        }
+      ],
+      faq: [
+        {
+          q: "Apakah source code aplikasi sepenuhnya menjadi milik klien?",
+          a: "Ya, 100%! Setelah pelunasan proyek, seluruh hak cipta dan repository source code (GitHub/GitLab) beserta aset desain diserahkan penuh kepada Anda tanpa adanya vendor lock-in."
+        },
+        {
+          q: "Berapa lama rata-rata durasi pengerjaan aplikasi?",
+          a: "Tergantung kompleksitas fitur. Untuk MVP atau sistem berukuran sedang rata-rata memakan waktu 3 sampai 6 minggu, sedangkan sistem enterprise berskala besar berkisar antara 2 sampai 4 bulan dengan sprint mingguan."
+        },
+        {
+          q: "Apakah ada garansi setelah aplikasi resmi diluncurkan?",
+          a: "Tentu. Kami memberikan garansi bug-free dan perbaikan teknis gratis selama 30 hingga 90 hari setelah go-live untuk memastikan operasional bisnis Anda berjalan tanpa kendala."
+        },
+        {
+          q: "Bagaimana sistem pembayaran untuk proyek custom?",
+          a: "Pembayaran dibagi menjadi termin bertahap berbasis milestone (misal: DP awal 30%, termin progres 40% setelah lolos demo fitur utama, dan pelunasan 30% setelah deployment final)."
+        },
+        {
+          q: "Apakah Genius Media dapat membantu pengurusan server cloud dan domain?",
+          a: "Ya, kami mendampingi setup infrastruktur server (AWS, GCP, DigitalOcean, Vercel), konfigurasi SSL HTTPS, domain perusahaan, serta akun developer Google Play Store & Apple App Store."
+        }
       ]
     };
 
-    let config = { ...DEFAULT_CONFIG };
+    let AppData = JSON.parse(JSON.stringify(DEFAULT_MASTER_DATA));
+
+    // Check embedded JSON or localStorage
+    const embeddedEl = document.getElementById('genius-embedded-data');
+    if (embeddedEl) {
+      try { AppData = { ...DEFAULT_MASTER_DATA, ...JSON.parse(embeddedEl.textContent) }; } catch(e){}
+    }
     try {
-      const saved = localStorage.getItem('genius_media_config');
-      if (saved) config = { ...DEFAULT_CONFIG, ...JSON.parse(saved) };
+      const saved = localStorage.getItem('genius_media_full_data');
+      if (saved) AppData = { ...DEFAULT_MASTER_DATA, ...JSON.parse(saved) };
     } catch (e) {}
 
-    // Apply Brand & Config to DOM
-    function applyConfig() {
-      document.getElementById('brand-p1').textContent = config.b1;
-      document.getElementById('brand-p2').textContent = config.b2;
-      document.getElementById('ft-b1').textContent = config.b1;
-      document.getElementById('ft-b2').textContent = config.b2;
-      document.getElementById('hero-sub').textContent = config.sub;
-      
-      const waLink = `https://wa.me/${config.wa}?text=Halo%20${encodeURIComponent(config.b1 + ' ' + config.b2)}%2C%20saya%20ingin%20konsultasi%20pembuatan%20aplikasi`;
+    // Apply Brand & Dynamic Texts
+    function applyDynamicData() {
+      const b = AppData.brand;
+      document.getElementById('brand-p1').textContent = b.b1;
+      document.getElementById('brand-p2').textContent = b.b2;
+      document.getElementById('ft-b1').textContent = b.b1;
+      document.getElementById('ft-b2').textContent = b.b2;
+      document.querySelector('.footer-desc').textContent = b.footer;
+      document.getElementById('hero-sub').textContent = AppData.hero.sub;
+
+      const waLink = `https://wa.me/${b.wa}?text=Halo%20${encodeURIComponent(b.b1 + ' ' + b.b2)}%2C%20saya%20ingin%20konsultasi%20pembuatan%20aplikasi`;
       document.getElementById('floating-wa-btn').href = waLink;
-      document.getElementById('ft-wa-text').textContent = `WhatsApp: +${config.wa}`;
+      document.getElementById('ft-wa-text').textContent = `WhatsApp: +${b.wa}`;
       document.getElementById('ft-wa-text').href = waLink;
 
-      // Update admin form inputs
-      document.getElementById('adm-b1').value = config.b1;
-      document.getElementById('adm-b2').value = config.b2;
-      document.getElementById('adm-wa').value = config.wa;
-      document.getElementById('adm-sub').value = config.sub;
-      document.getElementById('adm-words').value = config.words.join('\n');
+      // Render Services
+      const servContainer = document.getElementById('services-container');
+      if (servContainer && AppData.services) {
+        servContainer.innerHTML = AppData.services.map(s => `
+          <div class="service-card">
+            <div>
+              <div class="service-icon">${s.icon}</div>
+              <h3 class="service-title">${s.title}</h3>
+              <p class="service-desc">${s.desc}</p>
+            </div>
+            <div class="service-tags">
+              ${(s.tags||[]).map(t => `<span class="service-tag">${t}</span>`).join('')}
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // Render Portfolio Demos
+      const demoContainer = document.getElementById('demos-container');
+      if (demoContainer && AppData.portfolio) {
+        demoContainer.innerHTML = AppData.portfolio.map((p, idx) => `
+          <div class="demo-card" data-category="${p.category}" data-index="${idx}">
+            <div class="demo-preview">
+              <div class="demo-badge-category">${p.category.toUpperCase()}</div>
+              <div class="demo-icon-huge">${p.icon}</div>
+            </div>
+            <div class="demo-info">
+              <h3 class="demo-title">${p.title}</h3>
+              <p class="demo-desc">${p.desc}</p>
+              <div class="demo-footer">
+                <span>Lihat Detail Fitur</span>
+                <span>➔</span>
+              </div>
+            </div>
+          </div>
+        `).join('');
+
+        // Re-attach card click listeners
+        demoContainer.querySelectorAll('.demo-card').forEach(card => {
+          card.addEventListener('click', () => {
+            const idx = parseInt(card.dataset.index);
+            const data = AppData.portfolio[idx];
+            if (!data) return;
+
+            document.getElementById('modal-icon').textContent = data.icon;
+            document.getElementById('modal-category').textContent = data.category.toUpperCase();
+            document.getElementById('modal-title').textContent = data.title;
+            document.getElementById('modal-desc').textContent = data.fullDesc || data.desc;
+            document.getElementById('modal-tech-pills').innerHTML = (data.tech||[]).map(t => `<span class="service-tag">${t}</span>`).join('');
+            document.getElementById('demo-modal').classList.add('open');
+          });
+        });
+      }
+
+      // Render Steps
+      const stepsContainer = document.getElementById('steps-container');
+      if (stepsContainer && AppData.steps) {
+        stepsContainer.innerHTML = AppData.steps.map(st => `
+          <div class="step-card">
+            <div class="step-number">${st.num}</div>
+            <h3 class="step-title">${st.title}</h3>
+            <p class="step-desc">${st.desc}</p>
+          </div>
+        `).join('');
+      }
+
+      // Render Testimonials
+      const testiContainer = document.getElementById('testimonials-container');
+      if (testiContainer && AppData.testimonials) {
+        testiContainer.innerHTML = AppData.testimonials.map(t => `
+          <div class="testimonial-card">
+            <div>
+              <div class="testi-stars">${'★'.repeat(t.stars || 5)}</div>
+              <p class="testi-text">"${t.text}"</p>
+            </div>
+            <div class="testi-author">
+              <div class="author-avatar">${(t.name||'').slice(0,2).toUpperCase()}</div>
+              <div>
+                <div class="author-name">${t.name}</div>
+                <div class="author-role">${t.role}</div>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // Render FAQ
+      const faqContainer = document.getElementById('faq-container');
+      if (faqContainer && AppData.faq) {
+        faqContainer.innerHTML = AppData.faq.map(f => `
+          <div class="faq-item">
+            <div class="faq-question">
+              <span>${f.q}</span>
+              <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-answer">
+              ${f.a}
+            </div>
+          </div>
+        `).join('');
+
+        // Re-attach FAQ toggles
+        faqContainer.querySelectorAll('.faq-item').forEach(item => {
+          const q = item.querySelector('.faq-question');
+          q.addEventListener('click', () => {
+            const isActive = item.classList.contains('active');
+            faqContainer.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+            if (!isActive) item.classList.add('active');
+          });
+        });
+      }
     }
-    applyConfig();
+    applyDynamicData();
+
+    // Configuration for legacy typing & calculator
+    const config = {
+      b1: AppData.brand.b1,
+      b2: AppData.brand.b2,
+      wa: AppData.brand.wa,
+      sub: AppData.hero.sub,
+      words: AppData.hero.words
+    };
+
+    // Live Cloud Synchronization via Firebase Firestore
+    (function initLandingFirebase() {
+      let activeConfig = null;
+      try {
+        const savedCfg = localStorage.getItem('genius_firebase_config');
+        if (savedCfg) activeConfig = JSON.parse(savedCfg);
+      } catch (e) {}
+
+      if (!activeConfig && typeof firebaseConfig !== 'undefined') {
+        activeConfig = firebaseConfig;
+      }
+
+      if (activeConfig && activeConfig.apiKey && !activeConfig.apiKey.includes('PASTE_API_KEY')) {
+        try {
+          if (!firebase.apps.length) firebase.initializeApp(activeConfig);
+          const db = firebase.firestore();
+          db.collection('content').doc('landing_page').onSnapshot(doc => {
+            if (doc.exists) {
+              AppData = { ...DEFAULT_MASTER_DATA, ...doc.data() };
+              config.b1 = AppData.brand.b1;
+              config.b2 = AppData.brand.b2;
+              config.wa = AppData.brand.wa;
+              config.sub = AppData.hero.sub;
+              config.words = AppData.hero.words;
+              applyDynamicData();
+            }
+          }, err => console.warn('Firestore live sync:', err));
+        } catch (err) {
+          console.warn('Firebase landing page init error:', err);
+        }
+      }
+    })();
 
     // Toast helper
     function showToast(msg) {
