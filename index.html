@@ -1350,6 +1350,189 @@
       transform: translateX(-50%) translateY(0);
     }
 
+    /* Custom Sections Styling */
+    .custom-section {
+      padding: 90px 0;
+      position: relative;
+    }
+    
+    /* 1. Rolling Image Marquee */
+    .custom-rolling-wrapper {
+      overflow: hidden;
+      position: relative;
+      padding: 20px 0;
+      mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+    }
+    .custom-rolling-track {
+      display: flex;
+      gap: 24px;
+      width: max-content;
+      animation: customRoll 28s linear infinite;
+    }
+    .custom-rolling-item {
+      width: 280px;
+      height: 180px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      position: relative;
+      flex-shrink: 0;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+    .custom-rolling-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .custom-rolling-item:hover img {
+      transform: scale(1.08);
+    }
+    .custom-rolling-caption {
+      position: absolute;
+      bottom: 0;
+      inset-inline: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+      padding: 12px 14px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    @keyframes customRoll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* 2. Horizontal Snap Scroll Gallery */
+    .custom-scroll-container {
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      display: flex;
+      gap: 24px;
+      padding: 16px 4px 28px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--primary) rgba(255,255,255,0.05);
+    }
+    .custom-scroll-card {
+      scroll-snap-align: start;
+      min-width: 320px;
+      max-width: 360px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      transition: transform 0.3s;
+    }
+    .custom-scroll-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--border-glow);
+    }
+    .custom-scroll-img {
+      height: 200px;
+      width: 100%;
+      object-fit: cover;
+    }
+    .custom-scroll-body {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    /* 3. Interactive Bento Cards with Buttons */
+    .custom-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 24px;
+    }
+    .custom-card-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .custom-card-item:hover {
+      transform: translateY(-6px);
+      border-color: var(--border-glow);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+    }
+    .custom-card-img-wrap {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+    }
+    .custom-card-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .custom-card-item:hover .custom-card-img-wrap img {
+      transform: scale(1.08);
+    }
+    .custom-card-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .custom-card-body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    .custom-card-body h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .custom-card-body p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+
+    /* 4. Split Showcase Banner */
+    .custom-banner-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 48px;
+      backdrop-filter: blur(16px);
+    }
+    .custom-banner-img {
+      width: 100%;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      object-fit: cover;
+      max-height: 420px;
+    }
+    @media (max-width: 860px) {
+      .custom-banner-grid { grid-template-columns: 1fr; padding: 28px; gap: 28px; }
+    }
+
     /* Responsive */
     @media (max-width: 1024px) {
       .hero-grid { grid-template-columns: 1fr; }
@@ -1420,8 +1603,11 @@
     <a href="#kontak" class="btn btn-primary mob-link">Mulai Konsultasi</a>
   </div>
 
+  <!-- Main Dynamic Page Sections Wrapper -->
+  <div id="page-sections">
+
   <!-- Hero Section -->
-  <header class="hero">
+  <header class="hero" id="sec-hero" data-sec-id="hero">
     <canvas id="hero-canvas"></canvas>
     <div class="container hero-grid">
       <div class="hero-content">
@@ -1497,7 +1683,7 @@
   </header>
 
   <!-- Stats Banner -->
-  <div class="container">
+  <div class="container" id="sec-stats" data-sec-id="stats">
     <div class="stats-container">
       <div class="stat-card">
         <div class="stat-number g-text" data-count="50">0+</div>
@@ -1519,7 +1705,7 @@
   </div>
 
   <!-- Tech Marquee Banner -->
-  <div class="marquee-wrapper">
+  <div class="marquee-wrapper" id="sec-marquee" data-sec-id="marquee">
     <div class="marquee-track">
       <div class="marquee-item"><span class="icon">◆</span> Next.js 15</div>
       <div class="marquee-item"><span class="icon">◆</span> React &amp; TypeScript</div>
@@ -1548,7 +1734,7 @@
   </div>
 
   <!-- Services Section -->
-  <section id="layanan">
+  <section id="layanan" data-sec-id="services">
     <div class="container">
       <div class="section-header">
         <span class="badge-pill">Layanan Unggulan</span>
@@ -1565,7 +1751,7 @@
   </section>
 
   <!-- Interactive Project Cost & Scope Estimator -->
-  <section id="kalkulator">
+  <section id="kalkulator" data-sec-id="calculator">
     <div class="container">
       <div class="section-header">
         <span class="badge-pill">Fitur Interaktif</span>
@@ -1677,7 +1863,7 @@
   </section>
 
   <!-- Demos / Portfolio Showcase -->
-  <section id="portfolio">
+  <section id="portfolio" data-sec-id="portfolio">
     <div class="container">
       <div class="section-header">
         <span class="badge-pill">Showcase Produk</span>
@@ -1797,7 +1983,7 @@
   </section>
 
   <!-- Process & Methodology -->
-  <section id="proses">
+  <section id="proses" data-sec-id="steps">
     <div class="container">
       <div class="section-header">
         <span class="badge-pill">Alur Kerja Profesional</span>
@@ -1814,7 +2000,7 @@
   </section>
 
   <!-- Social Proof & Testimonials -->
-  <section>
+  <section id="sec-testimonials" data-sec-id="testimonials">
     <div class="container">
       <div class="section-header">
         <span class="badge-pill">Kepuasan Klien</span>
@@ -1831,7 +2017,7 @@
   </section>
 
   <!-- FAQ Section -->
-  <section id="faq">
+  <section id="faq" data-sec-id="faq">
     <div class="container">
       <div class="section-header">
         <span class="badge-pill">FAQ</span>
@@ -1848,7 +2034,7 @@
   </section>
 
   <!-- Contact & Lead Form Section -->
-  <section id="kontak">
+  <section id="kontak" data-sec-id="contact">
     <div class="container">
       <div class="contact-wrapper">
         <div class="contact-info">
@@ -1914,6 +2100,8 @@
     </div>
   </section>
 
+  </div> <!-- /#page-sections -->
+
   <!-- Footer -->
   <footer>
     <div class="container">
@@ -1953,15 +2141,15 @@
           <ul class="footer-links">
             <li><a href="#kontak" id="ft-wa-text">WhatsApp: +62 8xx-xxxx-xxxx</a></li>
             <li><a href="#kontak">Konsultasi Desain &amp; Code</a></li>
-            <li><a href="admin.html" class="admin-link">⚙️ Dashboard Admin CMS</a></li>
+            <li><a href="#kontak">Project Discovery &amp; NDA</a></li>
           </ul>
         </div>
       </div>
 
       <div class="footer-bottom">
         <div>© 2026 Genius Media Channel. All rights reserved. Crafted with high-performance code.</div>
-        <div>
-          <a href="admin.html" class="admin-link">⚙️ Kelola Konten (Halaman Admin)</a>
+        <div style="color:var(--text-dim); font-size:0.8rem">
+          Engineering High-Performance Web &amp; Mobile Applications
         </div>
       </div>
     </div>
@@ -1994,51 +2182,6 @@
         <button class="btn btn-secondary btn-sm" id="modal-dismiss-btn">Tutup</button>
         <a href="#kontak" class="btn btn-primary btn-sm" id="modal-cta-btn">Bangun Solusi Serupa</a>
       </div>
-    </div>
-  </div>
-
-  <!-- Portable Admin / Customizer Drawer -->
-  <div id="admin-drawer">
-    <div class="admin-header">
-      <h3 style="font-size:1.2rem">⚙️ Live Customizer &amp; Editor</h3>
-      <button id="admin-close" style="background:none; border:none; color:var(--text); font-size:1.4rem; cursor:pointer">✕</button>
-    </div>
-    
-    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:18px">
-      Ubah informasi teks dan nomor WhatsApp secara langsung. Perubahan akan tersimpan di browser Anda secara otomatis.
-    </p>
-
-    <div class="admin-field">
-      <label>Nama Brand (Kata 1)</label>
-      <input type="text" id="adm-b1" value="Genius">
-    </div>
-
-    <div class="admin-field">
-      <label>Nama Brand (Kata 2)</label>
-      <input type="text" id="adm-b2" value="Media Channel">
-    </div>
-
-    <div class="admin-field">
-      <label>Nomor WhatsApp (Contoh: 6281234567890 tanpa tanda +)</label>
-      <input type="text" id="adm-wa" value="6280000000000">
-    </div>
-
-    <div class="admin-field">
-      <label>Deskripsi Hero</label>
-      <textarea id="adm-sub" rows="3">Genius Media Channel mentransformasi ide bisnis Anda menjadi Web Application performa tinggi, Mobile App native, dan Ekosistem Software enterprise dengan arsitektur masa depan.</textarea>
-    </div>
-
-    <div class="admin-field">
-      <label>Daftar Kata Typing Effect (Satu baris per teks)</label>
-      <textarea id="adm-words" rows="4">Web App Modern
-Aplikasi Mobile Skalabel
-Software Desktop Kasir & ERP
-Solusi AI & Automasi Bisnis</textarea>
-    </div>
-
-    <div class="admin-actions">
-      <button class="btn btn-primary btn-sm" id="adm-save-btn" style="flex:1">💾 Simpan Perubahan</button>
-      <button class="btn btn-secondary btn-sm" id="adm-reset-btn">Reset Default</button>
     </div>
   </div>
 
@@ -2221,6 +2364,39 @@ Solusi AI & Automasi Bisnis</textarea>
           q: "Apakah Genius Media dapat membantu pengurusan server cloud dan domain?",
           a: "Ya, kami mendampingi setup infrastruktur server (AWS, GCP, DigitalOcean, Vercel), konfigurasi SSL HTTPS, domain perusahaan, serta akun developer Google Play Store & Apple App Store."
         }
+      ],
+      calculator: {
+        platforms: [
+          { name: "Web Application", icon: "🌐", cost: 5000000, time: 3 },
+          { name: "Mobile App (Android/iOS)", icon: "📱", cost: 7500000, time: 4 },
+          { name: "Desktop Software", icon: "🖥️", cost: 6000000, time: 3 },
+          { name: "Full Ecosystem (Web + Mobile)", icon: "🚀", cost: 11000000, time: 6 }
+        ],
+        scales: [
+          { name: "MVP Cepat", cost: 2000000, time: 1 },
+          { name: "Bisnis Custom", cost: 5000000, time: 2 },
+          { name: "Enterprise Scale", cost: 9000000, time: 4 }
+        ],
+        features: [
+          { name: "Payment Gateway (OVO/VA/QRIS)", icon: "💳", cost: 1500000, time: 1, defaultChecked: true },
+          { name: "Multi-Role Authentication", icon: "🔐", cost: 1200000, time: 0.5, defaultChecked: true },
+          { name: "Realtime Chat & Notification", icon: "💬", cost: 2000000, time: 1, defaultChecked: false },
+          { name: "AI Chatbot / Assistant", icon: "🤖", cost: 2500000, time: 1, defaultChecked: false },
+          { name: "Export PDF / Excel Reports", icon: "📊", cost: 1800000, time: 1, defaultChecked: false },
+          { name: "WhatsApp Auto Notification", icon: "📲", cost: 1500000, time: 0.5, defaultChecked: false }
+        ]
+      },
+      sections: [
+        { id: "hero", name: "🚀 Hero & Headline", type: "system", visible: true },
+        { id: "stats", name: "📊 Angka Statistik", type: "system", visible: true },
+        { id: "marquee", name: "⚡ Running Tech Marquee", type: "system", visible: true },
+        { id: "services", name: "🛠️ Layanan Unggulan", type: "system", visible: true },
+        { id: "calculator", name: "🧮 Kalkulator Estimasi Biaya", type: "system", visible: true },
+        { id: "portfolio", name: "📁 Portofolio Demo", type: "system", visible: true },
+        { id: "steps", name: "🔄 Alur Metodologi Kerja", type: "system", visible: true },
+        { id: "testimonials", name: "💬 Testimoni Klien", type: "system", visible: true },
+        { id: "faq", name: "❓ FAQ Tanya Jawab", type: "system", visible: true },
+        { id: "contact", name: "✉️ Formulir Kontak", type: "system", visible: true }
       ]
     };
 
@@ -2362,6 +2538,148 @@ Solusi AI & Automasi Bisnis</textarea>
           });
         });
       }
+
+      // Render Dynamic Calculator Options
+      if (typeof renderDynamicCalculator === 'function') {
+        renderDynamicCalculator();
+      }
+
+      // Render Dynamic Sections & Layout
+      renderDynamicSections();
+    }
+
+    // Render Dynamic Page Sections & Custom Templates
+    function renderDynamicSections() {
+      const pageWrapper = document.getElementById('page-sections');
+      if (!pageWrapper) return;
+
+      const secList = AppData.sections || DEFAULT_MASTER_DATA.sections;
+      if (!secList || !secList.length) return;
+
+      secList.forEach(sec => {
+        if (sec.type === 'system') {
+          const el = pageWrapper.querySelector(`[data-sec-id="${sec.id}"]`);
+          if (el) {
+            el.style.display = sec.visible !== false ? '' : 'none';
+            pageWrapper.appendChild(el);
+          }
+        } else if (sec.type === 'custom') {
+          let customEl = document.getElementById(`custom-sec-${sec.id}`);
+          if (!customEl) {
+            customEl = document.createElement('section');
+            customEl.className = 'custom-section';
+            customEl.id = `custom-sec-${sec.id}`;
+            customEl.setAttribute('data-sec-id', sec.id);
+          }
+          customEl.style.display = sec.visible !== false ? '' : 'none';
+
+          const items = sec.items || [];
+          let contentHtml = '';
+
+          if (sec.template === 'rolling') {
+            const rollingItemsHtml = items.map(it => `
+              <div class="custom-rolling-item">
+                <img src="${it.img || 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80'}" alt="${it.title || ''}" loading="lazy">
+                ${it.title ? `<div class="custom-rolling-caption">${it.title}</div>` : ''}
+              </div>
+            `).join('');
+            contentHtml = `
+              <div class="container">
+                <div class="section-header">
+                  ${sec.badge ? `<span class="badge-pill">${sec.badge}</span>` : ''}
+                  <h2 class="section-title">${sec.title || 'Galeri Showcase'}</h2>
+                  ${sec.subtitle ? `<p class="section-subtitle">${sec.subtitle}</p>` : ''}
+                </div>
+              </div>
+              <div class="custom-rolling-wrapper">
+                <div class="custom-rolling-track">
+                  ${rollingItemsHtml}
+                  ${rollingItemsHtml}
+                </div>
+              </div>
+            `;
+          } else if (sec.template === 'scroll') {
+            contentHtml = `
+              <div class="container">
+                <div class="section-header">
+                  ${sec.badge ? `<span class="badge-pill">${sec.badge}</span>` : ''}
+                  <h2 class="section-title">${sec.title || 'Galeri Produk'}</h2>
+                  ${sec.subtitle ? `<p class="section-subtitle">${sec.subtitle}</p>` : ''}
+                </div>
+                <div class="custom-scroll-container">
+                  ${items.map(it => `
+                    <div class="custom-scroll-card">
+                      <img src="${it.img || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80'}" alt="${it.title || ''}" class="custom-scroll-img" loading="lazy">
+                      <div class="custom-scroll-body">
+                        <h3 style="font-size:1.15rem; font-weight:700; margin-bottom:8px">${it.title || 'Item Showcase'}</h3>
+                        <p style="color:var(--text-muted); font-size:0.88rem; line-height:1.5; margin-bottom:16px; flex-grow:1">${it.desc || ''}</p>
+                        ${it.btnText ? `<a href="${it.btnUrl || '#'}" ${it.btnUrl && it.btnUrl.startsWith('http') ? 'target="_blank" rel="noopener"' : ''} class="btn btn-secondary btn-sm" style="justify-content:center">${it.btnText} ➔</a>` : ''}
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            `;
+          } else if (sec.template === 'cards_btn') {
+            contentHtml = `
+              <div class="container">
+                <div class="section-header">
+                  ${sec.badge ? `<span class="badge-pill">${sec.badge}</span>` : ''}
+                  <h2 class="section-title">${sec.title || 'Fitur Unggulan'}</h2>
+                  ${sec.subtitle ? `<p class="section-subtitle">${sec.subtitle}</p>` : ''}
+                </div>
+                <div class="custom-cards-grid">
+                  ${items.map(it => `
+                    <div class="custom-card-item">
+                      <div class="custom-card-img-wrap">
+                        <img src="${it.img || 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=600&q=80'}" alt="${it.title || ''}" loading="lazy">
+                        ${it.badge ? `<span class="custom-card-badge">${it.badge}</span>` : ''}
+                      </div>
+                      <div class="custom-card-body">
+                        <h3>${it.title || 'Fitur Inovatif'}</h3>
+                        <p>${it.desc || ''}</p>
+                        ${it.btnText ? `<a href="${it.btnUrl || '#'}" ${it.btnUrl && it.btnUrl.startsWith('http') ? 'target="_blank" rel="noopener"' : ''} class="btn btn-primary" style="justify-content:center">${it.btnText}</a>` : ''}
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            `;
+          } else if (sec.template === 'banner') {
+            const firstItem = items[0] || {};
+            contentHtml = `
+              <div class="container">
+                <div class="custom-banner-grid">
+                  <div>
+                    ${sec.badge ? `<span class="badge-pill">${sec.badge}</span>` : ''}
+                    <h2 class="section-title" style="text-align:left; margin-top:12px; margin-bottom:16px">${sec.title || firstItem.title || 'Solusi Enterprise'}</h2>
+                    <p style="color:var(--text-muted); font-size:1.05rem; line-height:1.7; margin-bottom:24px">${sec.subtitle || firstItem.desc || 'Transformasi digital tanpa batas dengan kapabilitas kode arsitektur tingkat lanjut.'}</p>
+                    <div style="display:flex; gap:12px; flex-wrap:wrap">
+                      ${firstItem.btnText ? `<a href="${firstItem.btnUrl || '#'}" ${firstItem.btnUrl && firstItem.btnUrl.startsWith('http') ? 'target="_blank" rel="noopener"' : ''} class="btn btn-primary">${firstItem.btnText}</a>` : ''}
+                      ${firstItem.btnSecText ? `<a href="${firstItem.btnSecUrl || '#kontak'}" class="btn btn-secondary">${firstItem.btnSecText}</a>` : ''}
+                    </div>
+                  </div>
+                  <div>
+                    <img src="${firstItem.img || 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80'}" alt="${firstItem.title || 'Banner'}" class="custom-banner-img" loading="lazy">
+                  </div>
+                </div>
+              </div>
+            `;
+          }
+
+          customEl.innerHTML = contentHtml;
+          pageWrapper.appendChild(customEl);
+        }
+      });
+
+      // Cleanup deleted custom sections
+      const currentIds = new Set(secList.map(s => s.id));
+      pageWrapper.querySelectorAll('[data-sec-id]').forEach(el => {
+        const id = el.getAttribute('data-sec-id');
+        if (!currentIds.has(id) && id && id.startsWith('custom_')) {
+          el.remove();
+        }
+      });
     }
     applyDynamicData();
 
@@ -2390,9 +2708,20 @@ Solusi AI & Automasi Bisnis</textarea>
         try {
           if (!firebase.apps.length) firebase.initializeApp(activeConfig);
           const db = firebase.firestore();
+          try { db.settings({ ignoreUndefinedProperties: true }); } catch(e){}
           db.collection('content').doc('landing_page').onSnapshot(doc => {
             if (doc.exists) {
-              AppData = { ...DEFAULT_MASTER_DATA, ...doc.data() };
+              const cloudData = doc.data() || {};
+              // Preserve custom sections if cloud doesn't have them yet but local does
+              if (!cloudData.sections || !cloudData.sections.some(s => s.type === 'custom')) {
+                if (AppData.sections && AppData.sections.some(s => s.type === 'custom')) {
+                  cloudData.sections = AppData.sections;
+                }
+              }
+              AppData = { ...DEFAULT_MASTER_DATA, ...cloudData };
+              if (!AppData.sections || !AppData.sections.length) {
+                AppData.sections = JSON.parse(JSON.stringify(DEFAULT_MASTER_DATA.sections));
+              }
               config.b1 = AppData.brand.b1;
               config.b2 = AppData.brand.b2;
               config.wa = AppData.brand.wa;
@@ -2626,24 +2955,117 @@ Solusi AI & Automasi Bisnis</textarea>
 
     if (statCards.length) statsObserver.observe(statCards[0].parentElement);
 
-    // Interactive Project Cost & Time Calculator Logic
-    let calcPlatform = { name: "Web Application", cost: 5000000, time: 3 };
-    let calcScale = { name: "MVP Cepat", cost: 2000000, time: 1 };
-    let calcFeatures = [
-      { name: "Payment Gateway", cost: 1500000, time: 1 },
-      { name: "Multi-Role User", cost: 1200000, time: 0.5 }
-    ];
+    // Dynamic Project Cost & Time Calculator
+    let calcPlatform = null;
+    let calcScale = null;
+    let calcFeatures = [];
+
+    function renderDynamicCalculator() {
+      const calcData = AppData.calculator || DEFAULT_MASTER_DATA.calculator;
+      
+      // Render Platforms
+      const pContainer = document.getElementById('platform-options');
+      if (pContainer && calcData.platforms && calcData.platforms.length) {
+        if (!calcPlatform || !calcData.platforms.find(p => p.name === calcPlatform.name)) {
+          calcPlatform = { ...calcData.platforms[0] };
+        }
+        pContainer.innerHTML = calcData.platforms.map((p) => `
+          <button class="calc-btn ${p.name === calcPlatform.name ? 'selected' : ''}" 
+                  data-name="${p.name}" 
+                  data-cost="${p.cost}" 
+                  data-time="${p.time}">
+            ${p.icon ? p.icon + ' ' : ''}${p.name}
+          </button>
+        `).join('');
+
+        pContainer.querySelectorAll('.calc-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            calcPlatform = {
+              name: btn.dataset.name,
+              cost: parseInt(btn.dataset.cost),
+              time: parseFloat(btn.dataset.time)
+            };
+            updateCalculator();
+          });
+        });
+      }
+
+      // Render Scales
+      const sContainer = document.getElementById('scale-options');
+      if (sContainer && calcData.scales && calcData.scales.length) {
+        if (!calcScale || !calcData.scales.find(s => s.name === calcScale.name)) {
+          calcScale = { ...calcData.scales[0] };
+        }
+        sContainer.innerHTML = calcData.scales.map((s) => `
+          <button class="calc-btn ${s.name === calcScale.name ? 'selected' : ''}" 
+                  data-name="${s.name}" 
+                  data-cost="${s.cost}" 
+                  data-time="${s.time}">
+            ${s.name}
+          </button>
+        `).join('');
+
+        sContainer.querySelectorAll('.calc-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            calcScale = {
+              name: btn.dataset.name,
+              cost: parseInt(btn.dataset.cost),
+              time: parseFloat(btn.dataset.time)
+            };
+            updateCalculator();
+          });
+        });
+      }
+
+      // Render Features
+      const fContainer = document.getElementById('features-options');
+      if (fContainer && calcData.features && calcData.features.length) {
+        fContainer.innerHTML = calcData.features.map((f, i) => {
+          const isChecked = f.defaultChecked !== undefined ? f.defaultChecked : (i < 2);
+          return `
+            <label class="calc-check-label ${isChecked ? 'selected' : ''}">
+              <input type="checkbox" data-name="${f.name}" data-cost="${f.cost}" data-time="${f.time}" ${isChecked ? 'checked' : ''}>
+              <span>${f.icon ? f.icon + ' ' : ''}${f.name}</span>
+            </label>
+          `;
+        }).join('');
+
+        calcFeatures = [];
+        fContainer.querySelectorAll('input:checked').forEach(c => {
+          calcFeatures.push({
+            name: c.dataset.name,
+            cost: parseInt(c.dataset.cost),
+            time: parseFloat(c.dataset.time)
+          });
+        });
+
+        fContainer.querySelectorAll('input').forEach(chk => {
+          chk.addEventListener('change', () => {
+            chk.parentElement.classList.toggle('selected', chk.checked);
+            calcFeatures = [];
+            fContainer.querySelectorAll('input:checked').forEach(c => {
+              calcFeatures.push({
+                name: c.dataset.name,
+                cost: parseInt(c.dataset.cost),
+                time: parseFloat(c.dataset.time)
+              });
+            });
+            updateCalculator();
+          });
+        });
+      }
+
+      updateCalculator();
+    }
 
     function updateCalculator() {
-      // Platform Buttons
-      const pBtns = document.querySelectorAll('#platform-options .calc-btn');
-      pBtns.forEach(b => {
+      if (!calcPlatform || !calcScale) return;
+
+      // Sync button selected classes
+      document.querySelectorAll('#platform-options .calc-btn').forEach(b => {
         b.classList.toggle('selected', b.dataset.name === calcPlatform.name);
       });
-
-      // Scale Buttons
-      const sBtns = document.querySelectorAll('#scale-options .calc-btn');
-      sBtns.forEach(b => {
+      document.querySelectorAll('#scale-options .calc-btn').forEach(b => {
         b.classList.toggle('selected', b.dataset.name === calcScale.name);
       });
 
@@ -2678,49 +3100,6 @@ Solusi AI & Automasi Bisnis</textarea>
         window.open(`https://wa.me/${config.wa}?text=${encodeURIComponent(waMsg)}`, '_blank');
       };
     }
-
-    // Platform click listeners
-    document.querySelectorAll('#platform-options .calc-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        calcPlatform = {
-          name: btn.dataset.name,
-          cost: parseInt(btn.dataset.cost),
-          time: parseFloat(btn.dataset.time)
-        };
-        updateCalculator();
-      });
-    });
-
-    // Scale click listeners
-    document.querySelectorAll('#scale-options .calc-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        calcScale = {
-          name: btn.dataset.name,
-          cost: parseInt(btn.dataset.cost),
-          time: parseFloat(btn.dataset.time)
-        };
-        updateCalculator();
-      });
-    });
-
-    // Checkboxes change listeners
-    document.querySelectorAll('#features-options input').forEach(chk => {
-      chk.addEventListener('change', () => {
-        chk.parentElement.classList.toggle('selected', chk.checked);
-        calcFeatures = [];
-        document.querySelectorAll('#features-options input:checked').forEach(c => {
-          calcFeatures.push({
-            name: c.dataset.name,
-            cost: parseInt(c.dataset.cost),
-            time: parseFloat(c.dataset.time)
-          });
-        });
-        updateCalculator();
-      });
-    });
-    // Initial checkbox style sync
-    document.querySelectorAll('#features-options input:checked').forEach(c => c.parentElement.classList.add('selected'));
-    updateCalculator();
 
     // Demos Filter Tab Handling
     const filterTabs = document.querySelectorAll('.tab-pill');
@@ -2851,57 +3230,27 @@ Solusi AI & Automasi Bisnis</textarea>
       showToast('Meneruskan pesan ke WhatsApp... 🚀');
     });
 
-    // Admin / Live Customizer Drawer Logic
-    const adminDrawer = document.getElementById('admin-drawer');
-    const adminTrigger = document.getElementById('admin-trigger');
-    const adminTriggerBottom = document.getElementById('admin-trigger-bottom');
-    const adminClose = document.getElementById('admin-close');
-    const admSaveBtn = document.getElementById('adm-save-btn');
-    const admResetBtn = document.getElementById('adm-reset-btn');
-
-    const openAdmin = (e) => {
-      if (e) e.preventDefault();
-      adminDrawer.classList.add('open');
-    };
-    adminTrigger.addEventListener('click', openAdmin);
-    adminTriggerBottom.addEventListener('click', openAdmin);
-    adminClose.addEventListener('click', () => adminDrawer.classList.remove('open'));
-
-    // Check URL Hash for #admin
-    if (window.location.hash === '#admin') {
-      openAdmin();
-    }
-
-    admSaveBtn.addEventListener('click', () => {
-      config.b1 = document.getElementById('adm-b1').value.trim() || DEFAULT_CONFIG.b1;
-      config.b2 = document.getElementById('adm-b2').value.trim() || DEFAULT_CONFIG.b2;
-      config.wa = document.getElementById('adm-wa').value.trim() || DEFAULT_CONFIG.wa;
-      config.sub = document.getElementById('adm-sub').value.trim() || DEFAULT_CONFIG.sub;
-      config.words = document.getElementById('adm-words').value
-        .split('\n')
-        .map(w => w.trim())
-        .filter(Boolean);
-
-      try {
-        localStorage.setItem('genius_media_config', JSON.stringify(config));
-      } catch (err) {}
-
-      applyConfig();
-      updateCalculator();
-      adminDrawer.classList.remove('open');
-      showToast('Pengaturan berhasil disimpan! ✨');
-    });
-
-    admResetBtn.addEventListener('click', () => {
-      if (confirm('Kembalikan semua pengaturan ke awal (default)?')) {
-        config = { ...DEFAULT_CONFIG };
-        localStorage.removeItem('genius_media_config');
-        applyConfig();
-        updateCalculator();
-        adminDrawer.classList.remove('open');
-        showToast('Kembali ke pengaturan awal! 🔄');
+    // Cross-tab LocalStorage & BroadcastChannel Synchronization
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'genius_media_full_data' && e.newValue) {
+        try {
+          AppData = { ...DEFAULT_MASTER_DATA, ...JSON.parse(e.newValue) };
+          applyDynamicData();
+        } catch(err) {}
       }
     });
+
+    try {
+      if (typeof BroadcastChannel !== 'undefined') {
+        const bc = new BroadcastChannel('genius_preview_channel');
+        bc.onmessage = (event) => {
+          if (event.data && event.data.type === 'UPDATE_DATA' && event.data.data) {
+            AppData = { ...DEFAULT_MASTER_DATA, ...event.data.data };
+            applyDynamicData();
+          }
+        };
+      }
+    } catch (e) {}
   </script>
 </body>
 </html>

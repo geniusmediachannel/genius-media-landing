@@ -510,6 +510,60 @@
       cursor: pointer;
     }
 
+    /* Section Layout & Builder Styling */
+    .sec-badge-type {
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      display: inline-block;
+    }
+    .sec-badge-type.system {
+      background: rgba(99, 102, 241, 0.15);
+      color: #a5b4fc;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+    }
+    .sec-badge-type.custom {
+      background: rgba(6, 182, 212, 0.15);
+      color: #67e8f9;
+      border: 1px solid rgba(6, 182, 212, 0.3);
+    }
+    .template-card-box {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+    .template-card-box:hover {
+      border-color: rgba(99, 102, 241, 0.5);
+      background: rgba(99, 102, 241, 0.05);
+      transform: translateY(-2px);
+    }
+    .cs-item-box {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+    }
+    .cs-img-preview {
+      width: 72px;
+      height: 72px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      background: #000;
+      flex-shrink: 0;
+    }
+
     @media (max-width: 860px) {
       body { flex-direction: column; }
       aside { width: 100%; height: auto; position: static; }
@@ -533,10 +587,6 @@
       <button class="btn btn-primary" id="btn-unlock" style="width:100%; justify-content:center">
         <span>Buka Panel Admin</span>
       </button>
-
-      <p style="font-size:0.75rem; color:var(--text-dim); margin-top:16px">
-        PIN Bawaan Awal: <code style="color:var(--secondary)">8888</code>
-      </p>
     </div>
   </div>
 
@@ -558,6 +608,7 @@
 
     <nav class="nav-menu">
       <button class="nav-btn active" data-tab="tab-brand"><span class="icon">🏢</span> Brand &amp; Kontak</button>
+      <button class="nav-btn" data-tab="tab-layout"><span class="icon">📐</span> Tata Letak &amp; Urutan</button>
       <button class="nav-btn" data-tab="tab-hero"><span class="icon">🚀</span> Hero &amp; Headline</button>
       <button class="nav-btn" data-tab="tab-stats"><span class="icon">📊</span> Angka Statistik</button>
       <button class="nav-btn" data-tab="tab-services"><span class="icon">🛠️</span> Layanan Unggulan</button>
@@ -565,12 +616,13 @@
       <button class="nav-btn" data-tab="tab-steps"><span class="icon">🔄</span> Alur Metodologi</button>
       <button class="nav-btn" data-tab="tab-testi"><span class="icon">💬</span> Testimoni Klien</button>
       <button class="nav-btn" data-tab="tab-faq"><span class="icon">❓</span> FAQ Tanya Jawab</button>
+      <button class="nav-btn" data-tab="tab-calc"><span class="icon">🧮</span> Sistem Kalkulator</button>
       <button class="nav-btn" data-tab="tab-settings"><span class="icon">⚙️</span> Database &amp; PIN</button>
       <button class="nav-btn" data-tab="tab-deploy"><span class="icon">📦</span> Download Backup</button>
     </nav>
 
     <div class="sidebar-footer">
-      <a href="index.html" target="_blank" class="btn btn-secondary btn-sm" style="text-align:center; justify-content:center">
+      <a href="index.html" target="_blank" class="btn btn-secondary btn-sm" style="text-align:center; justify-content:center" onclick="saveData()">
         <span>👁️ Buka Pratinjau Web</span>
       </a>
       <button class="btn btn-primary btn-sm" id="btn-save-all" style="justify-content:center">
@@ -618,6 +670,94 @@
           <div class="form-group form-full">
             <label>Teks Deskripsi Footer</label>
             <textarea id="f-footer" rows="2" placeholder="Deskripsi singkat profil software house di bagian bawah web..."></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: TATA LETAK & URUTAN HALAMAN -->
+    <div class="tab-panel" id="tab-layout">
+      <!-- Section Reordering & Visibility Card -->
+      <div class="panel-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
+          <div>
+            <h3 style="margin:0; font-size:1.15rem;">📐 Susunan &amp; Urutan Bagian Halaman</h3>
+            <p style="color:var(--text-muted); font-size:0.85rem; margin-top:4px;">
+              Gunakan tombol <strong>⬆️ Naik</strong> &amp; <strong>⬇️ Turun</strong> untuk memindahkan posisi bagian. Klik <strong>👁️ / 🙈</strong> untuk menampilkan atau menyembunyikan bagian di landing page.
+            </p>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="openCustomSectionModal(-1)">
+            <span>➕ Tambah Bagian Kustom Baru</span>
+          </button>
+        </div>
+
+        <div class="items-list" id="sections-list-container">
+          <!-- Dynamic sections list -->
+        </div>
+      </div>
+
+      <!-- Template Catalog / Presets Card -->
+      <div class="panel-card" style="margin-top:24px;">
+        <h3 style="font-size:1.1rem; margin-bottom:6px;">🎨 Pilihan Model Template Bagian Kustom</h3>
+        <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:18px;">
+          Pilih salah satu model template berikut untuk membuat bagian baru dengan preset tata letak siap pakai:
+        </p>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:18px;">
+          <!-- Model 1 -->
+          <div class="template-card-box">
+            <div>
+              <div style="font-size:2rem; margin-bottom:8px;">⚡</div>
+              <div style="font-weight:700; font-size:1.02rem; margin-bottom:6px;">Model 1: Running Image Marquee</div>
+              <div style="font-size:0.82rem; color:var(--text-muted); line-height:1.5; margin-bottom:14px;">
+                Deretan gambar bergulir (rolling) terus menerus secara horizontal tanpa jeda. Cocok untuk galeri logo klien, preview screenshot aplikasi, atau foto sertifikat.
+              </div>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="createSectionWithTemplate('rolling')">
+              <span>Gunakan Model Marquee</span>
+            </button>
+          </div>
+
+          <!-- Model 2 -->
+          <div class="template-card-box">
+            <div>
+              <div style="font-size:2rem; margin-bottom:8px;">↔️</div>
+              <div style="font-weight:700; font-size:1.02rem; margin-bottom:6px;">Model 2: Horizontal Snap Scroll</div>
+              <div style="font-size:0.82rem; color:var(--text-muted); line-height:1.5; margin-bottom:14px;">
+                Galeri kartu gambar lebar yang dapat digeser / scroll ke samping secara mulus (snap-scroll), dilengkapi judul, keterangan, dan tombol link.
+              </div>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="createSectionWithTemplate('scroll')">
+              <span>Gunakan Model Scroll</span>
+            </button>
+          </div>
+
+          <!-- Model 3 -->
+          <div class="template-card-box">
+            <div>
+              <div style="font-size:2rem; margin-bottom:8px;">🎴</div>
+              <div style="font-weight:700; font-size:1.02rem; margin-bottom:6px;">Model 3: Bento Cards with Buttons</div>
+              <div style="font-size:0.82rem; color:var(--text-muted); line-height:1.5; margin-bottom:14px;">
+                Grid kartu modern dengan gambar preview, badge kategori, teks deskripsi, dan tombol aksi (Direct Link URL atau Hubungi WhatsApp).
+              </div>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="createSectionWithTemplate('cards_btn')">
+              <span>Gunakan Model Kartu</span>
+            </button>
+          </div>
+
+          <!-- Model 4 -->
+          <div class="template-card-box">
+            <div>
+              <div style="font-size:2rem; margin-bottom:8px;">🖼️</div>
+              <div style="font-weight:700; font-size:1.02rem; margin-bottom:6px;">Model 4: Split Showcase Banner</div>
+              <div style="font-size:0.82rem; color:var(--text-muted); line-height:1.5; margin-bottom:14px;">
+                Banner promosi 2 kolom: gambar produk besar di satu sisi berdampingan dengan headline, penjelasan penawaran khusus, dan 2 tombol CTA interaktif.
+              </div>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="createSectionWithTemplate('banner')">
+              <span>Gunakan Model Banner</span>
+            </button>
           </div>
         </div>
       </div>
@@ -706,6 +846,45 @@
         <button class="btn btn-primary btn-sm" onclick="openAddModal('faq')">+ Tambah FAQ</button>
       </div>
       <div class="items-list" id="faq-list-container"></div>
+    </div>
+
+    <!-- TAB 8.5: SISTEM KALKULATOR ESTIMASI BIAYA & WAKTU -->
+    <div class="tab-panel" id="tab-calc">
+      <!-- 1. Pilihan Platform -->
+      <div class="panel-card">
+        <div class="items-header" style="margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:12px">
+          <div>
+            <h3 style="border:none; margin:0; padding:0">1. Pilihan Platform Target</h3>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-top:2px">Pilihan tombol di tahap 1 (Web, Mobile, Desktop, dll).</p>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="openAddModal('calc-platform')">+ Tambah Platform</button>
+        </div>
+        <div class="items-list" id="calc-platforms-container"></div>
+      </div>
+
+      <!-- 2. Tingkat Skala -->
+      <div class="panel-card">
+        <div class="items-header" style="margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:12px">
+          <div>
+            <h3 style="border:none; margin:0; padding:0">2. Tingkat Skala &amp; Kompleksitas</h3>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-top:2px">Tambahan biaya &amp; durasi berdasarkan skala proyek (MVP, Custom, Enterprise).</p>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="openAddModal('calc-scale')">+ Tambah Skala</button>
+        </div>
+        <div class="items-list" id="calc-scales-container"></div>
+      </div>
+
+      <!-- 3. Modul & Fitur Tambahan (Checklist) -->
+      <div class="panel-card">
+        <div class="items-header" style="margin-bottom:12px; border-bottom:1px solid var(--border); padding-bottom:12px">
+          <div>
+            <h3 style="border:none; margin:0; padding:0">3. Checklist Modul &amp; Fitur Tambahan</h3>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-top:2px">Fitur add-on yang bisa dicentang klien (Payment Gateway, AI, Chat, dll).</p>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="openAddModal('calc-feature')">+ Tambah Fitur</button>
+        </div>
+        <div class="items-list" id="calc-features-container"></div>
+      </div>
     </div>
 
     <!-- TAB 9: SETTINGS & FIREBASE CONFIG & PIN -->
@@ -797,6 +976,69 @@
       <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:24px">
         <button class="btn btn-secondary btn-sm" onclick="closeItemModal()">Batal</button>
         <button class="btn btn-primary btn-sm" id="btn-modal-save">Simpan Item</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Custom Section Builder -->
+  <div class="modal-overlay" id="custom-sec-modal">
+    <div class="modal-box" style="max-width:760px;">
+      <div class="modal-header">
+        <h3 id="custom-sec-modal-title">Tambah Bagian Kustom</h3>
+        <button class="modal-close" onclick="closeCustomSecModal()">✕</button>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        <input type="hidden" id="cs-edit-index" value="-1">
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Pilihan Model Template *</label>
+            <select id="cs-template" onchange="onTemplateChange()">
+              <option value="rolling">⚡ Model 1: Running Image Marquee (Rolling Logo/Foto)</option>
+              <option value="scroll">↔️ Model 2: Horizontal Snap Scroll (Galeri Geser Samping)</option>
+              <option value="cards_btn">🎴 Model 3: Bento Cards with Buttons (Grid Kartu &amp; Tombol)</option>
+              <option value="banner">🖼️ Model 4: Split Showcase Banner (Banner Promo &amp; CTA)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Badge Kecil (Opsional)</label>
+            <input type="text" id="cs-badge" placeholder="Misal: Showcase Produk • Fitur Terbaru">
+          </div>
+
+          <div class="form-group form-full">
+            <label>Judul Bagian (Section Title) *</label>
+            <input type="text" id="cs-title" placeholder="Misal: Galeri Inovasi Produk Digital" required>
+          </div>
+
+          <div class="form-group form-full">
+            <label>Deskripsi / Subtitle Bagian</label>
+            <textarea id="cs-subtitle" rows="2" placeholder="Jelaskan secara ringkas maksud atau keunggulan bagian ini..."></textarea>
+          </div>
+        </div>
+
+        <!-- Items Manager -->
+        <div style="border-top:1px solid var(--border); padding-top:16px; margin-top:4px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <div>
+              <label style="font-size:0.95rem; font-weight:700; color:var(--text); margin-bottom:2px; display:block;">Daftar Item / Gambar &amp; Tombol</label>
+              <span style="font-size:0.8rem; color:var(--text-muted);" id="cs-items-hint">Tambahkan gambar dengan link URL atau upload file lokal langsung.</span>
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="addCustomSecItem()">
+              <span>➕ Tambah Item / Gambar</span>
+            </button>
+          </div>
+
+          <div id="cs-items-container" style="display:flex; flex-direction:column; gap:14px; max-height:360px; overflow-y:auto; padding-right:6px;">
+            <!-- Dynamic Items Rows -->
+          </div>
+        </div>
+
+        <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:16px; border-top:1px solid var(--border); padding-top:16px;">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="closeCustomSecModal()">Batal</button>
+          <button type="button" class="btn btn-primary btn-sm" onclick="saveCustomSection()">💾 Simpan Bagian</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1034,6 +1276,39 @@
           q: "Apakah Genius Media dapat membantu pengurusan server cloud dan domain?",
           a: "Ya, kami mendampingi setup infrastruktur server (AWS, GCP, DigitalOcean, Vercel), konfigurasi SSL HTTPS, domain perusahaan, serta akun developer Google Play Store & Apple App Store."
         }
+      ],
+      calculator: {
+        platforms: [
+          { name: "Web Application", icon: "🌐", cost: 5000000, time: 3 },
+          { name: "Mobile App (Android/iOS)", icon: "📱", cost: 7500000, time: 4 },
+          { name: "Desktop Software", icon: "🖥️", cost: 6000000, time: 3 },
+          { name: "Full Ecosystem (Web + Mobile)", icon: "🚀", cost: 11000000, time: 6 }
+        ],
+        scales: [
+          { name: "MVP Cepat", cost: 2000000, time: 1 },
+          { name: "Bisnis Custom", cost: 5000000, time: 2 },
+          { name: "Enterprise Scale", cost: 9000000, time: 4 }
+        ],
+        features: [
+          { name: "Payment Gateway (OVO/VA/QRIS)", icon: "💳", cost: 1500000, time: 1, defaultChecked: true },
+          { name: "Multi-Role Authentication", icon: "🔐", cost: 1200000, time: 0.5, defaultChecked: true },
+          { name: "Realtime Chat & Notification", icon: "💬", cost: 2000000, time: 1, defaultChecked: false },
+          { name: "AI Chatbot / Assistant", icon: "🤖", cost: 2500000, time: 1, defaultChecked: false },
+          { name: "Export PDF / Excel Reports", icon: "📊", cost: 1800000, time: 1, defaultChecked: false },
+          { name: "WhatsApp Auto Notification", icon: "📲", cost: 1500000, time: 0.5, defaultChecked: false }
+        ]
+      },
+      sections: [
+        { id: "hero", name: "🚀 Hero & Headline", type: "system", visible: true },
+        { id: "stats", name: "📊 Angka Statistik", type: "system", visible: true },
+        { id: "marquee", name: "⚡ Running Tech Marquee", type: "system", visible: true },
+        { id: "services", name: "🛠️ Layanan Unggulan", type: "system", visible: true },
+        { id: "calculator", name: "🧮 Kalkulator Estimasi Biaya", type: "system", visible: true },
+        { id: "portfolio", name: "📁 Portofolio Demo", type: "system", visible: true },
+        { id: "steps", name: "🔄 Alur Metodologi", type: "system", visible: true },
+        { id: "testimonials", name: "💬 Testimoni Klien", type: "system", visible: true },
+        { id: "faq", name: "❓ FAQ Tanya Jawab", type: "system", visible: true },
+        { id: "contact", name: "✉️ Formulir Kontak", type: "system", visible: true }
       ]
     };
 
@@ -1060,6 +1335,7 @@
             firebase.initializeApp(activeConfig);
           }
           db = firebase.firestore();
+          try { db.settings({ ignoreUndefinedProperties: true }); } catch(e){}
           isCloudConnected = true;
           document.getElementById('cloud-badge').classList.remove('offline');
           document.getElementById('cloud-status-text').textContent = '🟢 Terhubung ke Firebase Cloud';
@@ -1085,8 +1361,11 @@
       document.getElementById('cloud-status-text').textContent = '🟡 Mode Lokal (Atur Firebase di Menu Database)';
       try {
         const saved = localStorage.getItem('genius_media_full_data');
-        if (saved) AppData = JSON.parse(saved);
+        if (saved) AppData = { ...DEFAULT_DATA, ...JSON.parse(saved) };
       } catch (e) {}
+      if (!AppData.sections || !AppData.sections.length) {
+        AppData.sections = JSON.parse(JSON.stringify(DEFAULT_DATA.sections));
+      }
       renderForms();
     }
 
@@ -1097,12 +1376,22 @@
         const docRef = db.collection('content').doc('landing_page');
         const docSnap = await docRef.get();
         if (docSnap.exists) {
-          AppData = { ...DEFAULT_DATA, ...docSnap.data() };
+          const cloudData = docSnap.data() || {};
+          // Preserve custom sections if cloud doesn't have custom sections yet
+          if (!cloudData.sections || !cloudData.sections.some(s => s.type === 'custom')) {
+            if (AppData.sections && AppData.sections.some(s => s.type === 'custom')) {
+              cloudData.sections = AppData.sections;
+            }
+          }
+          AppData = { ...DEFAULT_DATA, ...cloudData };
+          if (!AppData.sections || !AppData.sections.length) {
+            AppData.sections = JSON.parse(JSON.stringify(DEFAULT_DATA.sections));
+          }
           localStorage.setItem('genius_media_full_data', JSON.stringify(AppData));
           showToast('Data terbaru dimuat dari Cloud! ☁️');
         } else {
-          // Initialize first cloud document with default data
-          await docRef.set(AppData);
+          // Initialize first cloud document with clean data
+          await docRef.set(JSON.parse(JSON.stringify(AppData)));
         }
       } catch (err) {
         console.warn('Firestore load error:', err);
@@ -1112,42 +1401,64 @@
 
     // Save Data to Cloud & Local
     async function saveData() {
-      // Gather inputs into AppData
-      AppData.brand.b1 = document.getElementById('f-b1').value.trim() || DEFAULT_DATA.brand.b1;
-      AppData.brand.b2 = document.getElementById('f-b2').value.trim() || DEFAULT_DATA.brand.b2;
-      AppData.brand.wa = document.getElementById('f-wa').value.trim() || DEFAULT_DATA.brand.wa;
-      AppData.brand.badge = document.getElementById('f-badge').value.trim() || DEFAULT_DATA.brand.badge;
-      AppData.brand.footer = document.getElementById('f-footer').value.trim() || DEFAULT_DATA.brand.footer;
+      // Gather inputs into AppData if present
+      if (document.getElementById('f-b1')) {
+        AppData.brand.b1 = document.getElementById('f-b1').value.trim() || DEFAULT_DATA.brand.b1;
+        AppData.brand.b2 = document.getElementById('f-b2').value.trim() || DEFAULT_DATA.brand.b2;
+        AppData.brand.wa = document.getElementById('f-wa').value.trim() || DEFAULT_DATA.brand.wa;
+        AppData.brand.badge = document.getElementById('f-badge').value.trim() || DEFAULT_DATA.brand.badge;
+        AppData.brand.footer = document.getElementById('f-footer').value.trim() || DEFAULT_DATA.brand.footer;
+      }
 
-      AppData.hero.sub = document.getElementById('f-hero-sub').value.trim() || DEFAULT_DATA.hero.sub;
-      AppData.hero.words = document.getElementById('f-hero-words').value
-        .split('\n')
-        .map(w => w.trim())
-        .filter(Boolean);
+      if (document.getElementById('f-hero-sub')) {
+        AppData.hero.sub = document.getElementById('f-hero-sub').value.trim() || DEFAULT_DATA.hero.sub;
+        AppData.hero.words = document.getElementById('f-hero-words').value
+          .split('\n')
+          .map(w => w.trim())
+          .filter(Boolean);
+      }
 
       document.querySelectorAll('.stat-input-row').forEach((row, i) => {
-        if (AppData.stats[i]) {
+        if (AppData.stats && AppData.stats[i]) {
           AppData.stats[i].count = row.querySelector('.stat-count').value.trim();
           AppData.stats[i].label = row.querySelector('.stat-label').value.trim();
         }
       });
 
+      // Clean of any undefined values
+      const cleanData = JSON.parse(JSON.stringify(AppData));
+
       // Always save to localStorage
-      localStorage.setItem('genius_media_full_data', JSON.stringify(AppData));
+      try {
+        localStorage.setItem('genius_media_full_data', JSON.stringify(cleanData));
+      } catch (err) {
+        console.warn('localStorage error:', err);
+      }
+
+      // Broadcast to any open tabs (instant real-time sync)
+      try {
+        if (typeof BroadcastChannel !== 'undefined') {
+          const bc = new BroadcastChannel('genius_preview_channel');
+          bc.postMessage({ type: 'UPDATE_DATA', data: cleanData });
+          bc.close();
+        }
+      } catch (e) {}
 
       // Save to Firebase Cloud if connected
       if (db && isCloudConnected) {
         showToast('Menyimpan ke Cloud Database... ⏳');
         try {
-          await db.collection('content').doc('landing_page').set(AppData);
+          await db.collection('content').doc('landing_page').set(cleanData);
           showToast('✅ Berhasil disimpan ke Cloud! Landing page langsung terupdate otomatis di seluruh dunia 🚀');
-          return;
+          return true;
         } catch (err) {
           console.error('Firebase save error:', err);
           showToast('⚠️ Gagal simpan ke Firebase: ' + err.message);
+          return false;
         }
       } else {
         showToast('Tersimpan di lokal! (Hubungkan Firebase untuk auto-sync online) ✨');
+        return true;
       }
     }
 
@@ -1190,6 +1501,7 @@
     const tabPanels = document.querySelectorAll('.tab-panel');
     const headings = {
       'tab-brand': ['Brand & Kontak Bisnis', 'Kelola informasi nama brand, nomor WhatsApp tujuan, dan deskripsi footer.'],
+      'tab-layout': ['Tata Letak & Urutan Halaman', 'Atur urutan kemunculan bagian di landing page (naik/turun), sembunyikan atau tampilkan, serta tambahkan bagian baru dengan template interaktif.'],
       'tab-hero': ['Hero & Headline', 'Ubah teks sambutan utama dan kata animasi mengetik.'],
       'tab-stats': ['Angka Statistik', 'Ubah angka pencapaian dan label statistik di bawah hero.'],
       'tab-services': ['Layanan Unggulan', 'Tambah, edit, atau hapus layanan spesialisasi Genius Media.'],
@@ -1197,6 +1509,7 @@
       'tab-steps': ['Alur Metodologi', 'Tahapan kerja dari blueprint hingga garansi purna jual.'],
       'tab-testi': ['Testimoni Klien', 'Ulasan dan kepuasan klien atas pengerjaan aplikasi.'],
       'tab-faq': ['FAQ Tanya Jawab', 'Jawaban pertanyaan umum calon klien.'],
+      'tab-calc': ['Sistem Kalkulator Estimasi Biaya', 'Kelola pilihan platform, skala kompleksitas, dan checklist fitur tambahan beserta biaya & durasinya.'],
       'tab-settings': ['Pengaturan Database & PIN', 'Kelola kunci koneksi Firebase Cloud Database dan PIN login admin.'],
       'tab-deploy': ['Download & Deploy', 'Unduh file index.html terbaru untuk cadangan offline.']
     };
@@ -1241,12 +1554,436 @@
         </div>
       `).join('');
 
+      renderSectionsLayout();
       renderServices();
       renderPortfolio();
       renderSteps();
       renderTestimonials();
       renderFAQ();
+
+      if (!AppData.calculator) AppData.calculator = JSON.parse(JSON.stringify(DEFAULT_DATA.calculator));
+      renderCalcPlatforms();
+      renderCalcScales();
+      renderCalcFeatures();
     }
+
+    // --------------------------------------------------------------------------
+    // 3B. SECTION LAYOUT MANAGER & CUSTOM TEMPLATES
+    // --------------------------------------------------------------------------
+    function getTemplateName(tpl) {
+      switch(tpl) {
+        case 'rolling': return 'Marquee Bergulir';
+        case 'scroll': return 'Snap Scroll Galeri';
+        case 'cards_btn': return 'Grid Kartu & Tombol';
+        case 'banner': return 'Split Banner CTA';
+        default: return 'Kustom';
+      }
+    }
+
+    function renderSectionsLayout() {
+      if (!AppData.sections || !AppData.sections.length) {
+        AppData.sections = JSON.parse(JSON.stringify(DEFAULT_DATA.sections));
+      }
+
+      const container = document.getElementById('sections-list-container');
+      if (!container) return;
+
+      container.innerHTML = AppData.sections.map((sec, idx) => {
+        const isSystem = sec.type === 'system';
+        const typeBadge = isSystem 
+          ? `<span class="sec-badge-type system">Sistem Bawaan</span>` 
+          : `<span class="sec-badge-type custom">Kustom: ${getTemplateName(sec.template)}</span>`;
+        
+        const isVisible = sec.visible !== false;
+        const visBadge = isVisible 
+          ? `<span style="font-size:0.75rem; color:#10b981; font-weight:600">● Tampil</span>` 
+          : `<span style="font-size:0.75rem; color:#ef4444; font-weight:600">○ Sembunyi</span>`;
+
+        return `
+          <div class="item-row" style="${!isVisible ? 'opacity:0.6;' : ''}">
+            <div class="item-left">
+              <div style="font-size:1.1rem; font-weight:800; color:var(--text-muted); width:32px; text-align:center;">#${idx + 1}</div>
+              <div class="item-info">
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px">
+                  <div class="item-title" style="font-size:1rem">${sec.name || sec.title}</div>
+                  ${typeBadge}
+                  ${visBadge}
+                </div>
+                <div class="item-desc">
+                  ${isSystem ? `ID Bagian: <code>${sec.id}</code>` : `${sec.items ? sec.items.length : 0} item gambar/tombol • Template: ${getTemplateName(sec.template)}`}
+                </div>
+              </div>
+            </div>
+            <div class="item-actions">
+              <button class="btn btn-secondary btn-sm" onclick="moveSection(${idx}, -1)" ${idx === 0 ? 'disabled style="opacity:0.3; cursor:not-allowed"' : ''} title="Pindahkan ke atas">⬆️</button>
+              <button class="btn btn-secondary btn-sm" onclick="moveSection(${idx}, 1)" ${idx === AppData.sections.length - 1 ? 'disabled style="opacity:0.3; cursor:not-allowed"' : ''} title="Pindahkan ke bawah">⬇️</button>
+              <button class="btn btn-secondary btn-sm" onclick="toggleSectionVis(${idx})" title="Tampilkan / Sembunyikan Bagian">
+                ${isVisible ? '👁️ Tampil' : '🙈 Sembunyi'}
+              </button>
+              ${!isSystem ? `
+                <button class="btn btn-secondary btn-sm" onclick="openCustomSectionModal(${idx})" title="Edit Konten Bagian">✏️ Edit</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteSection(${idx})" title="Hapus Bagian Kustom">🗑️</button>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    window.moveSection = function(idx, dir) {
+      const target = idx + dir;
+      if (target < 0 || target >= AppData.sections.length) return;
+      const temp = AppData.sections[idx];
+      AppData.sections[idx] = AppData.sections[target];
+      AppData.sections[target] = temp;
+      renderSectionsLayout();
+      saveData();
+      showToast('Urutan posisi bagian diperbarui! 📐');
+    };
+
+    window.toggleSectionVis = function(idx) {
+      AppData.sections[idx].visible = AppData.sections[idx].visible === false ? true : false;
+      renderSectionsLayout();
+      saveData();
+      showToast(AppData.sections[idx].visible ? 'Bagian ditampilkan di landing page! 👁️' : 'Bagian disembunyikan! 🙈');
+    };
+
+    window.deleteSection = function(idx) {
+      const sec = AppData.sections[idx];
+      if (confirm(`Yakin ingin menghapus bagian kustom "${sec.name || sec.title}"?`)) {
+        AppData.sections.splice(idx, 1);
+        renderSectionsLayout();
+        saveData();
+        showToast('Bagian berhasil dihapus! 🗑️');
+      }
+    };
+
+    const TEMPLATE_PRESETS = {
+      rolling: {
+        name: "⚡ Running Image Marquee",
+        badge: "Showcase Mitra & Portofolio",
+        title: "Karya & Klien Terpercaya",
+        subtitle: "Deretan aplikasi berkelas dunia yang telah kami rancang dan kembangkan.",
+        items: [
+          { img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80", title: "Analytics SaaS Dashboard" },
+          { img: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=600&q=80", title: "Mobile Flutter App" },
+          { img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80", title: "Enterprise ERP System" },
+          { img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80", title: "FinTech Payment Gateway" }
+        ]
+      },
+      scroll: {
+        name: "↔️ Galeri Snap Scroll",
+        badge: "Galeri Produk",
+        title: "Eksplorasi Ekosistem Digital",
+        subtitle: "Geser ke samping untuk menjelajahi solusi aplikasi unggulan kami.",
+        items: [
+          {
+            img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80",
+            title: "Executive Dashboard Pro",
+            desc: "Visualisasi analitik bisnis dan metrik KPI secara real-time.",
+            btnText: "Lihat Demo",
+            btnUrl: "#kontak"
+          },
+          {
+            img: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80",
+            title: "Smart AI Chat Agent",
+            desc: "Automasi interaksi pelanggan 24/7 dengan model AI terintegrasi.",
+            btnText: "Konsultasi Fitur",
+            btnUrl: "#kontak"
+          },
+          {
+            img: "https://images.unsplash.com/photo-1556742049-0a67e557224f?w=600&q=80",
+            title: "Multi-Store POS Desktop",
+            desc: "Sistem kasir multi-cabang dengan mode offline dan sinkronisasi cloud.",
+            btnText: "Hubungi Kami",
+            btnUrl: "#kontak"
+          }
+        ]
+      },
+      cards_btn: {
+        name: "🎴 Bento Cards & Tombol",
+        badge: "Fitur & Keunggulan",
+        title: "Inovasi Software Generasi Baru",
+        subtitle: "Setiap detail dirancang dengan standar kode dan performa terbaik.",
+        items: [
+          {
+            img: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=600&q=80",
+            badge: "Cloud Ready",
+            title: "Arsitektur Mikro & Skalabel",
+            desc: "Pondasi server yang sanggup melayani jutaan request tanpa hambatan.",
+            btnText: "Pelajari Lebih Lanjut",
+            btnUrl: "#kontak"
+          },
+          {
+            img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80",
+            badge: "Top Security",
+            title: "Proteksi Enkripsi Berlapis",
+            desc: "Keamanan data tingkat perbankan dengan sertifikat SSL dan audit rutin.",
+            btnText: "Konsultasi Keamanan",
+            btnUrl: "#kontak"
+          },
+          {
+            img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80",
+            badge: "Agile Speed",
+            title: "Rilis Kilat dalam Hitungan Minggu",
+            desc: "Metode sprint terarah untuk meluncurkan produk Anda ke pasar lebih cepat.",
+            btnText: "Mulai Sekarang",
+            btnUrl: "#kontak"
+          }
+        ]
+      },
+      banner: {
+        name: "🖼️ Split Showcase Banner",
+        badge: "Tawaran Spesial",
+        title: "Wujudkan Solusi Digital Perusahaan Anda Hari Ini",
+        subtitle: "Dapatkan sesi konsultasi gratis arsitektur sistem dan estimasi biaya transparan bersama tim engineer kami.",
+        items: [
+          {
+            img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80",
+            title: "Konsultasi Software Eksklusif",
+            desc: "Diskusikan roadmap produk, arsitektur database, dan pemilihan stack teknologi optimal bersama tim kami.",
+            btnText: "🚀 Jadwalkan Meeting",
+            btnUrl: "#kontak",
+            btnSecText: "💬 Chat WhatsApp",
+            btnSecUrl: "https://wa.me/6280000000000"
+          }
+        ]
+      }
+    };
+
+    window.createSectionWithTemplate = function(tplKey) {
+      const preset = TEMPLATE_PRESETS[tplKey] || TEMPLATE_PRESETS.rolling;
+      const newSec = {
+        id: "custom_" + Date.now(),
+        name: preset.name,
+        type: "custom",
+        template: tplKey,
+        visible: true,
+        badge: preset.badge,
+        title: preset.title,
+        subtitle: preset.subtitle,
+        items: JSON.parse(JSON.stringify(preset.items))
+      };
+      AppData.sections.push(newSec);
+      renderSectionsLayout();
+      saveData();
+      showToast('Bagian template baru berhasil ditambahkan! 🎨');
+      setTimeout(() => {
+        const container = document.getElementById('sections-list-container');
+        if (container) container.lastElementChild?.scrollIntoView({ behavior: 'smooth' });
+      }, 200);
+    };
+
+    let currentCustomItems = [];
+
+    window.openCustomSectionModal = function(idx) {
+      document.getElementById('cs-edit-index').value = idx;
+      const modal = document.getElementById('custom-sec-modal');
+      const titleEl = document.getElementById('custom-sec-modal-title');
+
+      if (idx >= 0) {
+        const sec = AppData.sections[idx];
+        titleEl.textContent = `Edit Bagian: ${sec.name || sec.title}`;
+        document.getElementById('cs-template').value = sec.template || 'rolling';
+        document.getElementById('cs-badge').value = sec.badge || '';
+        document.getElementById('cs-title').value = sec.title || sec.name || '';
+        document.getElementById('cs-subtitle').value = sec.subtitle || '';
+        currentCustomItems = JSON.parse(JSON.stringify(sec.items || []));
+      } else {
+        titleEl.textContent = 'Tambah Bagian Kustom Baru';
+        document.getElementById('cs-template').value = 'rolling';
+        document.getElementById('cs-badge').value = 'Showcase Unggulan';
+        document.getElementById('cs-title').value = 'Koleksi Karya Digital Terbaru';
+        document.getElementById('cs-subtitle').value = 'Dokumentasi visual dan aplikasi terkini yang kami ciptakan.';
+        currentCustomItems = JSON.parse(JSON.stringify(TEMPLATE_PRESETS.rolling.items));
+      }
+
+      onTemplateChange();
+      renderCustomSecItems();
+      modal.classList.add('open');
+    };
+
+    window.closeCustomSecModal = function() {
+      document.getElementById('custom-sec-modal').classList.remove('open');
+    };
+
+    window.onTemplateChange = function() {
+      const tpl = document.getElementById('cs-template').value;
+      const hintEl = document.getElementById('cs-items-hint');
+      if (tpl === 'rolling') {
+        hintEl.textContent = 'Model Marquee: Gambar akan bergulir otomatis. Isikan URL gambar/upload dan judul singkat.';
+      } else if (tpl === 'scroll') {
+        hintEl.textContent = 'Model Snap Scroll: Kartu gambar lebar dengan judul, deskripsi, dan tombol link.';
+      } else if (tpl === 'cards_btn') {
+        hintEl.textContent = 'Model Bento Cards: Grid kartu interaktif dengan gambar, badge, deskripsi, dan tombol CTA.';
+      } else if (tpl === 'banner') {
+        hintEl.textContent = 'Model Split Banner: Banner 2 kolom dengan gambar besar dan teks headline serta tombol.';
+      }
+    };
+
+    window.renderCustomSecItems = function() {
+      const container = document.getElementById('cs-items-container');
+      if (!currentCustomItems.length) {
+        container.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-muted); font-size:0.85rem">Belum ada item gambar. Klik "+ Tambah Item / Gambar" di atas.</div>`;
+        return;
+      }
+
+      container.innerHTML = currentCustomItems.map((it, i) => `
+        <div class="cs-item-box">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-weight:700; font-size:0.85rem; color:var(--text-muted);">Item #${i + 1}</span>
+            <button type="button" class="btn btn-danger btn-sm" onclick="removeCustomSecItem(${i})" style="padding:2px 8px; font-size:0.75rem">✕ Hapus</button>
+          </div>
+
+          <div style="display:flex; gap:14px; align-items:flex-start;">
+            <img src="${it.img || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=300&q=80'}" class="cs-img-preview" id="cs-preview-${i}" onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=300&q=80'">
+            
+            <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
+              <div style="display:flex; gap:8px;">
+                <input type="text" value="${it.img || ''}" placeholder="URL Gambar (https://...)" oninput="updateCustomSecItemImg(${i}, this.value)" style="flex:1">
+                <label class="btn btn-secondary btn-sm" style="margin:0; cursor:pointer; flex-shrink:0" title="Unggah File Gambar dari Komputer">
+                  <span>📁 Unggah</span>
+                  <input type="file" accept="image/*" style="display:none" onchange="handleCustomImgUpload(${i}, this)">
+                </label>
+              </div>
+
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                <input type="text" value="${it.title || ''}" placeholder="Judul Item" oninput="currentCustomItems[${i}].title = this.value">
+                <input type="text" value="${it.badge || ''}" placeholder="Badge (misal: Baru / Hot)" oninput="currentCustomItems[${i}].badge = this.value">
+              </div>
+
+              <textarea rows="2" placeholder="Deskripsi Singkat" oninput="currentCustomItems[${i}].desc = this.value">${it.desc || ''}</textarea>
+
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                <input type="text" value="${it.btnText || ''}" placeholder="Teks Tombol (misal: Cek Detail)" oninput="currentCustomItems[${i}].btnText = this.value">
+                <input type="text" value="${it.btnUrl || ''}" placeholder="Link Tombol (URL / WA)" oninput="currentCustomItems[${i}].btnUrl = this.value">
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    };
+
+    window.addCustomSecItem = function() {
+      currentCustomItems.push({
+        img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80",
+        title: "Item Baru",
+        badge: "Fitur",
+        desc: "Keterangan singkat mengenai produk atau keunggulan ini.",
+        btnText: "Lihat Detail",
+        btnUrl: "#kontak"
+      });
+      renderCustomSecItems();
+      const container = document.getElementById('cs-items-container');
+      if (container) container.scrollTop = container.scrollHeight;
+    };
+
+    window.removeCustomSecItem = function(i) {
+      currentCustomItems.splice(i, 1);
+      renderCustomSecItems();
+    };
+
+    window.updateCustomSecItemImg = function(i, url) {
+      currentCustomItems[i].img = url;
+      const preview = document.getElementById(`cs-preview-${i}`);
+      if (preview) preview.src = url || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=300&q=80';
+    };
+
+    window.handleCustomImgUpload = function(i, input) {
+      if (!input.files || !input.files[0]) return;
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          const maxDim = 800;
+          let w = img.width;
+          let h = img.height;
+          if (w > maxDim || h > maxDim) {
+            if (w > h) {
+              h = Math.round((h * maxDim) / w);
+              w = maxDim;
+            } else {
+              w = Math.round((w * maxDim) / h);
+              h = maxDim;
+            }
+          }
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.82);
+          updateCustomSecItemImg(i, compressedDataUrl);
+          renderCustomSecItems();
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    };
+
+    window.saveCustomSection = async function() {
+      const idx = parseInt(document.getElementById('cs-edit-index').value, 10);
+      const title = document.getElementById('cs-title').value.trim();
+      if (!title) {
+        alert('Mohon isi Judul Bagian!');
+        return;
+      }
+      const tpl = document.getElementById('cs-template').value;
+      const badge = document.getElementById('cs-badge').value.trim();
+      const subtitle = document.getElementById('cs-subtitle').value.trim();
+
+      // Gather item inputs directly from DOM so nothing is missed
+      const itemBoxes = document.querySelectorAll('#cs-items-container .cs-item-box');
+      if (itemBoxes.length) {
+        const freshItems = [];
+        itemBoxes.forEach((box, i) => {
+          const imgInput = box.querySelector('input[placeholder*="URL Gambar"]');
+          const titleInput = box.querySelector('input[placeholder="Judul Item"]');
+          const badgeInput = box.querySelector('input[placeholder*="Badge"]');
+          const descInput = box.querySelector('textarea');
+          const btnTextInput = box.querySelector('input[placeholder*="Teks Tombol"]');
+          const btnUrlInput = box.querySelector('input[placeholder*="Link Tombol"]');
+          freshItems.push({
+            img: imgInput ? imgInput.value.trim() : (currentCustomItems[i]?.img || ''),
+            title: titleInput ? titleInput.value.trim() : (currentCustomItems[i]?.title || ''),
+            badge: badgeInput ? badgeInput.value.trim() : (currentCustomItems[i]?.badge || ''),
+            desc: descInput ? descInput.value.trim() : (currentCustomItems[i]?.desc || ''),
+            btnText: btnTextInput ? btnTextInput.value.trim() : (currentCustomItems[i]?.btnText || ''),
+            btnUrl: btnUrlInput ? btnUrlInput.value.trim() : (currentCustomItems[i]?.btnUrl || '')
+          });
+        });
+        currentCustomItems = freshItems;
+      }
+
+      if (idx >= 0) {
+        const sec = AppData.sections[idx];
+        sec.name = title;
+        sec.title = title;
+        sec.template = tpl;
+        sec.badge = badge;
+        sec.subtitle = subtitle;
+        sec.items = currentCustomItems;
+      } else {
+        const newSec = {
+          id: "custom_" + Date.now(),
+          name: title,
+          type: "custom",
+          template: tpl,
+          visible: true,
+          badge: badge,
+          title: title,
+          subtitle: subtitle,
+          items: currentCustomItems
+        };
+        AppData.sections.push(newSec);
+      }
+
+      closeCustomSecModal();
+      renderSectionsLayout();
+      await saveData();
+      showToast('Bagian kustom berhasil disimpan & disinkronkan! ✨');
+    };
 
     function renderServices() {
       const container = document.getElementById('services-list-container');
@@ -1344,6 +2081,66 @@
       `).join('');
     }
 
+    function renderCalcPlatforms() {
+      const container = document.getElementById('calc-platforms-container');
+      if (!container || !AppData.calculator || !AppData.calculator.platforms) return;
+      container.innerHTML = AppData.calculator.platforms.map((p, idx) => `
+        <div class="item-row">
+          <div class="item-left">
+            <div class="item-badge-icon">${p.icon || '🌐'}</div>
+            <div class="item-info">
+              <div class="item-title">${p.name}</div>
+              <div class="item-desc">Biaya Dasar: <b style="color:var(--secondary)">Rp ${Number(p.cost).toLocaleString('id-ID')}</b> • Durasi: <b>${p.time} Minggu</b></div>
+            </div>
+          </div>
+          <div class="item-actions">
+            <button class="btn btn-secondary btn-sm" onclick="openEditModal('calc-platform', ${idx})">✏️ Edit</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteItem('calc-platform', ${idx})">🗑️ Hapus</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderCalcScales() {
+      const container = document.getElementById('calc-scales-container');
+      if (!container || !AppData.calculator || !AppData.calculator.scales) return;
+      container.innerHTML = AppData.calculator.scales.map((s, idx) => `
+        <div class="item-row">
+          <div class="item-left">
+            <div class="item-badge-icon">⚡</div>
+            <div class="item-info">
+              <div class="item-title">${s.name}</div>
+              <div class="item-desc">Tambahan Biaya: <b style="color:var(--secondary)">Rp ${Number(s.cost).toLocaleString('id-ID')}</b> • Tambahan Waktu: <b>+${s.time} Minggu</b></div>
+            </div>
+          </div>
+          <div class="item-actions">
+            <button class="btn btn-secondary btn-sm" onclick="openEditModal('calc-scale', ${idx})">✏️ Edit</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteItem('calc-scale', ${idx})">🗑️ Hapus</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderCalcFeatures() {
+      const container = document.getElementById('calc-features-container');
+      if (!container || !AppData.calculator || !AppData.calculator.features) return;
+      container.innerHTML = AppData.calculator.features.map((f, idx) => `
+        <div class="item-row">
+          <div class="item-left">
+            <div class="item-badge-icon">${f.icon || '✨'}</div>
+            <div class="item-info">
+              <div class="item-title">${f.name}</div>
+              <div class="item-desc">Biaya: <b style="color:var(--secondary)">Rp ${Number(f.cost).toLocaleString('id-ID')}</b> • Waktu: <b>+${f.time} Minggu</b> • Status Awal: <b>${f.defaultChecked ? '✅ Tercentang' : '⚪ Kosong'}</b></div>
+            </div>
+          </div>
+          <div class="item-actions">
+            <button class="btn btn-secondary btn-sm" onclick="openEditModal('calc-feature', ${idx})">✏️ Edit</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteItem('calc-feature', ${idx})">🗑️ Hapus</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
     function deleteItem(type, idx) {
       if (!confirm('Apakah Anda yakin ingin menghapus item ini?')) return;
       if (type === 'service') AppData.services.splice(idx, 1);
@@ -1351,6 +2148,9 @@
       if (type === 'step') AppData.steps.splice(idx, 1);
       if (type === 'testimonial') AppData.testimonials.splice(idx, 1);
       if (type === 'faq') AppData.faq.splice(idx, 1);
+      if (type === 'calc-platform') AppData.calculator.platforms.splice(idx, 1);
+      if (type === 'calc-scale') AppData.calculator.scales.splice(idx, 1);
+      if (type === 'calc-feature') AppData.calculator.features.splice(idx, 1);
 
       saveData();
       renderForms();
@@ -1377,6 +2177,9 @@
       if (type === 'step') data = AppData.steps[idx];
       if (type === 'testimonial') data = AppData.testimonials[idx];
       if (type === 'faq') data = AppData.faq[idx];
+      if (type === 'calc-platform') data = AppData.calculator.platforms[idx];
+      if (type === 'calc-scale') data = AppData.calculator.scales[idx];
+      if (type === 'calc-feature') data = AppData.calculator.features[idx];
 
       buildModalFields(type, data);
       document.getElementById('item-modal').classList.add('open');
@@ -1481,6 +2284,65 @@
             <textarea id="m-faq-a" rows="4">${data ? data.a : ''}</textarea>
           </div>
         `;
+      } else if (type === 'calc-platform') {
+        html = `
+          <div class="form-group" style="margin-bottom:14px">
+            <label>Ikon / Emoji Platform</label>
+            <input type="text" id="m-cp-icon" value="${data ? data.icon : '🌐'}" style="width:100px">
+          </div>
+          <div class="form-group" style="margin-bottom:14px">
+            <label>Nama Platform (misal: Web Application, Mobile App)</label>
+            <input type="text" id="m-cp-name" value="${data ? data.name : ''}">
+          </div>
+          <div class="form-group" style="margin-bottom:14px">
+            <label>Biaya Dasar (Angka Rupiah murni, misal: 5000000)</label>
+            <input type="number" id="m-cp-cost" value="${data ? data.cost : '5000000'}">
+          </div>
+          <div class="form-group">
+            <label>Estimasi Durasi (Jumlah Minggu, misal: 3)</label>
+            <input type="number" step="0.5" id="m-cp-time" value="${data ? data.time : '3'}">
+          </div>
+        `;
+      } else if (type === 'calc-scale') {
+        html = `
+          <div class="form-group" style="margin-bottom:14px">
+            <label>Nama Skala (misal: MVP Cepat, Bisnis Custom, Enterprise)</label>
+            <input type="text" id="m-cs-name" value="${data ? data.name : ''}">
+          </div>
+          <div class="form-group" style="margin-bottom:14px">
+            <label>Tambahan Biaya (Angka Rupiah murni, misal: 2000000)</label>
+            <input type="number" id="m-cs-cost" value="${data ? data.cost : '2000000'}">
+          </div>
+          <div class="form-group">
+            <label>Tambahan Durasi (Jumlah Minggu, misal: 1)</label>
+            <input type="number" step="0.5" id="m-cs-time" value="${data ? data.time : '1'}">
+          </div>
+        `;
+      } else if (type === 'calc-feature') {
+        html = `
+          <div class="form-group" style="margin-bottom:14px">
+            <label>Ikon / Emoji Fitur</label>
+            <input type="text" id="m-cf-icon" value="${data ? data.icon : '💳'}" style="width:100px">
+          </div>
+          <div class="form-group" style="margin-bottom:14px">
+            <label>Nama Fitur (misal: Payment Gateway, Integrasi AI)</label>
+            <input type="text" id="m-cf-name" value="${data ? data.name : ''}">
+          </div>
+          <div class="form-group" style="margin-bottom:14px">
+            <label>Biaya Fitur (Angka Rupiah murni, misal: 1500000)</label>
+            <input type="number" id="m-cf-cost" value="${data ? data.cost : '1500000'}">
+          </div>
+          <div class="form-group" style="margin-bottom:14px">
+            <label>Tambahan Durasi (Jumlah Minggu, misal: 1)</label>
+            <input type="number" step="0.5" id="m-cf-time" value="${data ? data.time : '1'}">
+          </div>
+          <div class="form-group">
+            <label style="display:flex; align-items:center; gap:8px; cursor:pointer">
+              <input type="checkbox" id="m-cf-check" ${data && data.defaultChecked ? 'checked' : ''} style="width:auto">
+              <span>Otomatis tercentang saat pengunjung pertama kali membuka web</span>
+            </label>
+          </div>
+        `;
       }
 
       box.innerHTML = html;
@@ -1531,6 +2393,33 @@
         };
         if (currentEditIndex >= 0) AppData.faq[currentEditIndex] = item;
         else AppData.faq.push(item);
+      } else if (currentModalType === 'calc-platform') {
+        const item = {
+          icon: document.getElementById('m-cp-icon').value.trim() || '🌐',
+          name: document.getElementById('m-cp-name').value.trim() || 'Platform Baru',
+          cost: parseInt(document.getElementById('m-cp-cost').value) || 0,
+          time: parseFloat(document.getElementById('m-cp-time').value) || 1
+        };
+        if (currentEditIndex >= 0) AppData.calculator.platforms[currentEditIndex] = item;
+        else AppData.calculator.platforms.push(item);
+      } else if (currentModalType === 'calc-scale') {
+        const item = {
+          name: document.getElementById('m-cs-name').value.trim() || 'Skala Baru',
+          cost: parseInt(document.getElementById('m-cs-cost').value) || 0,
+          time: parseFloat(document.getElementById('m-cs-time').value) || 1
+        };
+        if (currentEditIndex >= 0) AppData.calculator.scales[currentEditIndex] = item;
+        else AppData.calculator.scales.push(item);
+      } else if (currentModalType === 'calc-feature') {
+        const item = {
+          icon: document.getElementById('m-cf-icon').value.trim() || '✨',
+          name: document.getElementById('m-cf-name').value.trim() || 'Fitur Baru',
+          cost: parseInt(document.getElementById('m-cf-cost').value) || 0,
+          time: parseFloat(document.getElementById('m-cf-time').value) || 0.5,
+          defaultChecked: document.getElementById('m-cf-check').checked
+        };
+        if (currentEditIndex >= 0) AppData.calculator.features[currentEditIndex] = item;
+        else AppData.calculator.features.push(item);
       }
 
       saveData();
