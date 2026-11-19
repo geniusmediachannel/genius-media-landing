@@ -1,0 +1,2799 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Genius Media Channel — Software House & Web App Development Studio</title>
+  <meta name="description" content="Genius Media Channel adalah partner digital terpercaya untuk pengembangan Web Application canggih, Aplikasi Mobile (iOS/Android), Software Desktop, dan Solusi AI terintegrasi.">
+  <meta name="keywords" content="web app development, software house indonesia, aplikasi mobile, bikin website aplikasi, genius media channel, flutter, react, next.js">
+  
+  <!-- Favicon & Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #070913;
+      --bg-card: rgba(15, 20, 39, 0.75);
+      --bg-card-hover: rgba(24, 32, 60, 0.9);
+      --bg-surface: #0c1024;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(99, 102, 241, 0.4);
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --primary-glow: rgba(99, 102, 241, 0.35);
+      --secondary: #06b6d4;
+      --accent: #a855f7;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --gradient-main: linear-gradient(135deg, #6366f1 0%, #06b6d4 50%, #a855f7 100%);
+      --gradient-text: linear-gradient(135deg, #a5b4fc 0%, #38bdf8 50%, #c084fc 100%);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 22px;
+      --radius-xl: 32px;
+      --shadow-glow: 0 0 35px rgba(99, 102, 241, 0.25);
+      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --bg-card: rgba(255, 255, 255, 0.85);
+      --bg-card-hover: rgba(255, 255, 255, 0.98);
+      --bg-surface: #edf2f7;
+      --border: rgba(15, 23, 42, 0.08);
+      --border-glow: rgba(99, 102, 241, 0.3);
+      --text: #0f172a;
+      --text-muted: #475569;
+      --text-dim: #94a3b8;
+      --primary-glow: rgba(99, 102, 241, 0.15);
+      --shadow-glow: 0 10px 30px rgba(99, 102, 241, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 85px;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Background Ambient Gradients */
+    .bg-ambience {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.18;
+      animation: floatBlob 22s infinite alternate ease-in-out;
+    }
+    .blob-1 { top: -10%; left: 20%; width: 550px; height: 550px; background: var(--primary); }
+    .blob-2 { top: 40%; right: -5%; width: 500px; height: 500px; background: var(--secondary); animation-delay: -7s; }
+    .blob-3 { bottom: -10%; left: 10%; width: 600px; height: 600px; background: var(--accent); animation-delay: -14s; }
+
+    @keyframes floatBlob {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(40px, 60px) scale(1.08); }
+      100% { transform: translate(-30px, 30px) scale(0.95); }
+    }
+
+    /* Cyber grid overlay */
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      background-size: 50px 50px;
+      background-image: 
+        linear-gradient(to right, var(--border) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+      mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 80%);
+      -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 80%);
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.7;
+    }
+
+    /* Container */
+    .container {
+      width: 100%;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Utilities */
+    .g-text {
+      background: var(--gradient-text);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      color: var(--primary-light);
+      backdrop-filter: blur(8px);
+    }
+    .badge-pill .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--success);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--success);
+      animation: pulse 1.8s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.5; }
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 13px 28px;
+      border-radius: 999px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1px solid transparent;
+      outline: none;
+      user-select: none;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--gradient-main);
+      color: #ffffff !important;
+      box-shadow: 0 8px 24px var(--primary-glow);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(99, 102, 241, 0.5);
+      filter: brightness(1.1);
+    }
+    .btn-secondary {
+      background: var(--bg-card);
+      color: var(--text) !important;
+      border: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+    }
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      border-color: var(--primary-light);
+      background: var(--bg-card-hover);
+    }
+    .btn-sm {
+      padding: 8px 18px;
+      font-size: 0.85rem;
+    }
+
+    /* Navigation */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(7, 9, 19, 0.8);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+    [data-theme="light"] nav {
+      background: rgba(248, 250, 252, 0.85);
+    }
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 76px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -0.02em;
+    }
+    .brand-logo {
+      width: 38px;
+      height: 38px;
+      background: var(--gradient-main);
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 800;
+      font-size: 1.15rem;
+      box-shadow: 0 4px 15px var(--primary-glow);
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover {
+      color: var(--text);
+    }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .theme-toggle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: transform 0.2s;
+    }
+    .theme-toggle:hover {
+      transform: scale(1.08);
+      border-color: var(--primary);
+    }
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Mobile Drawer */
+    .mobile-nav {
+      position: fixed;
+      inset: 0;
+      background: rgba(7, 9, 19, 0.98);
+      z-index: 99;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+    .mobile-nav.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .mobile-nav a {
+      font-size: 1.4rem;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .mobile-close-btn {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 2rem;
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      min-height: calc(100vh - 76px);
+      padding: 70px 0 100px;
+      display: flex;
+      align-items: center;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 3;
+    }
+    .hero-title {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      line-height: 1.12;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin: 20px 0 20px;
+    }
+    .typed-container {
+      min-height: 1.2em;
+    }
+    #typed {
+      border-right: 3px solid var(--secondary);
+      padding-right: 4px;
+      animation: blink 0.9s infinite;
+    }
+    @keyframes blink {
+      0%, 100% { border-color: var(--secondary); }
+      50% { border-color: transparent; }
+    }
+    .hero-desc {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 580px;
+      margin-bottom: 34px;
+    }
+    .hero-cta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .hero-proof {
+      margin-top: 36px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      color: var(--text-dim);
+      font-size: 0.88rem;
+    }
+    .proof-avatars {
+      display: flex;
+      align-items: center;
+    }
+    .proof-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid var(--bg);
+      margin-left: -8px;
+      background: var(--bg-surface);
+      display: grid;
+      place-items: center;
+      font-size: 0.75rem;
+      font-weight: bold;
+      color: var(--primary-light);
+    }
+    .proof-avatar:first-child { margin-left: 0; }
+
+    /* Interactive Code Terminal in Hero */
+    .terminal-card {
+      background: #090d1f;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), var(--shadow-glow);
+      position: relative;
+      font-family: var(--font-mono);
+      transition: transform 0.3s ease;
+    }
+    .terminal-card:hover {
+      transform: translateY(-4px);
+    }
+    .terminal-header {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .terminal-dots {
+      display: flex;
+      gap: 7px;
+    }
+    .terminal-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+    }
+    .dot-red { background: #ef4444; }
+    .dot-yellow { background: #f59e0b; }
+    .dot-green { background: #10b981; }
+    .terminal-title {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+    }
+    .terminal-tabs {
+      display: flex;
+      gap: 4px;
+      padding: 6px 14px;
+      background: rgba(0, 0, 0, 0.2);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    .t-tab {
+      padding: 4px 12px;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      border-radius: 6px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: var(--font-mono);
+      transition: all 0.2s;
+    }
+    .t-tab.active {
+      color: var(--secondary);
+      background: rgba(6, 182, 212, 0.1);
+    }
+    .terminal-body {
+      padding: 20px;
+      font-size: 0.84rem;
+      line-height: 1.65;
+      color: #e2e8f0;
+      min-height: 290px;
+      overflow-x: auto;
+    }
+    .code-line { margin-bottom: 4px; }
+    .c-kw { color: #c084fc; font-weight: 600; }
+    .c-fn { color: #60a5fa; }
+    .c-str { color: #34d399; }
+    .c-cm { color: #64748b; font-style: italic; }
+    .c-var { color: #38bdf8; }
+    .c-num { color: #fbbf24; }
+
+    /* Interactive Canvas Background in Hero */
+    #hero-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: auto;
+      z-index: 1;
+      opacity: 0.8;
+    }
+
+    /* Section Styling */
+    section {
+      padding: 100px 0;
+      position: relative;
+    }
+    .section-header {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 56px;
+    }
+    .section-title {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin: 14px 0 16px;
+    }
+    .section-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* Stats Banner */
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-top: -30px;
+      margin-bottom: 80px;
+    }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 30px 24px;
+      text-align: center;
+      backdrop-filter: blur(12px);
+      transition: transform 0.3s ease, border-color 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--primary-light);
+    }
+    .stat-number {
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-label {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      font-weight: 500;
+    }
+
+    /* Tech Marquee */
+    .marquee-wrapper {
+      position: relative;
+      overflow: hidden;
+      padding: 24px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: rgba(0, 0, 0, 0.15);
+      mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+    }
+    .marquee-track {
+      display: flex;
+      gap: 40px;
+      width: max-content;
+      animation: marqueeAnim 35s linear infinite;
+    }
+    .marquee-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    .marquee-item span.icon {
+      color: var(--secondary);
+    }
+    @keyframes marqueeAnim {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* Services Grid / Bento Grid */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .service-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 34px 28px;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .service-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--border-glow);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.3), var(--shadow-glow);
+    }
+    .service-icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 16px;
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      display: grid;
+      place-items: center;
+      font-size: 1.8rem;
+      margin-bottom: 22px;
+      color: var(--primary-light);
+    }
+    .service-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .service-desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.65;
+      margin-bottom: 24px;
+    }
+    .service-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: auto;
+    }
+    .service-tag {
+      font-size: 0.76rem;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* Interactive Calculator Section */
+    .calculator-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 44px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 48px;
+      position: relative;
+      overflow: hidden;
+    }
+    .calculator-box::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 400px;
+      height: 400px;
+      background: var(--primary-glow);
+      filter: blur(100px);
+      pointer-events: none;
+    }
+    .calc-step {
+      margin-bottom: 30px;
+    }
+    .calc-step:last-child {
+      margin-bottom: 0;
+    }
+    .calc-label {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text);
+    }
+    .calc-options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+    }
+    .calc-btn {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+      user-select: none;
+    }
+    .calc-btn:hover {
+      border-color: var(--primary-light);
+      background: rgba(99, 102, 241, 0.08);
+    }
+    .calc-btn.selected {
+      background: var(--gradient-main);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 4px 16px var(--primary-glow);
+    }
+    .calc-checkboxes {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 12px;
+    }
+    .calc-check-label {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      font-size: 0.86rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s;
+    }
+    .calc-check-label:hover {
+      border-color: var(--secondary);
+    }
+    .calc-check-label.selected {
+      background: rgba(6, 182, 212, 0.12);
+      border-color: var(--secondary);
+      color: #fff;
+    }
+    .calc-check-label input {
+      accent-color: var(--secondary);
+    }
+
+    /* Calculator Summary Sidebar */
+    .calc-summary {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .summary-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 0.92rem;
+      color: var(--text-muted);
+    }
+    .summary-row span.val {
+      font-weight: 600;
+      color: var(--text);
+    }
+    .estimate-total {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px dashed var(--border);
+    }
+    .estimate-price {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: var(--secondary);
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+    .estimate-time {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+      margin-bottom: 24px;
+    }
+
+    /* Demos & Portfolio Section */
+    .filter-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    .tab-pill {
+      padding: 9px 22px;
+      border-radius: 999px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tab-pill:hover {
+      color: var(--text);
+      border-color: var(--primary-light);
+    }
+    .tab-pill.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+      box-shadow: 0 4px 15px var(--primary-glow);
+    }
+
+    .demos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .demo-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+    }
+    .demo-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--border-glow);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
+    }
+    .demo-card.hidden {
+      display: none;
+    }
+    .demo-preview {
+      height: 180px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #11162d;
+    }
+    .demo-icon-huge {
+      font-size: 4rem;
+      transition: transform 0.4s ease;
+      z-index: 2;
+    }
+    .demo-card:hover .demo-icon-huge {
+      transform: scale(1.2) rotate(5deg);
+    }
+    .demo-badge-category {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #fff;
+      z-index: 3;
+    }
+    .demo-info {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    .demo-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .demo-desc {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.6;
+      margin-bottom: 18px;
+      flex-grow: 1;
+    }
+    .demo-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--secondary);
+      font-weight: 600;
+    }
+
+    /* Workflow / Process Steps */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      position: relative;
+    }
+    .step-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px 24px;
+      position: relative;
+      transition: all 0.3s;
+    }
+    .step-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--primary-light);
+    }
+    .step-number {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--primary-light);
+      margin-bottom: 16px;
+      font-family: var(--font-mono);
+      display: inline-block;
+    }
+    .step-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .step-desc {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Testimonials / Social Proof */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .testimonial-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s ease;
+    }
+    .testimonial-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-glow);
+    }
+    .testi-stars {
+      color: #fbbf24;
+      font-size: 1.1rem;
+      margin-bottom: 14px;
+    }
+    .testi-text {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 22px;
+      font-style: italic;
+    }
+    .testi-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .author-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--gradient-main);
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      color: white;
+    }
+    .author-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .author-role {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+
+    /* FAQ Accordion */
+    .faq-container {
+      max-width: 820px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .faq-item:hover {
+      border-color: var(--primary-light);
+    }
+    .faq-question {
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1.05rem;
+      user-select: none;
+    }
+    .faq-icon {
+      font-size: 1.2rem;
+      transition: transform 0.3s;
+      color: var(--primary-light);
+    }
+    .faq-item.active .faq-icon {
+      transform: rotate(180deg);
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+      padding: 0 24px;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+    .faq-item.active .faq-answer {
+      max-height: 200px;
+      padding-bottom: 20px;
+    }
+
+    /* Contact & Form Section */
+    .contact-wrapper {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 56px 48px;
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 56px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+    .contact-info h3 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+    .contact-info p {
+      color: var(--text-muted);
+      font-size: 1.02rem;
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+    .contact-points {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .point-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+    .point-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      display: grid;
+      place-items: center;
+      color: var(--primary-light);
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .form-group label {
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .form-input, .form-textarea, .form-select {
+      width: 100%;
+      padding: 13px 18px;
+      border-radius: var(--radius-md);
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+      outline: none;
+    }
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 60px 0 30px;
+      background: rgba(4, 6, 12, 0.9);
+      position: relative;
+      z-index: 2;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+    .footer-desc {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.7;
+      margin-top: 16px;
+      max-width: 320px;
+    }
+    .footer-col h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+      color: var(--text);
+    }
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover {
+      color: var(--primary-light);
+    }
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.86rem;
+      color: var(--text-dim);
+    }
+    .admin-link {
+      color: var(--text-dim);
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .admin-link:hover {
+      color: var(--text-muted);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      display: none;
+      place-items: center;
+      z-index: 100;
+      padding: 20px;
+    }
+    .modal-overlay.open {
+      display: grid;
+    }
+    .modal-box {
+      background: #0d122b;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      max-width: 540px;
+      width: 100%;
+      padding: 34px;
+      position: relative;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), var(--shadow-glow);
+      animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalPop {
+      from { transform: scale(0.92); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Floating WhatsApp Button */
+    .floating-wa {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 45;
+      background: #25d366;
+      color: white;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 1.8rem;
+      box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+      text-decoration: none;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .floating-wa:hover {
+      transform: scale(1.1);
+      box-shadow: 0 14px 30px rgba(37, 211, 102, 0.6);
+    }
+    .floating-wa::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 2px solid #25d366;
+      animation: ripple 2s infinite;
+    }
+    @keyframes ripple {
+      0% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(1.4); opacity: 0; }
+    }
+
+    /* Admin / Customizer Drawer */
+    #admin-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: min(500px, 100vw);
+      background: #090d1f;
+      border-left: 1px solid var(--border);
+      z-index: 110;
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow-y: auto;
+      padding: 24px;
+      box-shadow: -10px 0 40px rgba(0, 0, 0, 0.7);
+    }
+    #admin-drawer.open {
+      transform: translateX(0);
+    }
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .admin-field {
+      margin-bottom: 16px;
+    }
+    .admin-field label {
+      display: block;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .admin-field input, .admin-field textarea {
+      width: 100%;
+      padding: 10px 12px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.9rem;
+    }
+    .admin-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 24px;
+      position: sticky;
+      bottom: 0;
+      background: #090d1f;
+      padding: 14px 0 0;
+    }
+
+    /* Toast Notification */
+    #toast-msg {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #1e293b;
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 999px;
+      border: 1px solid var(--primary);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      z-index: 200;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: transform 0.3s ease;
+      pointer-events: none;
+    }
+    #toast-msg.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .terminal-card { display: none; }
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .steps-grid { grid-template-columns: repeat(2, 1fr); }
+      .stats-container { grid-template-columns: repeat(2, 1fr); }
+      .calculator-box { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links, .nav-actions .btn { display: none; }
+      .mobile-menu-btn { display: block; }
+      .services-grid { grid-template-columns: 1fr; }
+      .demos-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .contact-wrapper { grid-template-columns: 1fr; padding: 32px 24px; }
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+      .calculator-box { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient background glow & grid -->
+  <div class="bg-ambience">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+  <div class="grid-overlay"></div>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="container nav-container">
+      <a href="#" class="brand">
+        <div class="brand-logo">G</div>
+        <span><span class="g-text" id="brand-p1">Genius</span> <span id="brand-p2">Media Channel</span></span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#layanan">Layanan</a></li>
+        <li><a href="#kalkulator">Estimasi Biaya</a></li>
+        <li><a href="#portfolio">Portfolio Demo</a></li>
+        <li><a href="#proses">Metodologi</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="theme-toggle" id="theme-btn" title="Ganti Tema">🌙</button>
+        <a href="#kontak" class="btn btn-primary btn-sm">Konsultasi Project</a>
+        <button class="mobile-menu-btn" id="mobile-toggle">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-nav" id="mobile-drawer">
+    <button class="mobile-close-btn" id="mobile-close">✕</button>
+    <a href="#layanan" class="mob-link">Layanan</a>
+    <a href="#kalkulator" class="mob-link">Estimasi Biaya</a>
+    <a href="#portfolio" class="mob-link">Portfolio Demo</a>
+    <a href="#proses" class="mob-link">Metodologi</a>
+    <a href="#faq" class="mob-link">FAQ</a>
+    <a href="#kontak" class="btn btn-primary mob-link">Mulai Konsultasi</a>
+  </div>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <canvas id="hero-canvas"></canvas>
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <div class="badge-pill">
+          <span class="pulse-dot"></span>
+          <span>Open for Q1/Q2 Projects • Software House</span>
+        </div>
+        
+        <h1 class="hero-title">
+          Membangun <span class="g-text" id="typed">Web App Modern</span><br>
+          Skalabel &amp; Siap Produksi
+        </h1>
+        
+        <p class="hero-desc" id="hero-sub">
+          Genius Media Channel mentransformasi ide bisnis Anda menjadi Web Application performa tinggi, Mobile App native, dan Ekosistem Software enterprise dengan arsitektur masa depan.
+        </p>
+
+        <div class="hero-cta">
+          <a href="#kontak" class="btn btn-primary">
+            <span>Diskusi Proyek Anda</span>
+            <span>➔</span>
+          </a>
+          <a href="#kalkulator" class="btn btn-secondary">
+            <span>⚡ Hitung Estimasi Biaya</span>
+          </a>
+        </div>
+
+        <div class="hero-proof">
+          <div class="proof-avatars">
+            <div class="proof-avatar">GM</div>
+            <div class="proof-avatar">TS</div>
+            <div class="proof-avatar">AI</div>
+            <div class="proof-avatar">+50</div>
+          </div>
+          <span>Dipercaya oleh 50+ startup, UMKM, dan korporat di Indonesia.</span>
+        </div>
+      </div>
+
+      <!-- Interactive Hero Live Terminal -->
+      <div class="terminal-card">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <div class="terminal-dot dot-red"></div>
+            <div class="terminal-dot dot-yellow"></div>
+            <div class="terminal-dot dot-green"></div>
+          </div>
+          <div class="terminal-title">genius-media-engine — bash (v2.6)</div>
+          <div style="font-size:0.75rem; color:var(--text-dim)">UTF-8</div>
+        </div>
+        <div class="terminal-tabs">
+          <button class="t-tab active" data-tab="code">App.tsx</button>
+          <button class="t-tab" data-tab="deploy">deploy.config.ts</button>
+          <button class="t-tab" data-tab="terminal">Terminal Output</button>
+        </div>
+        <div class="terminal-body" id="term-content">
+          <div class="code-line"><span class="c-cm">// Genius Media: Next-Gen Web Application</span></div>
+          <div class="code-line"><span class="c-kw">import</span> { <span class="c-fn">createArchitecture</span> } <span class="c-kw">from</span> <span class="c-str">'@genius-media/core'</span>;</div>
+          <div class="code-line"><span class="c-kw">import</span> { <span class="c-fn">NextApp</span>, <span class="c-fn">Postgres</span>, <span class="c-fn">FastAPI</span> } <span class="c-kw">from</span> <span class="c-str">'@tech/stack'</span>;</div>
+          <br>
+          <div class="code-line"><span class="c-kw">export const</span> <span class="c-var">DigitalSolution</span> = <span class="c-fn">createArchitecture</span>({</div>
+          <div class="code-line">&nbsp;&nbsp;client: <span class="c-str">'Your Business Vision'</span>,</div>
+          <div class="code-line">&nbsp;&nbsp;performance: <span class="c-str">'99.9% Uptime &amp; Ultra-Fast Loading'</span>,</div>
+          <div class="code-line">&nbsp;&nbsp;modules: [<span class="c-str">'SaaS Dashboard'</span>, <span class="c-str">'Payment Gateway'</span>, <span class="c-str">'AI Automation'</span>],</div>
+          <div class="code-line">&nbsp;&nbsp;security: <span class="c-str">'OWASP Standard &amp; Enterprise Shield'</span>,</div>
+          <div class="code-line">&nbsp;&nbsp;delivery: <span class="c-str">'On-Time Guaranteed'</span></div>
+          <div class="code-line">});</div>
+          <br>
+          <div class="code-line"><span class="c-cm">/* ✨ Ready to scale with 100k+ concurrent users */</span></div>
+          <div class="code-line"><span class="c-fn">DigitalSolution</span>.<span class="c-fn">launch</span>(); <span class="c-cm">// Status: 🟢 Production Ready</span></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Stats Banner -->
+  <div class="container">
+    <div class="stats-container">
+      <div class="stat-card">
+        <div class="stat-number g-text" data-count="50">0+</div>
+        <div class="stat-label">Proyek Sukses Dirilis</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number g-text" data-count="99">0%</div>
+        <div class="stat-label">Client Satisfaction Rate</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number g-text" data-count="3">0x</div>
+        <div class="stat-label">Akselerasi Efisiensi Bisnis</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number g-text" data-count="24">0/7</div>
+        <div class="stat-label">Dedicated Technical Support</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tech Marquee Banner -->
+  <div class="marquee-wrapper">
+    <div class="marquee-track">
+      <div class="marquee-item"><span class="icon">◆</span> Next.js 15</div>
+      <div class="marquee-item"><span class="icon">◆</span> React &amp; TypeScript</div>
+      <div class="marquee-item"><span class="icon">◆</span> Flutter (Android &amp; iOS)</div>
+      <div class="marquee-item"><span class="icon">◆</span> Node.js &amp; Express</div>
+      <div class="marquee-item"><span class="icon">◆</span> Python &amp; FastAPI</div>
+      <div class="marquee-item"><span class="icon">◆</span> PostgreSQL &amp; Redis</div>
+      <div class="marquee-item"><span class="icon">◆</span> Tailwind CSS</div>
+      <div class="marquee-item"><span class="icon">◆</span> Docker &amp; Kubernetes</div>
+      <div class="marquee-item"><span class="icon">◆</span> Supabase &amp; Firebase</div>
+      <div class="marquee-item"><span class="icon">◆</span> Electron &amp; Desktop Apps</div>
+      <div class="marquee-item"><span class="icon">◆</span> AI LLM Integration</div>
+      <!-- Duplicate for seamless infinite loop -->
+      <div class="marquee-item"><span class="icon">◆</span> Next.js 15</div>
+      <div class="marquee-item"><span class="icon">◆</span> React &amp; TypeScript</div>
+      <div class="marquee-item"><span class="icon">◆</span> Flutter (Android &amp; iOS)</div>
+      <div class="marquee-item"><span class="icon">◆</span> Node.js &amp; Express</div>
+      <div class="marquee-item"><span class="icon">◆</span> Python &amp; FastAPI</div>
+      <div class="marquee-item"><span class="icon">◆</span> PostgreSQL &amp; Redis</div>
+      <div class="marquee-item"><span class="icon">◆</span> Tailwind CSS</div>
+      <div class="marquee-item"><span class="icon">◆</span> Docker &amp; Kubernetes</div>
+      <div class="marquee-item"><span class="icon">◆</span> Supabase &amp; Firebase</div>
+      <div class="marquee-item"><span class="icon">◆</span> Electron &amp; Desktop Apps</div>
+      <div class="marquee-item"><span class="icon">◆</span> AI LLM Integration</div>
+    </div>
+  </div>
+
+  <!-- Services Section -->
+  <section id="layanan">
+    <div class="container">
+      <div class="section-header">
+        <span class="badge-pill">Layanan Unggulan</span>
+        <h2 class="section-title">Solusi End-to-End <span class="g-text">Pengembangan Aplikasi</span></h2>
+        <p class="section-subtitle">
+          Dari tahap riset arsitektur hingga produksi, kami menyajikan teknologi mutakhir yang handal, aman, dan mudah diperluas seiring pertumbuhan bisnis Anda.
+        </p>
+      </div>
+
+      <div class="services-grid">
+        <!-- Service 1 -->
+        <div class="service-card">
+          <div>
+            <div class="service-icon">🌐</div>
+            <h3 class="service-title">Custom Web Application</h3>
+            <p class="service-desc">
+              SaaS platforms, enterprise dashboard, CRM internal, e-commerce b2b, dan portal web kompleks dengan UX responsif, SEO-ready, dan performa kilat.
+            </p>
+          </div>
+          <div class="service-tags">
+            <span class="service-tag">Next.js</span>
+            <span class="service-tag">React</span>
+            <span class="service-tag">Tailwind</span>
+            <span class="service-tag">REST / GraphQL</span>
+          </div>
+        </div>
+
+        <!-- Service 2 -->
+        <div class="service-card">
+          <div>
+            <div class="service-icon">📱</div>
+            <h3 class="service-title">Mobile App (Android &amp; iOS)</h3>
+            <p class="service-desc">
+              Aplikasi mobile lintas platform dengan sentuhan native, animasi 60fps, offline mode, notifikasi push real-time, dan integrasi hardware perangkat.
+            </p>
+          </div>
+          <div class="service-tags">
+            <span class="service-tag">Flutter</span>
+            <span class="service-tag">React Native</span>
+            <span class="service-tag">Firebase</span>
+            <span class="service-tag">Push Notification</span>
+          </div>
+        </div>
+
+        <!-- Service 3 -->
+        <div class="service-card">
+          <div>
+            <div class="service-icon">🖥️</div>
+            <h3 class="service-title">Desktop &amp; Enterprise Software</h3>
+            <p class="service-desc">
+              Sistem kasir (POS), inventory gudang, software manufaktur, dan software multi-platform (Windows, macOS, Linux) dengan akses printer &amp; barcode reader.
+            </p>
+          </div>
+          <div class="service-tags">
+            <span class="service-tag">Electron</span>
+            <span class="service-tag">Tauri</span>
+            <span class="service-tag">Local SQLite</span>
+            <span class="service-tag">Hardware Sync</span>
+          </div>
+        </div>
+
+        <!-- Service 4 -->
+        <div class="service-card">
+          <div>
+            <div class="service-icon">⚡</div>
+            <h3 class="service-title">Backend Architecture &amp; API</h3>
+            <p class="service-desc">
+              Pondasi server yang tangguh, database terindeks rapi, integrasi Payment Gateway (Midtrans/Xendit), otentikasi JWT/OAuth, dan rate-limiting.
+            </p>
+          </div>
+          <div class="service-tags">
+            <span class="service-tag">Node.js</span>
+            <span class="service-tag">Python</span>
+            <span class="service-tag">PostgreSQL</span>
+            <span class="service-tag">Redis Cache</span>
+          </div>
+        </div>
+
+        <!-- Service 5 -->
+        <div class="service-card">
+          <div>
+            <div class="service-icon">🤖</div>
+            <h3 class="service-title">AI Integration &amp; Automation</h3>
+            <p class="service-desc">
+              Pemberdayaan aplikasi dengan kemampuan Generative AI, smart chatbot CS otomatis, ekstraksi data OCR, dan integrasi WhatsApp Business API.
+            </p>
+          </div>
+          <div class="service-tags">
+            <span class="service-tag">OpenAI / Claude</span>
+            <span class="service-tag">WA Gateway</span>
+            <span class="service-tag">LangChain</span>
+            <span class="service-tag">Auto-Workflow</span>
+          </div>
+        </div>
+
+        <!-- Service 6 -->
+        <div class="service-card">
+          <div>
+            <div class="service-icon">🎨</div>
+            <h3 class="service-title">UI/UX &amp; Product Prototyping</h3>
+            <p class="service-desc">
+              Perancangan antarmuka pengguna intuitif berbasis riset perilaku pengguna, design system Figma modular, dan wireframe interaktif sebelum coding.
+            </p>
+          </div>
+          <div class="service-tags">
+            <span class="service-tag">Figma</span>
+            <span class="service-tag">Design System</span>
+            <span class="service-tag">Wireframing</span>
+            <span class="service-tag">User Testing</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Project Cost & Scope Estimator -->
+  <section id="kalkulator">
+    <div class="container">
+      <div class="section-header">
+        <span class="badge-pill">Fitur Interaktif</span>
+        <h2 class="section-title">Kalkulator Estimasi <span class="g-text">Biaya &amp; Waktu</span></h2>
+        <p class="section-subtitle">
+          Pilih kriteria proyek Anda untuk mendapatkan kalkulasi estimasi anggaran dan durasi pengerjaan secara transparan dan instan.
+        </p>
+      </div>
+
+      <div class="calculator-box">
+        <div class="calc-main">
+          <!-- Step 1: Platform -->
+          <div class="calc-step">
+            <div class="calc-label">
+              <span>1. Pilih Platform Target:</span>
+            </div>
+            <div class="calc-options-grid" id="platform-options">
+              <button class="calc-btn selected" data-type="platform" data-cost="5000000" data-time="3" data-name="Web Application">🌐 Web App</button>
+              <button class="calc-btn" data-type="platform" data-cost="7500000" data-time="4" data-name="Mobile App (Android/iOS)">📱 Mobile App</button>
+              <button class="calc-btn" data-type="platform" data-cost="6000000" data-time="3" data-name="Desktop Software">🖥️ Desktop App</button>
+              <button class="calc-btn" data-type="platform" data-cost="11000000" data-time="6" data-name="Full Ecosystem (Web + Mobile)">🚀 Web + Mobile</button>
+            </div>
+          </div>
+
+          <!-- Step 2: Complexity -->
+          <div class="calc-step">
+            <div class="calc-label">
+              <span>2. Tingkat Skala &amp; Desain:</span>
+            </div>
+            <div class="calc-options-grid" id="scale-options">
+              <button class="calc-btn selected" data-type="scale" data-cost="2000000" data-time="1" data-name="MVP / Startup Launch">MVP Cepat</button>
+              <button class="calc-btn" data-type="scale" data-cost="5000000" data-time="2" data-name="Custom Business Solution">Bisnis Custom</button>
+              <button class="calc-btn" data-type="scale" data-cost="9000000" data-time="4" data-name="Enterprise Grade">Enterprise Scale</button>
+            </div>
+          </div>
+
+          <!-- Step 3: Add-on Features -->
+          <div class="calc-step">
+            <div class="calc-label">
+              <span>3. Modul &amp; Fitur Tambahan (Bisa pilih lebih dari satu):</span>
+            </div>
+            <div class="calc-checkboxes" id="features-options">
+              <label class="calc-check-label">
+                <input type="checkbox" data-cost="1500000" data-time="1" data-name="Payment Gateway (OVO/VA/QRIS)" checked>
+                <span>💳 Payment Gateway</span>
+              </label>
+              <label class="calc-check-label">
+                <input type="checkbox" data-cost="1200000" data-time="0.5" data-name="Multi-Role Authentication" checked>
+                <span>🔐 Multi-Role User</span>
+              </label>
+              <label class="calc-check-label">
+                <input type="checkbox" data-cost="2000000" data-time="1" data-name="Realtime Chat &amp; Notification">
+                <span>💬 Realtime Chat &amp; Push</span>
+              </label>
+              <label class="calc-check-label">
+                <input type="checkbox" data-cost="2500000" data-time="1" data-name="AI Chatbot / Assistant">
+                <span>🤖 Integrasi AI LLM</span>
+              </label>
+              <label class="calc-check-label">
+                <input type="checkbox" data-cost="1800000" data-time="1" data-name="Export PDF / Excel Reports">
+                <span>📊 Analytics &amp; Reports</span>
+              </label>
+              <label class="calc-check-label">
+                <input type="checkbox" data-cost="1500000" data-time="0.5" data-name="WhatsApp Auto Notification">
+                <span>📲 WhatsApp Gateway</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Calculator Result Sidebar -->
+        <div class="calc-summary">
+          <div>
+            <div class="summary-title">Ringkasan Estimasi</div>
+            
+            <div class="summary-row">
+              <span>Platform:</span>
+              <span class="val" id="sum-platform">Web Application</span>
+            </div>
+            <div class="summary-row">
+              <span>Skala Desain:</span>
+              <span class="val" id="sum-scale">MVP Cepat</span>
+            </div>
+            <div class="summary-row">
+              <span>Jumlah Modul:</span>
+              <span class="val" id="sum-modules">2 Fitur</span>
+            </div>
+            <div class="summary-row">
+              <span>Garansi Perawatan:</span>
+              <span class="val" style="color:var(--success)">Gratis 60 Hari</span>
+            </div>
+            <div class="summary-row">
+              <span>Hak Cipta Kode:</span>
+              <span class="val" style="color:var(--secondary)">100% Milik Anda</span>
+            </div>
+          </div>
+
+          <div class="estimate-total">
+            <div style="font-size:0.85rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.05em">Estimasi Investasi:</div>
+            <div class="estimate-price" id="calc-price-display">Rp 9.700.000</div>
+            <div class="estimate-time" id="calc-time-display">⏱️ Estimasi Waktu: 4 - 5 Minggu</div>
+            <button class="btn btn-primary" style="width:100%" id="calc-wa-btn">
+              <span>💬 Ajukan Scope Ini ke WA</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Demos / Portfolio Showcase -->
+  <section id="portfolio">
+    <div class="container">
+      <div class="section-header">
+        <span class="badge-pill">Showcase Produk</span>
+        <h2 class="section-title">Portofolio &amp; <span class="g-text">Demo Interaktif</span></h2>
+        <p class="section-subtitle">
+          Eksplorasi prototipe dan produk digital yang telah dirancang untuk performa, skalabilitas, dan kenyamanan pengguna tinggi.
+        </p>
+      </div>
+
+      <!-- Filter Buttons -->
+      <div class="filter-tabs">
+        <button class="tab-pill active" data-filter="all">Semua Kategori</button>
+        <button class="tab-pill" data-filter="web">Web Application</button>
+        <button class="tab-pill" data-filter="mobile">Aplikasi Mobile</button>
+        <button class="tab-pill" data-filter="desktop">Desktop &amp; Enterprise</button>
+      </div>
+
+      <!-- Projects Grid -->
+      <div class="demos-grid" id="demos-container">
+        <!-- Project 1 -->
+        <div class="demo-card" data-category="web" data-index="0">
+          <div class="demo-preview" style="background: linear-gradient(135deg, #1e1b4b, #312e81);">
+            <div class="demo-badge-category">Web SaaS</div>
+            <div class="demo-icon-huge">📊</div>
+          </div>
+          <div class="demo-info">
+            <h3 class="demo-title">Analytics &amp; KPI Executive Dashboard</h3>
+            <p class="demo-desc">Dashboard analitik real-time dengan grafik interaktif multi-tenant, agregasi data transaksi kilat, dan ekspor laporan PDF otomatis.</p>
+            <div class="demo-footer">
+              <span>Lihat Detail Fitur</span>
+              <span>➔</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="demo-card" data-category="web" data-index="1">
+          <div class="demo-preview" style="background: linear-gradient(135deg, #4c0519, #881337);">
+            <div class="demo-badge-category">E-Commerce Web</div>
+            <div class="demo-icon-huge">🛒</div>
+          </div>
+          <div class="demo-info">
+            <h3 class="demo-title">Next-Gen E-Commerce &amp; Inventory</h3>
+            <p class="demo-desc">Toko online responsif dengan payment gateway terintegrasi, manajemen stok multi-gudang, dan sinkronisasi pesanan ke kurir.</p>
+            <div class="demo-footer">
+              <span>Lihat Detail Fitur</span>
+              <span>➔</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="demo-card" data-category="mobile" data-index="2">
+          <div class="demo-preview" style="background: linear-gradient(135deg, #022c22, #065f46);">
+            <div class="demo-badge-category">Mobile Flutter</div>
+            <div class="demo-icon-huge">🚚</div>
+          </div>
+          <div class="demo-info">
+            <h3 class="demo-title">Live Courier &amp; Logistics Tracking</h3>
+            <p class="demo-desc">Aplikasi pelacakan ekspedisi real-time di peta interaktif, tanda tangan digital penerima barang, dan notifikasi status instan.</p>
+            <div class="demo-footer">
+              <span>Lihat Detail Fitur</span>
+              <span>➔</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 4 -->
+        <div class="demo-card" data-category="mobile" data-index="3">
+          <div class="demo-preview" style="background: linear-gradient(135deg, #3b0764, #581c87);">
+            <div class="demo-badge-category">Mobile LMS</div>
+            <div class="demo-icon-huge">🎓</div>
+          </div>
+          <div class="demo-info">
+            <h3 class="demo-title">EduTech Interactive Learning App</h3>
+            <p class="demo-desc">Platform kursus online dengan streaming video adaptif, kuis gamifikasi, sertifikat digital otomatis, dan forum diskusi.</p>
+            <div class="demo-footer">
+              <span>Lihat Detail Fitur</span>
+              <span>➔</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 5 -->
+        <div class="demo-card" data-category="desktop" data-index="4">
+          <div class="demo-preview" style="background: linear-gradient(135deg, #451a03, #78350f);">
+            <div class="demo-badge-category">Desktop POS</div>
+            <div class="demo-icon-huge">🧾</div>
+          </div>
+          <div class="demo-info">
+            <h3 class="demo-title">Fast POS Kasir &amp; Multi-Outlet</h3>
+            <p class="demo-desc">Software kasir desktop dengan dukungan mode offline, cetak struk thermal via bluetooth/USB, barcode scanner, dan rekap shift kasir.</p>
+            <div class="demo-footer">
+              <span>Lihat Detail Fitur</span>
+              <span>➔</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 6 -->
+        <div class="demo-card" data-category="desktop" data-index="5">
+          <div class="demo-preview" style="background: linear-gradient(135deg, #082f49, #0c4a6e);">
+            <div class="demo-badge-category">Enterprise ERP</div>
+            <div class="demo-icon-huge">📦</div>
+          </div>
+          <div class="demo-info">
+            <h3 class="demo-title">Smart Warehouse &amp; Supply Chain</h3>
+            <p class="demo-desc">Sistem kendali inventori gudang otomatis, pelacakan barcode batch barang, mutasi stok antar cabang, dan kartu stok digital.</p>
+            <div class="demo-footer">
+              <span>Lihat Detail Fitur</span>
+              <span>➔</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process & Methodology -->
+  <section id="proses">
+    <div class="container">
+      <div class="section-header">
+        <span class="badge-pill">Alur Kerja Profesional</span>
+        <h2 class="section-title">Bagaimana Kami <span class="g-text">Mengeksekusi Proyek</span></h2>
+        <p class="section-subtitle">
+          Metodologi Agile yang terstruktur, transparan, dan terukur memastikan setiap milestone selesai tepat waktu dengan kualitas kode tertinggi.
+        </p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">01</div>
+          <h3 class="step-title">Discovery &amp; Blueprint</h3>
+          <p class="step-desc">Kami membedah proses bisnis Anda, menyusun diagram arsitektur sistem, database schema, dan spesifikasi fungsional yang solid.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">02</div>
+          <h3 class="step-title">UI/UX &amp; Prototype</h3>
+          <p class="step-desc">Pembuatan wireframe dan mockup Figma interaktif dengan design system modern untuk divalidasi sebelum mulai baris kode.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">03</div>
+          <h3 class="step-title">Agile Sprints &amp; Demo</h3>
+          <p class="step-desc">Pengembangan bertahap dalam sprint mingguan. Anda mendapatkan link demo live untuk memantau progres secara transparan.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">04</div>
+          <h3 class="step-title">QA, Deploy &amp; Warranty</h3>
+          <p class="step-desc">Uji performa, audit keamanan, deployment ke server cloud, pelatihan admin, serta garansi bug-free dan technical support gratis.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Proof & Testimonials -->
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <span class="badge-pill">Kepuasan Klien</span>
+        <h2 class="section-title">Apa Kata Mereka Tentang <span class="g-text">Genius Media</span></h2>
+        <p class="section-subtitle">
+          Testimoni nyata dari para founder dan pimpinan perusahaan yang telah mempercayakan platform digitalnya kepada kami.
+        </p>
+      </div>
+
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div>
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">
+              "Genius Media Channel berhasil membangun web app logistik kami dari nol hingga rilis dalam 6 minggu. Kecepatan loadingnya luar biasa dan tim kami sangat terbantu dengan dashboard adminnya!"
+            </p>
+          </div>
+          <div class="testi-author">
+            <div class="author-avatar">RH</div>
+            <div>
+              <div class="author-name">Rian Hidayat</div>
+              <div class="author-role">Founder &amp; COO, Logistik Express</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div>
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">
+              "Aplikasi mobile kami lancar tanpa crash sama sekali di Android maupun iOS. Komunikasi tim Genius Media sangat profesional dan selalu memberikan solusi teknis yang efisien."
+            </p>
+          </div>
+          <div class="testi-author">
+            <div class="author-avatar">DS</div>
+            <div>
+              <div class="author-name">Dewi Sartika</div>
+              <div class="author-role">Product Lead, EduNusantara</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div>
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-text">
+              "Software kasir dan inventori gudang yang dibuat bekerja sangat mulus meskipun koneksi internet toko kadang offline. Source code diserahkan rapi lengkap dengan dokumentasi."
+            </p>
+          </div>
+          <div class="testi-author">
+            <div class="author-avatar">BW</div>
+            <div>
+              <div class="author-name">Budi Wicaksono</div>
+              <div class="author-role">Owner, Retail Network Group</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faq">
+    <div class="container">
+      <div class="section-header">
+        <span class="badge-pill">FAQ</span>
+        <h2 class="section-title">Pertanyaan yang <span class="g-text">Sering Diajukan</span></h2>
+        <p class="section-subtitle">
+          Semua hal yang perlu Anda ketahui sebelum memulai kerja sama pembuatan aplikasi bersama Genius Media Channel.
+        </p>
+      </div>
+
+      <div class="faq-container">
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Apakah source code aplikasi sepenuhnya menjadi milik klien?</span>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-answer">
+            Ya, 100%! Setelah pelunasan proyek, seluruh hak cipta dan repository source code (GitHub/GitLab) beserta aset desain diserahkan penuh kepada Anda tanpa adanya vendor lock-in.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Berapa lama rata-rata durasi pengerjaan aplikasi?</span>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-answer">
+            Tergantung kompleksitas fitur. Untuk MVP atau sistem berukuran sedang rata-rata memakan waktu 3 sampai 6 minggu, sedangkan sistem enterprise berskala besar berkisar antara 2 sampai 4 bulan dengan sprint mingguan.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Apakah ada garansi setelah aplikasi resmi diluncurkan?</span>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-answer">
+            Tentu. Kami memberikan garansi bug-free dan perbaikan teknis gratis selama 30 hingga 90 hari setelah go-live untuk memastikan operasional bisnis Anda berjalan tanpa kendala.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Bagaimana sistem pembayaran untuk proyek custom?</span>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-answer">
+            Pembayaran dibagi menjadi termin bertahap berbasis milestone (misal: DP awal 30%, termin progres 40% setelah lolos demo fitur utama, dan pelunasan 30% setelah deployment final).
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Apakah Genius Media dapat membantu pengurusan server cloud dan domain?</span>
+            <span class="faq-icon">▼</span>
+          </div>
+          <div class="faq-answer">
+            Ya, kami mendampingi setup infrastruktur server (AWS, GCP, DigitalOcean, Vercel), konfigurasi SSL HTTPS, domain perusahaan, serta akun developer Google Play Store &amp; Apple App Store.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact & Lead Form Section -->
+  <section id="kontak">
+    <div class="container">
+      <div class="contact-wrapper">
+        <div class="contact-info">
+          <span class="badge-pill">Hubungi Kami</span>
+          <h3>Mari Wujudkan Ide <span class="g-text">Aplikasi Anda</span></h3>
+          <p>
+            Konsultasikan kebutuhan software bisnis Anda bersama tim engineer kami secara gratis. Kami siap memberikan masukan arsitektur terbaik dan estimasi biaya yang transparan.
+          </p>
+
+          <div class="contact-points">
+            <div class="point-item">
+              <div class="point-icon">📍</div>
+              <span>Indonesia • Melayani Klien Seluruh Nusantara &amp; Luar Negeri</span>
+            </div>
+            <div class="point-item">
+              <div class="point-icon">⚡</div>
+              <span>Fast Response via WhatsApp &amp; Virtual Meeting (Google Meet / Zoom)</span>
+            </div>
+            <div class="point-item">
+              <div class="point-icon">🛡️</div>
+              <span>Non-Disclosure Agreement (NDA) tersedia untuk melindungi kerahasiaan ide Anda</span>
+            </div>
+          </div>
+        </div>
+
+        <form class="contact-form" id="main-contact-form">
+          <div class="form-group">
+            <label for="c-name">Nama Lengkap / Perusahaan *</label>
+            <input type="text" id="c-name" class="form-input" placeholder="Misal: Budi Santoso (PT Maju Digital)" required>
+          </div>
+
+          <div class="form-group">
+            <label for="c-type">Jenis Proyek Aplikasi *</label>
+            <select id="c-type" class="form-select">
+              <option value="Web Application & SaaS">Web Application &amp; SaaS Platform</option>
+              <option value="Aplikasi Mobile (Android / iOS)">Aplikasi Mobile (Android / iOS)</option>
+              <option value="Software Desktop / POS / ERP">Software Desktop / POS / ERP</option>
+              <option value="Full Ecosystem (Web + Mobile App)">Full Ecosystem (Web + Mobile App)</option>
+              <option value="Integrasi AI & Solusi Otomasi">Integrasi AI &amp; Solusi Otomasi</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="c-budget">Estimasi Anggaran Proyek</label>
+            <select id="c-budget" class="form-select">
+              <option value="Di bawah 10 Juta">Di bawah Rp 10 Juta (MVP Cepat)</option>
+              <option value="10 - 25 Juta" selected>Rp 10 - 25 Juta (Bisnis Menengah)</option>
+              <option value="25 - 60 Juta">Rp 25 - 60 Juta (Fitur Kompleks)</option>
+              <option value="Di atas 60 Juta">Di atas Rp 60 Juta (Enterprise Scale)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="c-msg">Jelaskan Kebutuhan / Ide Bisnis Anda *</label>
+            <textarea id="c-msg" class="form-textarea" rows="4" placeholder="Ceritakan fitur utama yang ingin dibangun, target pengguna, atau deadline pengerjaan..." required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width:100%">
+            <span>🚀 Kirim &amp; Teruskan ke WhatsApp</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <div>
+          <a href="#" class="brand">
+            <div class="brand-logo">G</div>
+            <span><span class="g-text" id="ft-b1">Genius</span> <span id="ft-b2">Media Channel</span></span>
+          </a>
+          <p class="footer-desc">
+            Studio rekayasa software terdepan di Indonesia. Spesialis pengembangan Web Application canggih, Aplikasi Mobile, dan Solusi Digital yang terukur.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Layanan</h4>
+          <ul class="footer-links">
+            <li><a href="#layanan">Web Application</a></li>
+            <li><a href="#layanan">Mobile App Development</a></li>
+            <li><a href="#layanan">Desktop &amp; POS System</a></li>
+            <li><a href="#layanan">AI &amp; Automation</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigasi</h4>
+          <ul class="footer-links">
+            <li><a href="#kalkulator">Kalkulator Estimasi</a></li>
+            <li><a href="#portfolio">Portofolio Demo</a></li>
+            <li><a href="#proses">Metodologi Kerja</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Hubungi Kami</h4>
+          <ul class="footer-links">
+            <li><a href="#kontak" id="ft-wa-text">WhatsApp: +62 8xx-xxxx-xxxx</a></li>
+            <li><a href="#kontak">Konsultasi Desain &amp; Code</a></li>
+            <li><a href="#admin-drawer" class="admin-link" id="admin-trigger">⚙️ Pengaturan Halaman</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 Genius Media Channel. All rights reserved. Crafted with high-performance code.</div>
+        <div>
+          <a href="#admin-drawer" class="admin-link" id="admin-trigger-bottom">Mode Editor / Admin</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Quick WhatsApp Button -->
+  <a href="https://wa.me/6280000000000?text=Halo%20Genius%20Media%20Channel%2C%20saya%20ingin%20konsultasi%20pembuatan%20aplikasi" class="floating-wa" id="floating-wa-btn" target="_blank" rel="noopener" title="Konsultasi Cepat via WhatsApp">
+    💬
+  </a>
+
+  <!-- Project Detail Modal -->
+  <div class="modal-overlay" id="demo-modal">
+    <div class="modal-box">
+      <button class="modal-close" id="modal-close-btn">✕</button>
+      <div id="modal-icon" style="font-size:3.5rem; margin-bottom:12px">📊</div>
+      <div class="badge-pill" id="modal-category" style="margin-bottom:12px">Web SaaS</div>
+      <h3 id="modal-title" style="font-size:1.6rem; margin-bottom:12px">Judul Project</h3>
+      <p id="modal-desc" style="color:var(--text-muted); line-height:1.7; margin-bottom:24px">Deskripsi project detail.</p>
+      
+      <div style="margin-bottom:24px; padding:16px; background:rgba(0,0,0,0.3); border-radius:12px; border:1px solid var(--border)">
+        <div style="font-size:0.85rem; color:var(--text-dim); margin-bottom:8px; font-weight:600">Teknologi &amp; Spesifikasi:</div>
+        <div id="modal-tech-pills" style="display:flex; flex-wrap:wrap; gap:8px">
+          <span class="service-tag">Next.js 15</span>
+          <span class="service-tag">PostgreSQL</span>
+          <span class="service-tag">Tailwind</span>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:12px; justify-content:flex-end">
+        <button class="btn btn-secondary btn-sm" id="modal-dismiss-btn">Tutup</button>
+        <a href="#kontak" class="btn btn-primary btn-sm" id="modal-cta-btn">Bangun Solusi Serupa</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Portable Admin / Customizer Drawer -->
+  <div id="admin-drawer">
+    <div class="admin-header">
+      <h3 style="font-size:1.2rem">⚙️ Live Customizer &amp; Editor</h3>
+      <button id="admin-close" style="background:none; border:none; color:var(--text); font-size:1.4rem; cursor:pointer">✕</button>
+    </div>
+    
+    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:18px">
+      Ubah informasi teks dan nomor WhatsApp secara langsung. Perubahan akan tersimpan di browser Anda secara otomatis.
+    </p>
+
+    <div class="admin-field">
+      <label>Nama Brand (Kata 1)</label>
+      <input type="text" id="adm-b1" value="Genius">
+    </div>
+
+    <div class="admin-field">
+      <label>Nama Brand (Kata 2)</label>
+      <input type="text" id="adm-b2" value="Media Channel">
+    </div>
+
+    <div class="admin-field">
+      <label>Nomor WhatsApp (Contoh: 6281234567890 tanpa tanda +)</label>
+      <input type="text" id="adm-wa" value="6280000000000">
+    </div>
+
+    <div class="admin-field">
+      <label>Deskripsi Hero</label>
+      <textarea id="adm-sub" rows="3">Genius Media Channel mentransformasi ide bisnis Anda menjadi Web Application performa tinggi, Mobile App native, dan Ekosistem Software enterprise dengan arsitektur masa depan.</textarea>
+    </div>
+
+    <div class="admin-field">
+      <label>Daftar Kata Typing Effect (Satu baris per teks)</label>
+      <textarea id="adm-words" rows="4">Web App Modern
+Aplikasi Mobile Skalabel
+Software Desktop Kasir & ERP
+Solusi AI & Automasi Bisnis</textarea>
+    </div>
+
+    <div class="admin-actions">
+      <button class="btn btn-primary btn-sm" id="adm-save-btn" style="flex:1">💾 Simpan Perubahan</button>
+      <button class="btn btn-secondary btn-sm" id="adm-reset-btn">Reset Default</button>
+    </div>
+  </div>
+
+  <div id="toast-msg">Pengaturan berhasil diperbarui! ✨</div>
+
+  <!-- Interactive Logic Script -->
+  <script>
+    // Configuration Data (stored in localStorage if edited)
+    const DEFAULT_CONFIG = {
+      b1: "Genius",
+      b2: "Media Channel",
+      wa: "6280000000000",
+      sub: "Genius Media Channel mentransformasi ide bisnis Anda menjadi Web Application performa tinggi, Mobile App native, dan Ekosistem Software enterprise dengan arsitektur masa depan.",
+      words: [
+        "Web App Modern",
+        "Aplikasi Mobile Skalabel",
+        "Software Desktop Kasir & ERP",
+        "Solusi AI & Automasi Bisnis"
+      ]
+    };
+
+    let config = { ...DEFAULT_CONFIG };
+    try {
+      const saved = localStorage.getItem('genius_media_config');
+      if (saved) config = { ...DEFAULT_CONFIG, ...JSON.parse(saved) };
+    } catch (e) {}
+
+    // Apply Brand & Config to DOM
+    function applyConfig() {
+      document.getElementById('brand-p1').textContent = config.b1;
+      document.getElementById('brand-p2').textContent = config.b2;
+      document.getElementById('ft-b1').textContent = config.b1;
+      document.getElementById('ft-b2').textContent = config.b2;
+      document.getElementById('hero-sub').textContent = config.sub;
+      
+      const waLink = `https://wa.me/${config.wa}?text=Halo%20${encodeURIComponent(config.b1 + ' ' + config.b2)}%2C%20saya%20ingin%20konsultasi%20pembuatan%20aplikasi`;
+      document.getElementById('floating-wa-btn').href = waLink;
+      document.getElementById('ft-wa-text').textContent = `WhatsApp: +${config.wa}`;
+      document.getElementById('ft-wa-text').href = waLink;
+
+      // Update admin form inputs
+      document.getElementById('adm-b1').value = config.b1;
+      document.getElementById('adm-b2').value = config.b2;
+      document.getElementById('adm-wa').value = config.wa;
+      document.getElementById('adm-sub').value = config.sub;
+      document.getElementById('adm-words').value = config.words.join('\n');
+    }
+    applyConfig();
+
+    // Toast helper
+    function showToast(msg) {
+      const toast = document.getElementById('toast-msg');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3200);
+    }
+
+    // Theme Switcher (Dark / Light)
+    const themeBtn = document.getElementById('theme-btn');
+    let currentTheme = localStorage.getItem('genius_theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    themeBtn.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+
+    themeBtn.addEventListener('click', () => {
+      currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', currentTheme);
+      themeBtn.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+      localStorage.setItem('genius_theme', currentTheme);
+    });
+
+    // Mobile Navigation Drawer
+    const mobileToggle = document.getElementById('mobile-toggle');
+    const mobileDrawer = document.getElementById('mobile-drawer');
+    const mobileClose = document.getElementById('mobile-close');
+    const mobLinks = document.querySelectorAll('.mob-link');
+
+    mobileToggle.addEventListener('click', () => mobileDrawer.classList.add('open'));
+    mobileClose.addEventListener('click', () => mobileDrawer.classList.remove('open'));
+    mobLinks.forEach(link => link.addEventListener('click', () => mobileDrawer.classList.remove('open')));
+
+    // Typing Animation
+    let wordIdx = 0, charIdx = 0, isDeleting = false;
+    const typedEl = document.getElementById('typed');
+
+    function typeLoop() {
+      const words = config.words && config.words.length ? config.words : DEFAULT_CONFIG.words;
+      const currentWord = words[wordIdx % words.length];
+      
+      if (isDeleting) {
+        charIdx--;
+      } else {
+        charIdx++;
+      }
+
+      typedEl.textContent = currentWord.slice(0, charIdx);
+
+      let delay = isDeleting ? 45 : 90;
+      if (!isDeleting && charIdx === currentWord.length) {
+        delay = 1800; // pause at end
+        isDeleting = true;
+      } else if (isDeleting && charIdx === 0) {
+        isDeleting = false;
+        wordIdx++;
+        delay = 400; // pause before typing next
+      }
+
+      setTimeout(typeLoop, delay);
+    }
+    typeLoop();
+
+    // Interactive Terminal Tabs Simulation
+    const termTabs = document.querySelectorAll('.t-tab');
+    const termContent = document.getElementById('term-content');
+
+    const TAB_SNIPPETS = {
+      code: `<div class="code-line"><span class="c-cm">// Genius Media: Next-Gen Web Application</span></div>
+<div class="code-line"><span class="c-kw">import</span> { <span class="c-fn">createArchitecture</span> } <span class="c-kw">from</span> <span class="c-str">'@genius-media/core'</span>;</div>
+<div class="code-line"><span class="c-kw">import</span> { <span class="c-fn">NextApp</span>, <span class="c-fn">Postgres</span>, <span class="c-fn">FastAPI</span> } <span class="c-kw">from</span> <span class="c-str">'@tech/stack'</span>;</div>
+<br>
+<div class="code-line"><span class="c-kw">export const</span> <span class="c-var">DigitalSolution</span> = <span class="c-fn">createArchitecture</span>({</div>
+<div class="code-line">&nbsp;&nbsp;client: <span class="c-str">'Your Business Vision'</span>,</div>
+<div class="code-line">&nbsp;&nbsp;performance: <span class="c-str">'99.9% Uptime &amp; Ultra-Fast Loading'</span>,</div>
+<div class="code-line">&nbsp;&nbsp;modules: [<span class="c-str">'SaaS Dashboard'</span>, <span class="c-str">'Payment Gateway'</span>, <span class="c-str">'AI Automation'</span>],</div>
+<div class="code-line">&nbsp;&nbsp;security: <span class="c-str">'OWASP Standard &amp; Enterprise Shield'</span>,</div>
+<div class="code-line">&nbsp;&nbsp;delivery: <span class="c-str">'On-Time Guaranteed'</span></div>
+<div class="code-line">});</div>
+<br>
+<div class="code-line"><span class="c-cm">/* ✨ Ready to scale with 100k+ concurrent users */</span></div>
+<div class="code-line"><span class="c-fn">DigitalSolution</span>.<span class="c-fn">launch</span>(); <span class="c-cm">// Status: 🟢 Production Ready</span></div>`,
+
+      deploy: `<div class="code-line"><span class="c-cm">// Cloud Deployment &amp; CI/CD Pipeline</span></div>
+<div class="code-line"><span class="c-kw">export default</span> {</div>
+<div class="code-line">&nbsp;&nbsp;region: <span class="c-str">'ap-southeast-1 (Jakarta / SG)'</span>,</div>
+<div class="code-line">&nbsp;&nbsp;autoScale: { minInstances: <span class="c-num">2</span>, maxInstances: <span class="c-num">50</span> },</div>
+<div class="code-line">&nbsp;&nbsp;ssl: <span class="c-kw">true</span>, <span class="c-cm">// Automatic TLS 1.3 Encryption</span></div>
+<div class="code-line">&nbsp;&nbsp;caching: <span class="c-str">'Edge CDN + Redis Cluster'</span>,</div>
+<div class="code-line">&nbsp;&nbsp;backups: <span class="c-str">'Daily Automated Snapshots'</span>,</div>
+<div class="code-line">&nbsp;&nbsp;healthCheck: <span class="c-str">'/api/health (200 OK)'</span></div>
+<div class="code-line">};</div>`,
+
+      terminal: `<div class="code-line"><span style="color:#10b981">➜</span> <span style="color:#60a5fa">genius-media-cli</span> deploy --prod</div>
+<div class="code-line"><span class="c-cm">✔ Optimizing web app bundles... [done in 1.4s]</span></div>
+<div class="code-line"><span class="c-cm">✔ Running database migrations &amp; indexes... [done]</span></div>
+<div class="code-line"><span class="c-cm">✔ Verifying security policies &amp; rate limiters... [passed]</span></div>
+<div class="code-line"><span style="color:#10b981">✔ Deployment successful:</span> https://app.geniusmedia.id</div>
+<div class="code-line"><span style="color:#fbbf24">⚡ Performance Score: 100/100 (Google Lighthouse)</span></div>
+<div class="code-line"><span class="c-cm">Listening for live connections... 🟢</span></div>`
+    };
+
+    termTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        termTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const key = tab.dataset.tab;
+        termContent.innerHTML = TAB_SNIPPETS[key] || '';
+      });
+    });
+
+    // Particle & Constellation Canvas
+    const canvas = document.getElementById('hero-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let mouse = { x: -999, y: -999 };
+
+    function initCanvas() {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+      const count = Math.min(80, Math.floor(canvas.width / 14));
+      particles = [];
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          vx: (Math.random() - 0.5) * 0.7,
+          vy: (Math.random() - 0.5) * 0.7,
+          radius: Math.random() * 2 + 1
+        });
+      }
+    }
+    initCanvas();
+    window.addEventListener('resize', initCanvas);
+
+    canvas.parentElement.addEventListener('mousemove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+    });
+    canvas.parentElement.addEventListener('mouseleave', () => {
+      mouse.x = -999;
+      mouse.y = -999;
+    });
+
+    function drawParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      const particleColor = isDark ? '#818cf8' : '#6366f1';
+      const lineColor = isDark ? 'rgba(99, 102, 241, ' : 'rgba(99, 102, 241, ';
+
+      particles.forEach((p, idx) => {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+        // Mouse repelling/magnetic effect
+        const dx = p.x - mouse.x;
+        const dy = p.y - mouse.y;
+        const dist = Math.hypot(dx, dy);
+        if (dist < 100) {
+          p.x += dx * 0.02;
+          p.y += dy * 0.02;
+        }
+
+        ctx.fillStyle = particleColor;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Connect nearby particles
+        for (let j = idx + 1; j < particles.length; j++) {
+          const q = particles[j];
+          const d = Math.hypot(p.x - q.x, p.y - q.y);
+          if (d < 115) {
+            ctx.strokeStyle = lineColor + (1 - d / 115) * 0.25 + ')';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(q.x, q.y);
+            ctx.stroke();
+          }
+        }
+      });
+
+      requestAnimationFrame(drawParticles);
+    }
+    drawParticles();
+
+    // Stats Counter Animation (Triggered on Scroll)
+    const statCards = document.querySelectorAll('.stat-number');
+    let statsAnimated = false;
+
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !statsAnimated) {
+          statsAnimated = true;
+          statCards.forEach(card => {
+            const target = parseInt(card.dataset.count);
+            let current = 0;
+            const step = Math.max(1, Math.ceil(target / 40));
+            const timer = setInterval(() => {
+              current += step;
+              if (current >= target) {
+                current = target;
+                clearInterval(timer);
+              }
+              if (card.dataset.count === "50") card.textContent = current + "+";
+              else if (card.dataset.count === "99") card.textContent = current + "%";
+              else if (card.dataset.count === "3") card.textContent = current + "x";
+              else if (card.dataset.count === "24") card.textContent = current + "/7";
+            }, 35);
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+
+    if (statCards.length) statsObserver.observe(statCards[0].parentElement);
+
+    // Interactive Project Cost & Time Calculator Logic
+    let calcPlatform = { name: "Web Application", cost: 5000000, time: 3 };
+    let calcScale = { name: "MVP Cepat", cost: 2000000, time: 1 };
+    let calcFeatures = [
+      { name: "Payment Gateway", cost: 1500000, time: 1 },
+      { name: "Multi-Role User", cost: 1200000, time: 0.5 }
+    ];
+
+    function updateCalculator() {
+      // Platform Buttons
+      const pBtns = document.querySelectorAll('#platform-options .calc-btn');
+      pBtns.forEach(b => {
+        b.classList.toggle('selected', b.dataset.name === calcPlatform.name);
+      });
+
+      // Scale Buttons
+      const sBtns = document.querySelectorAll('#scale-options .calc-btn');
+      sBtns.forEach(b => {
+        b.classList.toggle('selected', b.dataset.name === calcScale.name);
+      });
+
+      // Recalculate Totals
+      const featuresCost = calcFeatures.reduce((acc, f) => acc + f.cost, 0);
+      const featuresTime = calcFeatures.reduce((acc, f) => acc + f.time, 0);
+
+      const totalCost = calcPlatform.cost + calcScale.cost + featuresCost;
+      const totalTimeMin = Math.max(2, Math.round(calcPlatform.time + calcScale.time + featuresTime * 0.7));
+      const totalTimeMax = totalTimeMin + 2;
+
+      // Update Summary UI
+      document.getElementById('sum-platform').textContent = calcPlatform.name;
+      document.getElementById('sum-scale').textContent = calcScale.name;
+      document.getElementById('sum-modules').textContent = `${calcFeatures.length} Fitur Terpilih`;
+
+      // Format Indonesian Rupiah
+      const formattedPrice = "Rp " + totalCost.toLocaleString('id-ID');
+      document.getElementById('calc-price-display').textContent = formattedPrice;
+      document.getElementById('calc-time-display').textContent = `⏱️ Estimasi Waktu: ${totalTimeMin} - ${totalTimeMax} Minggu`;
+
+      // Update WhatsApp action button
+      const selectedFeatureNames = calcFeatures.map(f => f.name).join(', ') || 'Standar';
+      const waMsg = `Halo ${config.b1} ${config.b2}, saya ingin konsultasi kalkulasi proyek:\n` +
+                    `- Platform: ${calcPlatform.name}\n` +
+                    `- Skala: ${calcScale.name}\n` +
+                    `- Fitur: ${selectedFeatureNames}\n` +
+                    `- Estimasi Biaya: ${formattedPrice} (~${totalTimeMin}-${totalTimeMax} minggu).\n` +
+                    `Mohon informasikan jadwal diskusi/meeting. Terima kasih!`;
+
+      document.getElementById('calc-wa-btn').onclick = () => {
+        window.open(`https://wa.me/${config.wa}?text=${encodeURIComponent(waMsg)}`, '_blank');
+      };
+    }
+
+    // Platform click listeners
+    document.querySelectorAll('#platform-options .calc-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        calcPlatform = {
+          name: btn.dataset.name,
+          cost: parseInt(btn.dataset.cost),
+          time: parseFloat(btn.dataset.time)
+        };
+        updateCalculator();
+      });
+    });
+
+    // Scale click listeners
+    document.querySelectorAll('#scale-options .calc-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        calcScale = {
+          name: btn.dataset.name,
+          cost: parseInt(btn.dataset.cost),
+          time: parseFloat(btn.dataset.time)
+        };
+        updateCalculator();
+      });
+    });
+
+    // Checkboxes change listeners
+    document.querySelectorAll('#features-options input').forEach(chk => {
+      chk.addEventListener('change', () => {
+        chk.parentElement.classList.toggle('selected', chk.checked);
+        calcFeatures = [];
+        document.querySelectorAll('#features-options input:checked').forEach(c => {
+          calcFeatures.push({
+            name: c.dataset.name,
+            cost: parseInt(c.dataset.cost),
+            time: parseFloat(c.dataset.time)
+          });
+        });
+        updateCalculator();
+      });
+    });
+    // Initial checkbox style sync
+    document.querySelectorAll('#features-options input:checked').forEach(c => c.parentElement.classList.add('selected'));
+    updateCalculator();
+
+    // Demos Filter Tab Handling
+    const filterTabs = document.querySelectorAll('.tab-pill');
+    const demoCards = document.querySelectorAll('.demo-card');
+
+    filterTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        filterTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const filter = tab.dataset.filter;
+
+        demoCards.forEach(card => {
+          if (filter === 'all' || card.dataset.category === filter) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+      });
+    });
+
+    // Project Details Modal Data
+    const DEMO_DETAILS = [
+      {
+        icon: "📊",
+        category: "Web Application & SaaS",
+        title: "Analytics & KPI Executive Dashboard",
+        desc: "Arsitektur dashboard real-time yang memproses ribuan data transaksi per detik. Dilengkapi sistem RBAC (Role-Based Access Control), kustomisasi widget grafik, ekspor format XLSX/PDF otomatis, serta webhook integrasi ke Slack dan Telegram.",
+        tech: ["Next.js 15", "TypeScript", "Tailwind CSS", "PostgreSQL", "Recharts", "Prisma ORM"]
+      },
+      {
+        icon: "🛒",
+        category: "E-Commerce Web App",
+        title: "Next-Gen E-Commerce & Inventory System",
+        desc: "Solusi e-commerce bertenaga tinggi dengan checkout kilat satu halaman. Terintegrasi payment gateway otomatis (Virtual Account, QRIS, Kartu Kredit), kalkulasi ongkos kirim real-time (JNE, SiCepat, J&T), dan manajemen mutasi stok gudang.",
+        tech: ["React", "Node.js Express", "Midtrans / Xendit API", "RajaOngkir", "Redis Cache", "PostgreSQL"]
+      },
+      {
+        icon: "🚚",
+        category: "Mobile Application",
+        title: "Live Courier & Logistics Tracking App",
+        desc: "Aplikasi driver & user mobile untuk monitoring armada secara real-time di atas peta live. Dilengkapi fitur routing rute terpendek, tanda tangan digital bukti terima paket, serta push notification Firebase.",
+        tech: ["Flutter", "Dart", "Google Maps SDK", "Firebase Cloud Messaging", "WebSockets"]
+      },
+      {
+        icon: "🎓",
+        category: "Mobile Learning (LMS)",
+        title: "EduTech Interactive Learning App",
+        desc: "Platform edukasi digital masa depan dengan fitur video streaming berteknologi HLS (HTTP Live Streaming), pengerjaan kuis bertenggat waktu, leaderboard gamifikasi, dan unduh materi untuk akses offline.",
+        tech: ["Flutter / React Native", "Node.js", "AWS S3 / Cloudflare Stream", "SQLite Offline"]
+      },
+      {
+        icon: "🧾",
+        category: "Desktop & POS Application",
+        title: "Fast POS Kasir & Multi-Outlet System",
+        desc: "Software kasir desktop dengan performa super cepat tanpa lag. Bekerja sempurna secara offline dan otomatis melakukan sinkronisasi data ke cloud ketika internet terhubung. Terintegrasi printer thermal 58mm/80mm dan barcode scanner USB.",
+        tech: ["Electron", "Tauri", "React", "Local SQLite", "ESC/POS Thermal Driver"]
+      },
+      {
+        icon: "📦",
+        category: "Desktop & Enterprise ERP",
+        title: "Smart Warehouse & Supply Chain Management",
+        desc: "Sistem manajemen operasional gudang skala menengah-besar. Mengelola keluar masuk stok dengan serial number / barcode, peringatan stok menipis otomatis via WhatsApp, serta laporan audit berkala.",
+        tech: ["React Desktop", "Python FastAPI", "PostgreSQL", "Docker", "Tailwind"]
+      }
+    ];
+
+    const demoModal = document.getElementById('demo-modal');
+    const modalIcon = document.getElementById('modal-icon');
+    const modalCategory = document.getElementById('modal-category');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDesc = document.getElementById('modal-desc');
+    const modalTechPills = document.getElementById('modal-tech-pills');
+    const modalCloseBtn = document.getElementById('modal-close-btn');
+    const modalDismissBtn = document.getElementById('modal-dismiss-btn');
+
+    demoCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const idx = parseInt(card.dataset.index);
+        const data = DEMO_DETAILS[idx];
+        if (!data) return;
+
+        modalIcon.textContent = data.icon;
+        modalCategory.textContent = data.category;
+        modalTitle.textContent = data.title;
+        modalDesc.textContent = data.desc;
+
+        modalTechPills.innerHTML = data.tech.map(t => `<span class="service-tag">${t}</span>`).join('');
+        demoModal.classList.add('open');
+      });
+    });
+
+    const closeModal = () => demoModal.classList.remove('open');
+    modalCloseBtn.addEventListener('click', closeModal);
+    modalDismissBtn.addEventListener('click', closeModal);
+    demoModal.addEventListener('click', (e) => {
+      if (e.target === demoModal) closeModal();
+    });
+
+    // FAQ Accordion Toggle
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+      const q = item.querySelector('.faq-question');
+      q.addEventListener('click', () => {
+        const isActive = item.classList.contains('active');
+        faqItems.forEach(i => i.classList.remove('active'));
+        if (!isActive) item.classList.add('active');
+      });
+    });
+
+    // Contact Form Submission (Redirect to WhatsApp)
+    const mainForm = document.getElementById('main-contact-form');
+    mainForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('c-name').value;
+      const type = document.getElementById('c-type').value;
+      const budget = document.getElementById('c-budget').value;
+      const msg = document.getElementById('c-msg').value;
+
+      const waText = `Halo ${config.b1} ${config.b2},\n\n` +
+                     `Saya *${name}* tertarik bekerja sama untuk proyek aplikasi:\n` +
+                     `📌 *Tipe Proyek:* ${type}\n` +
+                     `💰 *Estimasi Budget:* ${budget}\n` +
+                     `📝 *Kebutuhan:* ${msg}\n\n` +
+                     `Mohon info ketersediaan jadwal meeting konsultasi. Terima kasih!`;
+
+      window.open(`https://wa.me/${config.wa}?text=${encodeURIComponent(waText)}`, '_blank');
+      showToast('Meneruskan pesan ke WhatsApp... 🚀');
+    });
+
+    // Admin / Live Customizer Drawer Logic
+    const adminDrawer = document.getElementById('admin-drawer');
+    const adminTrigger = document.getElementById('admin-trigger');
+    const adminTriggerBottom = document.getElementById('admin-trigger-bottom');
+    const adminClose = document.getElementById('admin-close');
+    const admSaveBtn = document.getElementById('adm-save-btn');
+    const admResetBtn = document.getElementById('adm-reset-btn');
+
+    const openAdmin = (e) => {
+      if (e) e.preventDefault();
+      adminDrawer.classList.add('open');
+    };
+    adminTrigger.addEventListener('click', openAdmin);
+    adminTriggerBottom.addEventListener('click', openAdmin);
+    adminClose.addEventListener('click', () => adminDrawer.classList.remove('open'));
+
+    // Check URL Hash for #admin
+    if (window.location.hash === '#admin') {
+      openAdmin();
+    }
+
+    admSaveBtn.addEventListener('click', () => {
+      config.b1 = document.getElementById('adm-b1').value.trim() || DEFAULT_CONFIG.b1;
+      config.b2 = document.getElementById('adm-b2').value.trim() || DEFAULT_CONFIG.b2;
+      config.wa = document.getElementById('adm-wa').value.trim() || DEFAULT_CONFIG.wa;
+      config.sub = document.getElementById('adm-sub').value.trim() || DEFAULT_CONFIG.sub;
+      config.words = document.getElementById('adm-words').value
+        .split('\n')
+        .map(w => w.trim())
+        .filter(Boolean);
+
+      try {
+        localStorage.setItem('genius_media_config', JSON.stringify(config));
+      } catch (err) {}
+
+      applyConfig();
+      updateCalculator();
+      adminDrawer.classList.remove('open');
+      showToast('Pengaturan berhasil disimpan! ✨');
+    });
+
+    admResetBtn.addEventListener('click', () => {
+      if (confirm('Kembalikan semua pengaturan ke awal (default)?')) {
+        config = { ...DEFAULT_CONFIG };
+        localStorage.removeItem('genius_media_config');
+        applyConfig();
+        updateCalculator();
+        adminDrawer.classList.remove('open');
+        showToast('Kembali ke pengaturan awal! 🔄');
+      }
+    });
+  </script>
+</body>
+</html>
