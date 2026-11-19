@@ -8,6 +8,7 @@
   <meta name="keywords" content="web app development, software house indonesia, aplikasi mobile, bikin website aplikasi, genius media channel, flutter, react, next.js">
   
   <!-- Favicon & Fonts -->
+  <link rel="icon" id="dynamic-favicon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='25' fill='%236366f1'/><text x='50%' y='55%' font-size='55' font-family='sans-serif' font-weight='900' fill='white' dominant-baseline='middle' text-anchor='middle'>G</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -1533,6 +1534,244 @@
       .custom-banner-grid { grid-template-columns: 1fr; padding: 28px; gap: 28px; }
     }
 
+    /* 5. Editorial Manifesto & Spotlight Teks */
+    .custom-editorial-wrap {
+      max-width: 880px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    .custom-quote-callout {
+      background: rgba(99, 102, 241, 0.08);
+      border-left: 4px solid var(--primary);
+      padding: 24px 28px;
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      font-size: 1.15rem;
+      font-style: italic;
+      color: #f1f5f9;
+      line-height: 1.7;
+      position: relative;
+    }
+    .custom-manifesto-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .custom-manifesto-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      transition: all 0.3s;
+    }
+    .custom-manifesto-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-glow);
+    }
+
+    /* 6. Pricing Tables */
+    .custom-pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+      align-items: stretch;
+    }
+    .custom-pricing-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 36px 28px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: all 0.3s;
+      backdrop-filter: blur(12px);
+    }
+    .custom-pricing-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--border-glow);
+      box-shadow: 0 20px 45px rgba(0,0,0,0.45);
+    }
+    .custom-pricing-card.popular {
+      border-color: var(--primary);
+      background: linear-gradient(180deg, rgba(99,102,241,0.15) 0%, rgba(15,20,39,0.92) 100%);
+      transform: scale(1.03);
+      z-index: 2;
+      box-shadow: 0 0 35px rgba(99,102,241,0.25);
+    }
+    .custom-pricing-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--gradient-main);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 4px 14px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .custom-pricing-amount {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #fff;
+      margin: 16px 0 8px;
+    }
+    .custom-pricing-period {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+    .custom-pricing-list {
+      list-style: none;
+      padding: 0;
+      margin: 24px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex-grow: 1;
+    }
+    .custom-pricing-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.92rem;
+      color: var(--text);
+    }
+    .custom-pricing-list li .check-icon {
+      color: var(--success);
+      font-weight: 900;
+    }
+
+    /* 7. Roadmap & Timeline Steps */
+    .custom-timeline-wrap {
+      max-width: 820px;
+      margin: 0 auto;
+      position: relative;
+      padding: 20px 0 20px 36px;
+    }
+    .custom-timeline-wrap::before {
+      content: '';
+      position: absolute;
+      left: 10px;
+      top: 30px;
+      bottom: 30px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--primary), var(--secondary), transparent);
+    }
+    .custom-timeline-item {
+      position: relative;
+      margin-bottom: 36px;
+    }
+    .custom-timeline-node {
+      position: absolute;
+      left: -35px;
+      top: 6px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 3px solid var(--secondary);
+      box-shadow: 0 0 12px var(--secondary);
+    }
+    .custom-timeline-content {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 22px 26px;
+      backdrop-filter: blur(8px);
+      transition: border-color 0.3s;
+    }
+    .custom-timeline-content:hover {
+      border-color: var(--secondary);
+    }
+
+    /* 8. Accordion Matrix */
+    .custom-accordion-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .custom-accordion-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: all 0.25s;
+    }
+    .custom-accordion-item.active {
+      border-color: var(--primary);
+      box-shadow: 0 8px 24px rgba(99,102,241,0.15);
+    }
+    .custom-accordion-head {
+      padding: 18px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .custom-accordion-head h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .custom-accordion-arrow {
+      transition: transform 0.3s;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .custom-accordion-item.active .custom-accordion-arrow {
+      transform: rotate(180deg);
+      color: var(--primary);
+    }
+    .custom-accordion-body {
+      padding: 0 22px 22px;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.7;
+      display: none;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      padding-top: 16px;
+    }
+    .custom-accordion-item.active .custom-accordion-body {
+      display: block;
+    }
+
+    /* Section Styling Modifiers */
+    .sec-align-left { text-align: left !important; }
+    .sec-align-left .section-title, .sec-align-left .section-subtitle { text-align: left !important; margin-inline: 0 !important; }
+    .sec-align-left .badge-pill { margin-inline: 0 !important; }
+    .sec-align-center { text-align: center !important; }
+    .sec-align-center .section-title, .sec-align-center .section-subtitle { text-align: center !important; margin-inline: auto !important; }
+    .sec-align-center .badge-pill { margin-inline: auto !important; }
+    .sec-align-right { text-align: right !important; }
+    .sec-align-right .section-title, .sec-align-right .section-subtitle { text-align: right !important; margin-inline: auto 0 !important; }
+    .sec-align-right .badge-pill { margin-inline: auto 0 !important; }
+
+    .sec-bg-card { background: var(--bg-card) !important; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); backdrop-filter: blur(14px); }
+    .sec-bg-mesh { background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.16) 0%, transparent 70%) !important; }
+    .sec-bg-solid { background: #060814 !important; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+    .sec-title-gradient { background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .sec-title-cyan { color: #06b6d4 !important; text-shadow: 0 0 30px rgba(6, 182, 212, 0.45); }
+    .sec-title-purple { color: #a855f7 !important; text-shadow: 0 0 30px rgba(168, 85, 247, 0.45); }
+    .sec-title-emerald { color: #10b981 !important; text-shadow: 0 0 30px rgba(16, 185, 129, 0.45); }
+    .sec-title-amber { color: #f59e0b !important; text-shadow: 0 0 30px rgba(245, 158, 11, 0.45); }
+    .sec-title-white { color: #f8fafc !important; }
+
+    .sec-size-sm { font-size: clamp(1.6rem, 3.2vw, 2.2rem) !important; }
+    .sec-size-md { font-size: clamp(2rem, 4.2vw, 2.8rem) !important; }
+    .sec-size-lg { font-size: clamp(2.5rem, 5.8vw, 3.8rem) !important; line-height: 1.15; }
+
     /* Responsive */
     @media (max-width: 1024px) {
       .hero-grid { grid-template-columns: 1fr; }
@@ -1572,7 +1811,7 @@
   <nav>
     <div class="container nav-container">
       <a href="#" class="brand">
-        <div class="brand-logo">G</div>
+        <div class="brand-logo" id="nav-brand-logo">G</div>
         <span><span class="g-text" id="brand-p1">Genius</span> <span id="brand-p2">Media Channel</span></span>
       </a>
 
@@ -2108,7 +2347,7 @@
       <div class="footer-top">
         <div>
           <a href="#" class="brand">
-            <div class="brand-logo">G</div>
+            <div class="brand-logo" id="ft-brand-logo">G</div>
             <span><span class="g-text" id="ft-b1">Genius</span> <span id="ft-b2">Media Channel</span></span>
           </a>
           <p class="footer-desc">
@@ -2196,7 +2435,12 @@
         b2: "Media Channel",
         wa: "6280000000000",
         badge: "Open for Q1/Q2 Projects • Software House",
-        footer: "Studio rekayasa software terdepan di Indonesia. Spesialis pengembangan Web Application canggih, Aplikasi Mobile, dan Solusi Digital yang terukur."
+        footer: "Studio rekayasa software terdepan di Indonesia. Spesialis pengembangan Web Application canggih, Aplikasi Mobile, dan Solusi Digital yang terukur.",
+        favicon: "",
+        logoType: "text",
+        logoText: "G",
+        logoImg: "",
+        logoHeight: 36
       },
       hero: {
         sub: "Genius Media Channel mentransformasi ide bisnis Anda menjadi Web Application performa tinggi, Mobile App native, dan Ekosistem Software enterprise dengan arsitektur masa depan.",
@@ -2412,6 +2656,24 @@
       if (saved) AppData = { ...DEFAULT_MASTER_DATA, ...JSON.parse(saved) };
     } catch (e) {}
 
+    // Dynamic Global Config with dynamic getters (eliminates TDZ ReferenceErrors)
+    const config = {
+      get b1() { return (AppData.brand && AppData.brand.b1) || 'Genius'; },
+      get b2() { return (AppData.brand && AppData.brand.b2) || 'Media'; },
+      get wa() { return (AppData.brand && AppData.brand.wa) || '6280000000000'; },
+      get sub() { return (AppData.hero && AppData.hero.sub) || ''; },
+      get words() { 
+        return (AppData.hero && AppData.hero.words && AppData.hero.words.length) 
+          ? AppData.hero.words 
+          : ['Web Application', 'Aplikasi Mobile', 'Sistem Enterprise']; 
+      }
+    };
+
+    // Calculator Global State
+    let calcPlatform = null;
+    let calcScale = null;
+    let calcFeatures = [];
+
     // Apply Brand & Dynamic Texts
     function applyDynamicData() {
       const b = AppData.brand;
@@ -2421,6 +2683,42 @@
       document.getElementById('ft-b2').textContent = b.b2;
       document.querySelector('.footer-desc').textContent = b.footer;
       document.getElementById('hero-sub').textContent = AppData.hero.sub;
+
+      // Apply Favicon (Falcon)
+      const favEl = document.getElementById('dynamic-favicon');
+      if (favEl && b.favicon) {
+        favEl.href = b.favicon;
+      }
+
+      // Apply Logo (Navbar & Footer)
+      const navBrandLogo = document.getElementById('nav-brand-logo');
+      const ftBrandLogo = document.getElementById('ft-brand-logo');
+      if (navBrandLogo) {
+        if (b.logoType === 'image' && b.logoImg) {
+          navBrandLogo.innerHTML = `<img src="${b.logoImg}" alt="${b.b1 || 'Logo'}" style="height:${b.logoHeight || 36}px; max-height:56px; width:auto; object-fit:contain; border-radius:6px; display:block;">`;
+          navBrandLogo.style.background = 'transparent';
+          navBrandLogo.style.border = 'none';
+          navBrandLogo.style.padding = '0';
+        } else {
+          navBrandLogo.textContent = b.logoText || (b.b1 ? b.b1.charAt(0) : 'G');
+          navBrandLogo.style.background = '';
+          navBrandLogo.style.border = '';
+          navBrandLogo.style.padding = '';
+        }
+      }
+      if (ftBrandLogo) {
+        if (b.logoType === 'image' && b.logoImg) {
+          ftBrandLogo.innerHTML = `<img src="${b.logoImg}" alt="${b.b1 || 'Logo'}" style="height:${b.logoHeight || 36}px; max-height:56px; width:auto; object-fit:contain; border-radius:6px; display:block;">`;
+          ftBrandLogo.style.background = 'transparent';
+          ftBrandLogo.style.border = 'none';
+          ftBrandLogo.style.padding = '0';
+        } else {
+          ftBrandLogo.textContent = b.logoText || (b.b1 ? b.b1.charAt(0) : 'G');
+          ftBrandLogo.style.background = '';
+          ftBrandLogo.style.border = '';
+          ftBrandLogo.style.padding = '';
+        }
+      }
 
       const waLink = `https://wa.me/${b.wa}?text=Halo%20${encodeURIComponent(b.b1 + ' ' + b.b2)}%2C%20saya%20ingin%20konsultasi%20pembuatan%20aplikasi`;
       document.getElementById('floating-wa-btn').href = waLink;
@@ -2567,15 +2865,34 @@
           let customEl = document.getElementById(`custom-sec-${sec.id}`);
           if (!customEl) {
             customEl = document.createElement('section');
-            customEl.className = 'custom-section';
             customEl.id = `custom-sec-${sec.id}`;
             customEl.setAttribute('data-sec-id', sec.id);
           }
           customEl.style.display = sec.visible !== false ? '' : 'none';
 
+          // Apply Custom Section Styling Modifiers
+          const align = sec.align || 'center';
+          const titleSize = sec.titleSize || 'md';
+          const titleColor = sec.titleColor || 'gradient';
+          const bgStyle = sec.bgStyle || 'transparent';
+          const padding = sec.padding || 'normal';
+
+          customEl.className = `custom-section sec-align-${align} sec-bg-${bgStyle}`;
+          customEl.style.padding = padding === 'compact' ? '45px 0' : (padding === 'spacious' ? '130px 0' : '85px 0');
+
+          const titleClasses = `section-title sec-title-${titleColor} sec-size-${titleSize}`;
           const items = sec.items || [];
           let contentHtml = '';
 
+          const headerHtml = `
+            <div class="section-header">
+              ${sec.badge ? `<span class="badge-pill">${sec.badge}</span>` : ''}
+              <h2 class="${titleClasses}">${sec.title || 'Bagian Kustom'}</h2>
+              ${sec.subtitle ? `<p class="section-subtitle">${sec.subtitle}</p>` : ''}
+            </div>
+          `;
+
+          // Template 1: Running Image Marquee
           if (sec.template === 'rolling') {
             const rollingItemsHtml = items.map(it => `
               <div class="custom-rolling-item">
@@ -2585,11 +2902,7 @@
             `).join('');
             contentHtml = `
               <div class="container">
-                <div class="section-header">
-                  ${sec.badge ? `<span class="badge-pill">${sec.badge}</span>` : ''}
-                  <h2 class="section-title">${sec.title || 'Galeri Showcase'}</h2>
-                  ${sec.subtitle ? `<p class="section-subtitle">${sec.subtitle}</p>` : ''}
-                </div>
+                ${headerHtml}
               </div>
               <div class="custom-rolling-wrapper">
                 <div class="custom-rolling-track">
@@ -2598,14 +2911,12 @@
                 </div>
               </div>
             `;
-          } else if (sec.template === 'scroll') {
+          }
+          // Template 2: Horizontal Snap Scroll
+          else if (sec.template === 'scroll') {
             contentHtml = `
               <div class="container">
-                <div class="section-header">
-                  ${sec.badge ? `<span class="badge-pill">${sec.badge}</span>` : ''}
-                  <h2 class="section-title">${sec.title || 'Galeri Produk'}</h2>
-                  ${sec.subtitle ? `<p class="section-subtitle">${sec.subtitle}</p>` : ''}
-                </div>
+                ${headerHtml}
                 <div class="custom-scroll-container">
                   ${items.map(it => `
                     <div class="custom-scroll-card">
@@ -2620,14 +2931,12 @@
                 </div>
               </div>
             `;
-          } else if (sec.template === 'cards_btn') {
+          }
+          // Template 3: Bento Cards with Buttons
+          else if (sec.template === 'cards_btn') {
             contentHtml = `
               <div class="container">
-                <div class="section-header">
-                  ${sec.badge ? `<span class="badge-pill">${sec.badge}</span>` : ''}
-                  <h2 class="section-title">${sec.title || 'Fitur Unggulan'}</h2>
-                  ${sec.subtitle ? `<p class="section-subtitle">${sec.subtitle}</p>` : ''}
-                </div>
+                ${headerHtml}
                 <div class="custom-cards-grid">
                   ${items.map(it => `
                     <div class="custom-card-item">
@@ -2645,14 +2954,16 @@
                 </div>
               </div>
             `;
-          } else if (sec.template === 'banner') {
+          }
+          // Template 4: Split Showcase Banner
+          else if (sec.template === 'banner') {
             const firstItem = items[0] || {};
             contentHtml = `
               <div class="container">
                 <div class="custom-banner-grid">
                   <div>
                     ${sec.badge ? `<span class="badge-pill">${sec.badge}</span>` : ''}
-                    <h2 class="section-title" style="text-align:left; margin-top:12px; margin-bottom:16px">${sec.title || firstItem.title || 'Solusi Enterprise'}</h2>
+                    <h2 class="${titleClasses}" style="text-align:left; margin-top:12px; margin-bottom:16px">${sec.title || firstItem.title || 'Solusi Enterprise'}</h2>
                     <p style="color:var(--text-muted); font-size:1.05rem; line-height:1.7; margin-bottom:24px">${sec.subtitle || firstItem.desc || 'Transformasi digital tanpa batas dengan kapabilitas kode arsitektur tingkat lanjut.'}</p>
                     <div style="display:flex; gap:12px; flex-wrap:wrap">
                       ${firstItem.btnText ? `<a href="${firstItem.btnUrl || '#'}" ${firstItem.btnUrl && firstItem.btnUrl.startsWith('http') ? 'target="_blank" rel="noopener"' : ''} class="btn btn-primary">${firstItem.btnText}</a>` : ''}
@@ -2666,10 +2977,134 @@
               </div>
             `;
           }
+          // Template 5: Editorial Manifesto & Spotlight Teks
+          else if (sec.template === 'editorial_text') {
+            const firstItem = items[0] || {};
+            const otherItems = items.slice(1);
+            contentHtml = `
+              <div class="container">
+                ${headerHtml}
+                <div class="custom-editorial-wrap">
+                  ${firstItem.desc || firstItem.title ? `
+                    <div class="custom-quote-callout">
+                      "${firstItem.desc || firstItem.title}"
+                      ${firstItem.badge ? `<div style="margin-top:10px; font-size:0.85rem; font-weight:700; font-style:normal; color:var(--secondary)">— ${firstItem.badge}</div>` : ''}
+                    </div>
+                  ` : ''}
+
+                  ${otherItems.length ? `
+                    <div class="custom-manifesto-grid">
+                      ${otherItems.map(it => `
+                        <div class="custom-manifesto-card">
+                          ${it.badge ? `<span style="display:inline-block; font-size:0.75rem; font-weight:800; color:var(--secondary); text-transform:uppercase; margin-bottom:8px">${it.badge}</span>` : ''}
+                          <h3 style="font-size:1.15rem; font-weight:700; margin-bottom:10px">${it.title}</h3>
+                          <p style="color:var(--text-muted); font-size:0.92rem; line-height:1.6; margin-bottom:14px">${it.desc || ''}</p>
+                          ${it.btnText ? `<a href="${it.btnUrl || '#'}" ${it.btnUrl && it.btnUrl.startsWith('http') ? 'target="_blank" rel="noopener"' : ''} class="btn btn-secondary btn-sm">${it.btnText} ➔</a>` : ''}
+                        </div>
+                      `).join('')}
+                    </div>
+                  ` : ''}
+                </div>
+              </div>
+            `;
+          }
+          // Template 6: Pricing Tables
+          else if (sec.template === 'pricing_table') {
+            contentHtml = `
+              <div class="container">
+                ${headerHtml}
+                <div class="custom-pricing-grid">
+                  ${items.map((it, idx) => {
+                    const isPopular = (it.badge && it.badge.toLowerCase().includes('populer')) || idx === 1;
+                    const feats = (it.desc || '').split('\n').map(f => f.trim()).filter(Boolean);
+                    return `
+                      <div class="custom-pricing-card ${isPopular ? 'popular' : ''}">
+                        ${it.badge ? `<div class="custom-pricing-badge">${it.badge}</div>` : ''}
+                        <h3 style="font-size:1.25rem; font-weight:700; margin-top:${isPopular ? '6px' : '0'}; margin-bottom:6px">${it.title}</h3>
+                        <div class="custom-pricing-amount">${it.price || it.badge2 || 'Custom'}</div>
+                        <div class="custom-pricing-period">${it.period || '/ Sesuai Scope Proyek'}</div>
+                        <ul class="custom-pricing-list">
+                          ${feats.map(f => `<li><span class="check-icon">✓</span> <span>${f}</span></li>`).join('')}
+                        </ul>
+                        ${it.btnText ? `
+                          <a href="${it.btnUrl || '#kontak'}" ${it.btnUrl && it.btnUrl.startsWith('http') ? 'target="_blank" rel="noopener"' : ''} class="btn ${isPopular ? 'btn-primary' : 'btn-secondary'}" style="justify-content:center">
+                            ${it.btnText}
+                          </a>
+                        ` : ''}
+                      </div>
+                    `;
+                  }).join('')}
+                </div>
+              </div>
+            `;
+          }
+          // Template 7: Roadmap & Timeline Steps
+          else if (sec.template === 'timeline_steps') {
+            contentHtml = `
+              <div class="container">
+                ${headerHtml}
+                <div class="custom-timeline-wrap">
+                  ${items.map(it => `
+                    <div class="custom-timeline-item">
+                      <div class="custom-timeline-node"></div>
+                      <div class="custom-timeline-content">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:8px">
+                          <span style="font-size:0.8rem; font-weight:800; color:var(--secondary); text-transform:uppercase">${it.badge || 'Tahap'}</span>
+                          ${it.badge2 ? `<span style="font-size:0.75rem; background:rgba(255,255,255,0.06); padding:2px 8px; border-radius:4px">${it.badge2}</span>` : ''}
+                        </div>
+                        <h3 style="font-size:1.15rem; font-weight:700; margin-bottom:8px">${it.title}</h3>
+                        <p style="color:var(--text-muted); font-size:0.92rem; line-height:1.6; margin-bottom:12px">${it.desc || ''}</p>
+                        ${it.btnText ? `<a href="${it.btnUrl || '#'}" ${it.btnUrl && it.btnUrl.startsWith('http') ? 'target="_blank" rel="noopener"' : ''} class="btn btn-secondary btn-sm">${it.btnText} ➔</a>` : ''}
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            `;
+          }
+          // Template 8: Accordion Matrix
+          else if (sec.template === 'accordion_matrix') {
+            contentHtml = `
+              <div class="container">
+                ${headerHtml}
+                <div class="custom-accordion-wrap">
+                  ${items.map((it, idx) => `
+                    <div class="custom-accordion-item ${idx === 0 ? 'active' : ''}">
+                      <div class="custom-accordion-head">
+                        <h3>
+                          ${it.badge ? `<span style="font-size:0.75rem; background:rgba(99,102,241,0.18); color:var(--primary-light); padding:3px 8px; border-radius:4px">${it.badge}</span>` : ''}
+                          <span>${it.title}</span>
+                        </h3>
+                        <span class="custom-accordion-arrow">▼</span>
+                      </div>
+                      <div class="custom-accordion-body">
+                        ${it.desc || ''}
+                        ${it.btnText ? `
+                          <div style="margin-top:14px">
+                            <a href="${it.btnUrl || '#'}" ${it.btnUrl && it.btnUrl.startsWith('http') ? 'target="_blank" rel="noopener"' : ''} class="btn btn-secondary btn-sm">${it.btnText} ➔</a>
+                          </div>
+                        ` : ''}
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            `;
+          }
 
           customEl.innerHTML = contentHtml;
           pageWrapper.appendChild(customEl);
         }
+      });
+
+      // Bind Accordion Click Toggles
+      pageWrapper.querySelectorAll('.custom-accordion-head').forEach(head => {
+        head.onclick = () => {
+          const item = head.parentElement;
+          const isActive = item.classList.contains('active');
+          item.parentElement.querySelectorAll('.custom-accordion-item').forEach(i => i.classList.remove('active'));
+          if (!isActive) item.classList.add('active');
+        };
       });
 
       // Cleanup deleted custom sections
@@ -2681,16 +3116,9 @@
         }
       });
     }
-    applyDynamicData();
 
-    // Configuration for legacy typing & calculator
-    const config = {
-      b1: AppData.brand.b1,
-      b2: AppData.brand.b2,
-      wa: AppData.brand.wa,
-      sub: AppData.hero.sub,
-      words: AppData.hero.words
-    };
+    // Execute dynamic render on load
+    applyDynamicData();
 
     // Live Cloud Synchronization via Firebase Firestore
     (function initLandingFirebase() {
@@ -2722,11 +3150,6 @@
               if (!AppData.sections || !AppData.sections.length) {
                 AppData.sections = JSON.parse(JSON.stringify(DEFAULT_MASTER_DATA.sections));
               }
-              config.b1 = AppData.brand.b1;
-              config.b2 = AppData.brand.b2;
-              config.wa = AppData.brand.wa;
-              config.sub = AppData.hero.sub;
-              config.words = AppData.hero.words;
               applyDynamicData();
             }
           }, err => console.warn('Firestore live sync:', err));
@@ -2772,8 +3195,8 @@
     const typedEl = document.getElementById('typed');
 
     function typeLoop() {
-      const words = config.words && config.words.length ? config.words : DEFAULT_CONFIG.words;
-      const currentWord = words[wordIdx % words.length];
+      const words = config.words;
+      const currentWord = words[wordIdx % words.length] || 'Web Application';
       
       if (isDeleting) {
         charIdx--;
@@ -2956,10 +3379,6 @@
     if (statCards.length) statsObserver.observe(statCards[0].parentElement);
 
     // Dynamic Project Cost & Time Calculator
-    let calcPlatform = null;
-    let calcScale = null;
-    let calcFeatures = [];
-
     function renderDynamicCalculator() {
       const calcData = AppData.calculator || DEFAULT_MASTER_DATA.calculator;
       
@@ -2970,7 +3389,8 @@
           calcPlatform = { ...calcData.platforms[0] };
         }
         pContainer.innerHTML = calcData.platforms.map((p) => `
-          <button class="calc-btn ${p.name === calcPlatform.name ? 'selected' : ''}" 
+          <button type="button" class="calc-btn ${p.name === calcPlatform.name ? 'selected' : ''}" 
+                  data-type="platform"
                   data-name="${p.name}" 
                   data-cost="${p.cost}" 
                   data-time="${p.time}">
@@ -2979,14 +3399,15 @@
         `).join('');
 
         pContainer.querySelectorAll('.calc-btn').forEach(btn => {
-          btn.addEventListener('click', () => {
+          btn.onclick = (e) => {
+            e.preventDefault();
             calcPlatform = {
               name: btn.dataset.name,
-              cost: parseInt(btn.dataset.cost),
-              time: parseFloat(btn.dataset.time)
+              cost: parseInt(btn.dataset.cost) || 0,
+              time: parseFloat(btn.dataset.time) || 1
             };
             updateCalculator();
-          });
+          };
         });
       }
 
@@ -2997,7 +3418,8 @@
           calcScale = { ...calcData.scales[0] };
         }
         sContainer.innerHTML = calcData.scales.map((s) => `
-          <button class="calc-btn ${s.name === calcScale.name ? 'selected' : ''}" 
+          <button type="button" class="calc-btn ${s.name === calcScale.name ? 'selected' : ''}" 
+                  data-type="scale"
                   data-name="${s.name}" 
                   data-cost="${s.cost}" 
                   data-time="${s.time}">
@@ -3006,14 +3428,15 @@
         `).join('');
 
         sContainer.querySelectorAll('.calc-btn').forEach(btn => {
-          btn.addEventListener('click', () => {
+          btn.onclick = (e) => {
+            e.preventDefault();
             calcScale = {
               name: btn.dataset.name,
-              cost: parseInt(btn.dataset.cost),
-              time: parseFloat(btn.dataset.time)
+              cost: parseInt(btn.dataset.cost) || 0,
+              time: parseFloat(btn.dataset.time) || 1
             };
             updateCalculator();
-          });
+          };
         });
       }
 
@@ -3034,24 +3457,24 @@
         fContainer.querySelectorAll('input:checked').forEach(c => {
           calcFeatures.push({
             name: c.dataset.name,
-            cost: parseInt(c.dataset.cost),
-            time: parseFloat(c.dataset.time)
+            cost: parseInt(c.dataset.cost) || 0,
+            time: parseFloat(c.dataset.time) || 0.5
           });
         });
 
         fContainer.querySelectorAll('input').forEach(chk => {
-          chk.addEventListener('change', () => {
+          chk.onchange = () => {
             chk.parentElement.classList.toggle('selected', chk.checked);
             calcFeatures = [];
             fContainer.querySelectorAll('input:checked').forEach(c => {
               calcFeatures.push({
                 name: c.dataset.name,
-                cost: parseInt(c.dataset.cost),
-                time: parseFloat(c.dataset.time)
+                cost: parseInt(c.dataset.cost) || 0,
+                time: parseFloat(c.dataset.time) || 0.5
               });
             });
             updateCalculator();
-          });
+          };
         });
       }
 
@@ -3059,6 +3482,13 @@
     }
 
     function updateCalculator() {
+      const calcData = AppData.calculator || DEFAULT_MASTER_DATA.calculator;
+      if (!calcPlatform && calcData.platforms && calcData.platforms.length) {
+        calcPlatform = { ...calcData.platforms[0] };
+      }
+      if (!calcScale && calcData.scales && calcData.scales.length) {
+        calcScale = { ...calcData.scales[0] };
+      }
       if (!calcPlatform || !calcScale) return;
 
       // Sync button selected classes
@@ -3070,22 +3500,27 @@
       });
 
       // Recalculate Totals
-      const featuresCost = calcFeatures.reduce((acc, f) => acc + f.cost, 0);
-      const featuresTime = calcFeatures.reduce((acc, f) => acc + f.time, 0);
+      const featuresCost = calcFeatures.reduce((acc, f) => acc + (f.cost || 0), 0);
+      const featuresTime = calcFeatures.reduce((acc, f) => acc + (f.time || 0), 0);
 
-      const totalCost = calcPlatform.cost + calcScale.cost + featuresCost;
-      const totalTimeMin = Math.max(2, Math.round(calcPlatform.time + calcScale.time + featuresTime * 0.7));
+      const totalCost = (calcPlatform.cost || 0) + (calcScale.cost || 0) + featuresCost;
+      const totalTimeMin = Math.max(2, Math.round((calcPlatform.time || 2) + (calcScale.time || 1) + featuresTime * 0.7));
       const totalTimeMax = totalTimeMin + 2;
 
       // Update Summary UI
-      document.getElementById('sum-platform').textContent = calcPlatform.name;
-      document.getElementById('sum-scale').textContent = calcScale.name;
-      document.getElementById('sum-modules').textContent = `${calcFeatures.length} Fitur Terpilih`;
+      const sumPlat = document.getElementById('sum-platform');
+      if (sumPlat) sumPlat.textContent = calcPlatform.name;
+      const sumScale = document.getElementById('sum-scale');
+      if (sumScale) sumScale.textContent = calcScale.name;
+      const sumMod = document.getElementById('sum-modules');
+      if (sumMod) sumMod.textContent = `${calcFeatures.length} Fitur Terpilih`;
 
       // Format Indonesian Rupiah
       const formattedPrice = "Rp " + totalCost.toLocaleString('id-ID');
-      document.getElementById('calc-price-display').textContent = formattedPrice;
-      document.getElementById('calc-time-display').textContent = `⏱️ Estimasi Waktu: ${totalTimeMin} - ${totalTimeMax} Minggu`;
+      const priceDisp = document.getElementById('calc-price-display');
+      if (priceDisp) priceDisp.textContent = formattedPrice;
+      const timeDisp = document.getElementById('calc-time-display');
+      if (timeDisp) timeDisp.textContent = `⏱️ Estimasi Waktu: ${totalTimeMin} - ${totalTimeMax} Minggu`;
 
       // Update WhatsApp action button
       const selectedFeatureNames = calcFeatures.map(f => f.name).join(', ') || 'Standar';
@@ -3096,10 +3531,37 @@
                     `- Estimasi Biaya: ${formattedPrice} (~${totalTimeMin}-${totalTimeMax} minggu).\n` +
                     `Mohon informasikan jadwal diskusi/meeting. Terima kasih!`;
 
-      document.getElementById('calc-wa-btn').onclick = () => {
-        window.open(`https://wa.me/${config.wa}?text=${encodeURIComponent(waMsg)}`, '_blank');
-      };
+      const calcWaBtn = document.getElementById('calc-wa-btn');
+      if (calcWaBtn) {
+        calcWaBtn.onclick = () => {
+          window.open(`https://wa.me/${config.wa}?text=${encodeURIComponent(waMsg)}`, '_blank');
+        };
+      }
     }
+
+    // Immediate fallback listeners for static buttons
+    document.querySelectorAll('#platform-options .calc-btn').forEach(btn => {
+      btn.onclick = (e) => {
+        e.preventDefault();
+        calcPlatform = {
+          name: btn.dataset.name,
+          cost: parseInt(btn.dataset.cost) || 0,
+          time: parseFloat(btn.dataset.time) || 1
+        };
+        updateCalculator();
+      };
+    });
+    document.querySelectorAll('#scale-options .calc-btn').forEach(btn => {
+      btn.onclick = (e) => {
+        e.preventDefault();
+        calcScale = {
+          name: btn.dataset.name,
+          cost: parseInt(btn.dataset.cost) || 0,
+          time: parseFloat(btn.dataset.time) || 1
+        };
+        updateCalculator();
+      };
+    });
 
     // Demos Filter Tab Handling
     const filterTabs = document.querySelectorAll('.tab-pill');

@@ -564,6 +564,106 @@
       flex-shrink: 0;
     }
 
+    /* Mini Wireframe Mockup Preview for Template Cards */
+    .mini-wf {
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 12px;
+      margin: 12px 0 16px;
+      min-height: 90px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
+      pointer-events: none;
+      user-select: none;
+    }
+    .mini-wf-head {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .mini-wf-pill {
+      width: 40px;
+      height: 4px;
+      background: rgba(99, 102, 241, 0.5);
+      border-radius: 2px;
+    }
+    .mini-wf-title {
+      width: 80px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 3px;
+    }
+    .mini-wf-row {
+      display: flex;
+      gap: 6px;
+      overflow: hidden;
+      justify-content: center;
+    }
+    .mini-wf-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      padding: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+      min-width: 0;
+    }
+    .mini-wf-img {
+      height: 28px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 3px;
+    }
+    .mini-wf-text {
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 2px;
+      width: 80%;
+    }
+    .mini-wf-btn {
+      height: 6px;
+      background: var(--primary);
+      border-radius: 2px;
+      width: 50%;
+    }
+    .mini-wf-quote {
+      border-left: 2px solid var(--secondary);
+      padding-left: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    /* Modal Sub-tabs */
+    .modal-subtabs {
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+    .modal-tab-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .modal-tab-btn.active {
+      background: rgba(99, 102, 241, 0.2);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
     @media (max-width: 860px) {
       body { flex-direction: column; }
       aside { width: 100%; height: auto; position: static; }
@@ -622,7 +722,7 @@
     </nav>
 
     <div class="sidebar-footer">
-      <a href="index.html" target="_blank" class="btn btn-secondary btn-sm" style="text-align:center; justify-content:center" onclick="saveData()">
+      <a href="index.html" target="_blank" rel="noopener" class="btn btn-secondary btn-sm" style="text-align:center; justify-content:center; text-decoration:none;" onclick="preparePreview()">
         <span>👁️ Buka Pratinjau Web</span>
       </a>
       <button class="btn btn-primary btn-sm" id="btn-save-all" style="justify-content:center">
@@ -653,11 +753,11 @@
         <div class="form-grid">
           <div class="form-group">
             <label>Nama Brand Bagian 1 (Gradasi Berwarna)</label>
-            <input type="text" id="f-b1" placeholder="Genius">
+            <input type="text" id="f-b1" placeholder="Genius" oninput="updateBrandLogoPreview()">
           </div>
           <div class="form-group">
             <label>Nama Brand Bagian 2</label>
-            <input type="text" id="f-b2" placeholder="Media Channel">
+            <input type="text" id="f-b2" placeholder="Media Channel" oninput="updateBrandLogoPreview()">
           </div>
           <div class="form-group">
             <label>Nomor WhatsApp Admin (Format 628xxxxxxxxxx tanpa tanda +)</label>
@@ -670,6 +770,110 @@
           <div class="form-group form-full">
             <label>Teks Deskripsi Footer</label>
             <textarea id="f-footer" rows="2" placeholder="Deskripsi singkat profil software house di bagian bawah web..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Favicon (Falcon) Browser Tab Settings -->
+      <div class="panel-card" style="margin-top:20px;">
+        <h3>🌐 Icon Tab Browser (Falcon / Favicon)</h3>
+        <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:16px;">
+          Atur gambar icon kecil yang muncul di tab browser pengguna saat membuka landing page.
+        </p>
+        <div style="display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start;">
+          <div style="flex:1; min-width:280px; display:flex; flex-direction:column; gap:12px;">
+            <div class="form-group">
+              <label>URL Gambar Favicon (PNG, ICO, SVG)</label>
+              <div style="display:flex; gap:10px;">
+                <input type="text" id="f-favicon-url" placeholder="https://.../favicon.png" oninput="updateFaviconPreview(this.value)" style="flex:1">
+                <label class="btn btn-secondary btn-sm" style="margin:0; cursor:pointer; flex-shrink:0;">
+                  <span>📁 Unggah Icon</span>
+                  <input type="file" accept="image/*" style="display:none" onchange="handleFaviconUpload(this)">
+                </label>
+              </div>
+            </div>
+            <div style="font-size:0.8rem; color:var(--text-muted);">
+              Disarankan format PNG transparan atau SVG rasio 1:1 (persegi, contoh: 64x64 atau 128x128 px).
+            </div>
+          </div>
+
+          <!-- Browser Tab Mockup Preview -->
+          <div style="width:320px; background:rgba(0,0,0,0.4); border:1px solid var(--border); border-radius:10px; overflow:hidden;">
+            <div style="background:#151828; padding:8px 12px; display:flex; align-items:center; gap:8px; border-bottom:1px solid var(--border);">
+              <div style="display:flex; gap:5px;">
+                <span style="width:10px; height:10px; border-radius:50%; background:#ef4444; display:inline-block;"></span>
+                <span style="width:10px; height:10px; border-radius:50%; background:#f59e0b; display:inline-block;"></span>
+                <span style="width:10px; height:10px; border-radius:50%; background:#10b981; display:inline-block;"></span>
+              </div>
+              <!-- Mini Tab -->
+              <div style="background:#0c1024; padding:4px 10px; border-radius:6px; display:flex; align-items:center; gap:6px; font-size:0.75rem; color:#f1f5f9; border:1px solid rgba(255,255,255,0.08); max-width:200px;">
+                <img id="prev-favicon-img" src="" style="width:14px; height:14px; border-radius:2px; object-fit:contain; display:none;">
+                <span id="prev-favicon-default" style="font-size:0.8rem;">🚀</span>
+                <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" id="prev-tab-title">Genius Media Channel — Landing Page</span>
+              </div>
+            </div>
+            <div style="padding:14px; font-size:0.8rem; color:var(--text-muted); text-align:center;">
+              Simulasi tampilan icon pada tab browser
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Logo / Icon Brand Settings -->
+      <div class="panel-card" style="margin-top:20px;">
+        <h3>✨ Logo &amp; Icon Brand (Navbar &amp; Footer)</h3>
+        <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:16px;">
+          Pilih apakah ingin menggunakan logo gambar buatan sendiri atau ikon inisial teks/emoji bergaya futuristik.
+        </p>
+        <div style="display:flex; gap:20px; flex-wrap:wrap; align-items:flex-start;">
+          <div style="flex:1; min-width:280px; display:flex; flex-direction:column; gap:14px;">
+            <div class="form-group">
+              <label>Tipe Logo Brand</label>
+              <select id="f-logo-type" onchange="toggleLogoTypeUI()">
+                <option value="text">🔤 Teks Inisial / Emoji (Default)</option>
+                <option value="image">🖼️ Logo Gambar Sendiri (PNG / SVG / JPG)</option>
+              </select>
+            </div>
+
+            <!-- Option 1: Text / Emoji -->
+            <div id="box-logo-text" class="form-group">
+              <label>Huruf Inisial atau Emoji</label>
+              <input type="text" id="f-logo-text" placeholder="Misal: G atau 🚀" style="max-width:180px;" oninput="updateBrandLogoPreview()">
+              <span style="font-size:0.8rem; color:var(--text-muted); margin-top:4px; display:block;">Tampil di kotak gradient modern di samping nama brand.</span>
+            </div>
+
+            <!-- Option 2: Image Logo -->
+            <div id="box-logo-img" style="display:none; flex-direction:column; gap:12px;">
+              <div class="form-group">
+                <label>URL Gambar Logo</label>
+                <div style="display:flex; gap:10px;">
+                  <input type="text" id="f-logo-img" placeholder="https://.../logo.png" oninput="updateBrandLogoPreview()" style="flex:1">
+                  <label class="btn btn-secondary btn-sm" style="margin:0; cursor:pointer; flex-shrink:0;">
+                    <span>📁 Unggah Logo</span>
+                    <input type="file" accept="image/*" style="display:none" onchange="handleLogoUpload(this)">
+                  </label>
+                </div>
+              </div>
+              <div class="form-group">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <label>Tinggi Logo di Navbar</label>
+                  <span id="f-logo-height-val" style="font-weight:700; color:var(--secondary); font-size:0.85rem;">36px</span>
+                </div>
+                <input type="range" id="f-logo-height" min="24" max="64" value="36" oninput="document.getElementById('f-logo-height-val').textContent = this.value + 'px'; updateBrandLogoPreview()">
+              </div>
+            </div>
+          </div>
+
+          <!-- Navbar Logo Preview -->
+          <div style="width:320px; background:rgba(0,0,0,0.5); border:1px solid var(--border); border-radius:10px; padding:18px;">
+            <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em;">Pratinjau di Navbar</div>
+            <div style="display:flex; align-items:center; gap:10px; background:rgba(255,255,255,0.03); padding:10px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.06);">
+              <div id="prev-brand-logo-container"></div>
+              <div style="font-weight:800; font-size:1.05rem;">
+                <span id="prev-b1-text" style="color:var(--primary-light);">Genius</span>
+                <span id="prev-b2-text" style="color:#fff;">Media</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -703,60 +907,294 @@
           Pilih salah satu model template berikut untuk membuat bagian baru dengan preset tata letak siap pakai:
         </p>
 
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:18px;">
-          <!-- Model 1 -->
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px;">
+          <!-- Model 1: Rolling Marquee -->
           <div class="template-card-box">
             <div>
-              <div style="font-size:2rem; margin-bottom:8px;">⚡</div>
-              <div style="font-weight:700; font-size:1.02rem; margin-bottom:6px;">Model 1: Running Image Marquee</div>
-              <div style="font-size:0.82rem; color:var(--text-muted); line-height:1.5; margin-bottom:14px;">
-                Deretan gambar bergulir (rolling) terus menerus secara horizontal tanpa jeda. Cocok untuk galeri logo klien, preview screenshot aplikasi, atau foto sertifikat.
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:1.8rem;">⚡</span>
+                <span class="sec-badge-type custom">Media Visual</span>
+              </div>
+              <div style="font-weight:700; font-size:1.02rem; margin:6px 0 4px;">Model 1: Running Image Marquee</div>
+              <div style="font-size:0.82rem; color:var(--text-muted); line-height:1.5;">
+                Deretan gambar bergulir terus menerus tanpa jeda. Cocok untuk galeri screenshot, logo klien, dan portofolio.
+              </div>
+
+              <!-- Mini Visual Wireframe -->
+              <div class="mini-wf">
+                <div class="mini-wf-head">
+                  <div class="mini-wf-pill"></div>
+                  <div class="mini-wf-title"></div>
+                </div>
+                <div class="mini-wf-row">
+                  <div class="mini-wf-card" style="flex:0 0 45px;"><div class="mini-wf-img"></div></div>
+                  <div class="mini-wf-card" style="flex:0 0 45px;"><div class="mini-wf-img"></div></div>
+                  <div class="mini-wf-card" style="flex:0 0 45px;"><div class="mini-wf-img"></div></div>
+                  <div class="mini-wf-card" style="flex:0 0 45px;"><div class="mini-wf-img"></div></div>
+                </div>
               </div>
             </div>
             <button class="btn btn-secondary btn-sm" onclick="createSectionWithTemplate('rolling')">
-              <span>Gunakan Model Marquee</span>
+              <span>+ Gunakan Model Marquee</span>
             </button>
           </div>
 
-          <!-- Model 2 -->
+          <!-- Model 2: Snap Scroll -->
           <div class="template-card-box">
             <div>
-              <div style="font-size:2rem; margin-bottom:8px;">↔️</div>
-              <div style="font-weight:700; font-size:1.02rem; margin-bottom:6px;">Model 2: Horizontal Snap Scroll</div>
-              <div style="font-size:0.82rem; color:var(--text-muted); line-height:1.5; margin-bottom:14px;">
-                Galeri kartu gambar lebar yang dapat digeser / scroll ke samping secara mulus (snap-scroll), dilengkapi judul, keterangan, dan tombol link.
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:1.8rem;">↔️</span>
+                <span class="sec-badge-type custom">Galeri Geser</span>
+              </div>
+              <div style="font-weight:700; font-size:1.02rem; margin:6px 0 4px;">Model 2: Horizontal Snap Scroll</div>
+              <div style="font-size:0.82rem; color:var(--text-muted); line-height:1.5;">
+                Galeri kartu gambar lebar yang dapat digeser ke samping secara mulus (snap-scroll), dilengkapi judul &amp; tombol link.
+              </div>
+
+              <!-- Mini Visual Wireframe -->
+              <div class="mini-wf">
+                <div class="mini-wf-head">
+                  <div class="mini-wf-pill"></div>
+                  <div class="mini-wf-title"></div>
+                </div>
+                <div class="mini-wf-row">
+                  <div class="mini-wf-card">
+                    <div class="mini-wf-img"></div>
+                    <div class="mini-wf-text"></div>
+                    <div class="mini-wf-btn"></div>
+                  </div>
+                  <div class="mini-wf-card">
+                    <div class="mini-wf-img"></div>
+                    <div class="mini-wf-text"></div>
+                    <div class="mini-wf-btn"></div>
+                  </div>
+                </div>
               </div>
             </div>
             <button class="btn btn-secondary btn-sm" onclick="createSectionWithTemplate('scroll')">
-              <span>Gunakan Model Scroll</span>
+              <span>+ Gunakan Model Scroll</span>
             </button>
           </div>
 
-          <!-- Model 3 -->
+          <!-- Model 3: Bento Cards -->
           <div class="template-card-box">
             <div>
-              <div style="font-size:2rem; margin-bottom:8px;">🎴</div>
-              <div style="font-weight:700; font-size:1.02rem; margin-bottom:6px;">Model 3: Bento Cards with Buttons</div>
-              <div style="font-size:0.82rem; color:var(--text-muted); line-height:1.5; margin-bottom:14px;">
-                Grid kartu modern dengan gambar preview, badge kategori, teks deskripsi, dan tombol aksi (Direct Link URL atau Hubungi WhatsApp).
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:1.8rem;">🎴</span>
+                <span class="sec-badge-type custom">Grid Interaktif</span>
+              </div>
+              <div style="font-weight:700; font-size:1.02rem; margin:6px 0 4px;">Model 3: Bento Cards with Buttons</div>
+              <div style="font-size:0.82rem; color:var(--text-muted); line-height:1.5;">
+                Grid kartu modern dengan gambar preview, badge kategori, teks deskripsi, dan tombol aksi (CTA / WhatsApp).
+              </div>
+
+              <!-- Mini Visual Wireframe -->
+              <div class="mini-wf">
+                <div class="mini-wf-head">
+                  <div class="mini-wf-pill"></div>
+                  <div class="mini-wf-title"></div>
+                </div>
+                <div class="mini-wf-row">
+                  <div class="mini-wf-card">
+                    <div class="mini-wf-img" style="height:20px;"></div>
+                    <div class="mini-wf-text"></div>
+                    <div class="mini-wf-btn"></div>
+                  </div>
+                  <div class="mini-wf-card">
+                    <div class="mini-wf-img" style="height:20px;"></div>
+                    <div class="mini-wf-text"></div>
+                    <div class="mini-wf-btn"></div>
+                  </div>
+                  <div class="mini-wf-card">
+                    <div class="mini-wf-img" style="height:20px;"></div>
+                    <div class="mini-wf-text"></div>
+                    <div class="mini-wf-btn"></div>
+                  </div>
+                </div>
               </div>
             </div>
             <button class="btn btn-secondary btn-sm" onclick="createSectionWithTemplate('cards_btn')">
-              <span>Gunakan Model Kartu</span>
+              <span>+ Gunakan Model Kartu</span>
             </button>
           </div>
 
-          <!-- Model 4 -->
+          <!-- Model 4: Split Banner -->
           <div class="template-card-box">
             <div>
-              <div style="font-size:2rem; margin-bottom:8px;">🖼️</div>
-              <div style="font-weight:700; font-size:1.02rem; margin-bottom:6px;">Model 4: Split Showcase Banner</div>
-              <div style="font-size:0.82rem; color:var(--text-muted); line-height:1.5; margin-bottom:14px;">
-                Banner promosi 2 kolom: gambar produk besar di satu sisi berdampingan dengan headline, penjelasan penawaran khusus, dan 2 tombol CTA interaktif.
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:1.8rem;">🖼️</span>
+                <span class="sec-badge-type custom">Split CTA</span>
+              </div>
+              <div style="font-weight:700; font-size:1.02rem; margin:6px 0 4px;">Model 4: Split Showcase Banner</div>
+              <div style="font-size:0.82rem; color:var(--text-muted); line-height:1.5;">
+                Banner promosi 2 kolom: gambar produk besar di satu sisi berdampingan dengan headline, teks penawaran, dan 2 tombol CTA.
+              </div>
+
+              <!-- Mini Visual Wireframe -->
+              <div class="mini-wf">
+                <div style="display:flex; gap:10px; align-items:center;">
+                  <div style="flex:1; display:flex; flex-direction:column; gap:4px;">
+                    <div class="mini-wf-pill"></div>
+                    <div class="mini-wf-title" style="width:70%;"></div>
+                    <div class="mini-wf-text" style="width:100%;"></div>
+                    <div style="display:flex; gap:4px; margin-top:2px;">
+                      <div class="mini-wf-btn" style="width:40%;"></div>
+                      <div class="mini-wf-btn" style="width:40%; background:rgba(255,255,255,0.2);"></div>
+                    </div>
+                  </div>
+                  <div style="width:65px; height:45px; background:rgba(255,255,255,0.12); border-radius:4px; flex-shrink:0;"></div>
+                </div>
               </div>
             </div>
             <button class="btn btn-secondary btn-sm" onclick="createSectionWithTemplate('banner')">
-              <span>Gunakan Model Banner</span>
+              <span>+ Gunakan Model Banner</span>
+            </button>
+          </div>
+
+          <!-- Model 5: Editorial Rich Text -->
+          <div class="template-card-box">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:1.8rem;">📰</span>
+                <span class="sec-badge-type custom">Teks &amp; Editorial</span>
+              </div>
+              <div style="font-weight:700; font-size:1.02rem; margin:6px 0 4px;">Model 5: Editorial Manifesto &amp; Spotlight Teks</div>
+              <div style="font-size:0.82rem; color:var(--text-muted); line-height:1.5;">
+                Fokus tulisan deskripsi dan prinsip kerja! Dilengkapi kotak kutipan (*quote box*) beraksen neon dan kartu poin manifesto.
+              </div>
+
+              <!-- Mini Visual Wireframe -->
+              <div class="mini-wf">
+                <div class="mini-wf-head">
+                  <div class="mini-wf-pill"></div>
+                  <div class="mini-wf-title" style="width:120px; height:8px;"></div>
+                </div>
+                <div class="mini-wf-quote">
+                  <div class="mini-wf-text" style="width:95%;"></div>
+                  <div class="mini-wf-text" style="width:60%; height:3px; background:var(--secondary);"></div>
+                </div>
+                <div class="mini-wf-row">
+                  <div class="mini-wf-card" style="padding:4px;"><div class="mini-wf-text"></div></div>
+                  <div class="mini-wf-card" style="padding:4px;"><div class="mini-wf-text"></div></div>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="createSectionWithTemplate('editorial_text')">
+              <span>+ Gunakan Model Editorial</span>
+            </button>
+          </div>
+
+          <!-- Model 6: Pricing Tables -->
+          <div class="template-card-box">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:1.8rem;">💳</span>
+                <span class="sec-badge-type custom">Tabel Paket</span>
+              </div>
+              <div style="font-weight:700; font-size:1.02rem; margin:6px 0 4px;">Model 6: Tabel Paket Layanan &amp; Harga</div>
+              <div style="font-size:0.82rem; color:var(--text-muted); line-height:1.5;">
+                3 kolom kartu penawaran harga dengan badge *Best Value*, label harga besar, checklist fitur, dan tombol order WhatsApp.
+              </div>
+
+              <!-- Mini Visual Wireframe -->
+              <div class="mini-wf">
+                <div class="mini-wf-head">
+                  <div class="mini-wf-pill"></div>
+                  <div class="mini-wf-title"></div>
+                </div>
+                <div class="mini-wf-row" style="align-items:flex-end;">
+                  <div class="mini-wf-card" style="height:44px;">
+                    <div class="mini-wf-text" style="width:60%;"></div>
+                    <div class="mini-wf-btn" style="width:80%;"></div>
+                  </div>
+                  <div class="mini-wf-card" style="height:52px; border-color:var(--primary); background:rgba(99,102,241,0.15);">
+                    <div style="width:30px; height:3px; background:var(--primary); margin:0 auto; border-radius:2px;"></div>
+                    <div class="mini-wf-text" style="width:60%;"></div>
+                    <div class="mini-wf-btn" style="width:90%;"></div>
+                  </div>
+                  <div class="mini-wf-card" style="height:44px;">
+                    <div class="mini-wf-text" style="width:60%;"></div>
+                    <div class="mini-wf-btn" style="width:80%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="createSectionWithTemplate('pricing_table')">
+              <span>+ Gunakan Model Harga</span>
+            </button>
+          </div>
+
+          <!-- Model 7: Roadmap Timeline -->
+          <div class="template-card-box">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:1.8rem;">🗺️</span>
+                <span class="sec-badge-type custom">Alur Roadmap</span>
+              </div>
+              <div style="font-weight:700; font-size:1.02rem; margin:6px 0 4px;">Model 7: Roadmap &amp; Milestone Waktu</div>
+              <div style="font-size:0.82rem; color:var(--text-muted); line-height:1.5;">
+                Alur linimasa vertikal elegan dengan garis neon dan node tahapan (fase proyek, milestone bisnis, atau rilis versi).
+              </div>
+
+              <!-- Mini Visual Wireframe -->
+              <div class="mini-wf">
+                <div style="display:flex; flex-direction:column; gap:8px; padding-left:14px; position:relative;">
+                  <div style="position:absolute; left:4px; top:4px; bottom:4px; width:2px; background:var(--primary);"></div>
+                  <div style="display:flex; align-items:center; gap:6px;">
+                    <div style="width:6px; height:6px; border-radius:50%; background:var(--secondary); margin-left:-13px;"></div>
+                    <div class="mini-wf-text" style="width:75%;"></div>
+                  </div>
+                  <div style="display:flex; align-items:center; gap:6px;">
+                    <div style="width:6px; height:6px; border-radius:50%; background:var(--secondary); margin-left:-13px;"></div>
+                    <div class="mini-wf-text" style="width:65%;"></div>
+                  </div>
+                  <div style="display:flex; align-items:center; gap:6px;">
+                    <div style="width:6px; height:6px; border-radius:50%; background:var(--secondary); margin-left:-13px;"></div>
+                    <div class="mini-wf-text" style="width:85%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="createSectionWithTemplate('timeline_steps')">
+              <span>+ Gunakan Model Roadmap</span>
+            </button>
+          </div>
+
+          <!-- Model 8: Accordion Matrix -->
+          <div class="template-card-box">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:1.8rem;">📋</span>
+                <span class="sec-badge-type custom">Akordion Fitur</span>
+              </div>
+              <div style="font-weight:700; font-size:1.02rem; margin:6px 0 4px;">Model 8: Fitur Detail &amp; Accordion Matrix</div>
+              <div style="font-size:0.82rem; color:var(--text-muted); line-height:1.5;">
+                Daftar rincian fitur / spesifikasi teknis lipat yang dapat diklik pengguna untuk membuka penjelasan mendalam.
+              </div>
+
+              <!-- Mini Visual Wireframe -->
+              <div class="mini-wf">
+                <div style="display:flex; flex-direction:column; gap:5px;">
+                  <div style="background:rgba(255,255,255,0.08); padding:4px 8px; border-radius:3px; display:flex; justify-content:space-between; align-items:center;">
+                    <div class="mini-wf-text" style="width:60%;"></div>
+                    <span style="font-size:6px; color:var(--text-muted);">▼</span>
+                  </div>
+                  <div style="background:rgba(99,102,241,0.15); border:1px solid var(--primary); padding:6px 8px; border-radius:3px; display:flex; flex-direction:column; gap:3px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                      <div class="mini-wf-text" style="width:70%; background:var(--primary-light);"></div>
+                      <span style="font-size:6px; color:var(--primary);">▲</span>
+                    </div>
+                    <div class="mini-wf-text" style="width:90%; height:3px;"></div>
+                  </div>
+                  <div style="background:rgba(255,255,255,0.08); padding:4px 8px; border-radius:3px; display:flex; justify-content:space-between; align-items:center;">
+                    <div class="mini-wf-text" style="width:50%;"></div>
+                    <span style="font-size:6px; color:var(--text-muted);">▼</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="createSectionWithTemplate('accordion_matrix')">
+              <span>+ Gunakan Model Akordion</span>
             </button>
           </div>
         </div>
@@ -982,28 +1420,92 @@
 
   <!-- Modal: Custom Section Builder -->
   <div class="modal-overlay" id="custom-sec-modal">
-    <div class="modal-box" style="max-width:760px;">
+    <div class="modal-box" style="max-width:820px;">
       <div class="modal-header">
         <h3 id="custom-sec-modal-title">Tambah Bagian Kustom</h3>
         <button class="modal-close" onclick="closeCustomSecModal()">✕</button>
       </div>
 
-      <div style="display:flex; flex-direction:column; gap:16px;">
+      <!-- Sub-tabs: Edit Form vs Live Preview -->
+      <div class="modal-subtabs">
+        <button type="button" class="modal-tab-btn active" id="modal-tab-btn-form" onclick="switchCsModalTab('form')">⚙️ Pengaturan &amp; Konten</button>
+        <button type="button" class="modal-tab-btn" id="modal-tab-btn-preview" onclick="switchCsModalTab('preview')">👁️ Live Preview Hasil</button>
+      </div>
+
+      <!-- TAB 1: FORM PENGATURAN KONTEN & GAYA -->
+      <div id="cs-modal-tab-form" style="display:flex; flex-direction:column; gap:16px;">
         <input type="hidden" id="cs-edit-index" value="-1">
 
         <div class="form-grid">
-          <div class="form-group">
+          <div class="form-group form-full">
             <label>Pilihan Model Template *</label>
             <select id="cs-template" onchange="onTemplateChange()">
               <option value="rolling">⚡ Model 1: Running Image Marquee (Rolling Logo/Foto)</option>
               <option value="scroll">↔️ Model 2: Horizontal Snap Scroll (Galeri Geser Samping)</option>
               <option value="cards_btn">🎴 Model 3: Bento Cards with Buttons (Grid Kartu &amp; Tombol)</option>
               <option value="banner">🖼️ Model 4: Split Showcase Banner (Banner Promo &amp; CTA)</option>
+              <option value="editorial_text">📰 Model 5: Editorial Manifesto &amp; Spotlight Teks (Fokus Tulisan)</option>
+              <option value="pricing_table">💳 Model 6: Tabel Paket Layanan &amp; Harga (3 Kolom Harga)</option>
+              <option value="timeline_steps">🗺️ Model 7: Roadmap &amp; Milestone Waktu (Alur Linimasa)</option>
+              <option value="accordion_matrix">📋 Model 8: Fitur Detail &amp; Accordion Matrix (Daftar Lipat)</option>
             </select>
           </div>
 
-          <div class="form-group">
-            <label>Badge Kecil (Opsional)</label>
+          <!-- Styling Controls (Posisi, Ukuran, Warna, Background) -->
+          <div class="form-group form-full" style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:10px; padding:14px; margin-top:4px;">
+            <div style="font-weight:700; font-size:0.88rem; color:#f1f5f9; margin-bottom:12px; display:flex; align-items:center; gap:6px;">
+              <span>🎨 Pengaturan Desain (Posisi, Ukuran, &amp; Warna)</span>
+            </div>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:10px;">
+              <div>
+                <label style="font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:4px;">Posisi Teks</label>
+                <select id="cs-align" style="font-size:0.8rem; padding:6px 8px;">
+                  <option value="center">Rata Tengah (Center)</option>
+                  <option value="left">Rata Kiri (Left)</option>
+                  <option value="right">Rata Kanan (Right)</option>
+                </select>
+              </div>
+              <div>
+                <label style="font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:4px;">Ukuran Judul</label>
+                <select id="cs-title-size" style="font-size:0.8rem; padding:6px 8px;">
+                  <option value="md">Besar (Standar)</option>
+                  <option value="sm">Sedang (Kompak)</option>
+                  <option value="lg">Raksasa (Hero Style)</option>
+                </select>
+              </div>
+              <div>
+                <label style="font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:4px;">Warna Judul</label>
+                <select id="cs-title-color" style="font-size:0.8rem; padding:6px 8px;">
+                  <option value="gradient">✨ Gradasi Futuristik</option>
+                  <option value="cyan">💎 Biru Cyan Neon</option>
+                  <option value="purple">🔮 Ungu Neon</option>
+                  <option value="emerald">🌿 Hijau Emerald</option>
+                  <option value="amber">👑 Emas Amber</option>
+                  <option value="white">⚪ Putih Bersih</option>
+                </select>
+              </div>
+              <div>
+                <label style="font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:4px;">Gaya Latar</label>
+                <select id="cs-bg-style" style="font-size:0.8rem; padding:6px 8px;">
+                  <option value="transparent">Transparan (Default)</option>
+                  <option value="card">Kotak Panel Kaca (Card)</option>
+                  <option value="mesh">Aksen Radial Mesh Glow</option>
+                  <option value="solid">Hitam Pekat Gelap</option>
+                </select>
+              </div>
+              <div>
+                <label style="font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:4px;">Jarak Spasi</label>
+                <select id="cs-padding" style="font-size:0.8rem; padding:6px 8px;">
+                  <option value="normal">Normal (Sedang)</option>
+                  <option value="compact">Rapat (Kompak)</option>
+                  <option value="spacious">Lapang (Luas)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group form-full">
+            <label>Badge Kecil (Label Atas Judul, Opsional)</label>
             <input type="text" id="cs-badge" placeholder="Misal: Showcase Produk • Fitur Terbaru">
           </div>
 
@@ -1020,13 +1522,13 @@
 
         <!-- Items Manager -->
         <div style="border-top:1px solid var(--border); padding-top:16px; margin-top:4px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
             <div>
-              <label style="font-size:0.95rem; font-weight:700; color:var(--text); margin-bottom:2px; display:block;">Daftar Item / Gambar &amp; Tombol</label>
-              <span style="font-size:0.8rem; color:var(--text-muted);" id="cs-items-hint">Tambahkan gambar dengan link URL atau upload file lokal langsung.</span>
+              <label style="font-size:0.95rem; font-weight:700; color:var(--text); margin-bottom:2px; display:block;">Daftar Konten / Item / Kartu</label>
+              <span style="font-size:0.8rem; color:var(--text-muted);" id="cs-items-hint">Atur item-item konten sesuai model template yang dipilih.</span>
             </div>
             <button type="button" class="btn btn-secondary btn-sm" onclick="addCustomSecItem()">
-              <span>➕ Tambah Item / Gambar</span>
+              <span>➕ Tambah Item Baru</span>
             </button>
           </div>
 
@@ -1034,11 +1536,22 @@
             <!-- Dynamic Items Rows -->
           </div>
         </div>
+      </div>
 
-        <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:16px; border-top:1px solid var(--border); padding-top:16px;">
-          <button type="button" class="btn btn-secondary btn-sm" onclick="closeCustomSecModal()">Batal</button>
-          <button type="button" class="btn btn-primary btn-sm" onclick="saveCustomSection()">💾 Simpan Bagian</button>
+      <!-- TAB 2: LIVE PREVIEW HASIL -->
+      <div id="cs-modal-tab-preview" style="display:none; flex-direction:column; gap:14px;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-size:0.85rem; color:var(--text-muted);">Pratinjau visual langsung hasil render bagian di landing page:</span>
+          <span class="badge-pill" style="margin:0; font-size:0.75rem;">Simulasi Responsif</span>
         </div>
+        <div id="cs-live-preview-box" style="background:#070913; border:1px solid var(--border); border-radius:12px; padding:24px 16px; max-height:480px; overflow-y:auto; position:relative;">
+          <!-- Rendered on-the-fly -->
+        </div>
+      </div>
+
+      <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:16px; border-top:1px solid var(--border); padding-top:16px;">
+        <button type="button" class="btn btn-secondary btn-sm" onclick="closeCustomSecModal()">Batal</button>
+        <button type="button" class="btn btn-primary btn-sm" onclick="saveCustomSection()">💾 Simpan Bagian</button>
       </div>
     </div>
   </div>
@@ -1108,7 +1621,12 @@
         b2: "Media Channel",
         wa: "6280000000000",
         badge: "Open for Q1/Q2 Projects • Software House",
-        footer: "Studio rekayasa software terdepan di Indonesia. Spesialis pengembangan Web Application canggih, Aplikasi Mobile, dan Solusi Digital yang terukur."
+        footer: "Studio rekayasa software terdepan di Indonesia. Spesialis pengembangan Web Application canggih, Aplikasi Mobile, dan Solusi Digital yang terukur.",
+        favicon: "",
+        logoType: "text",
+        logoText: "G",
+        logoImg: "",
+        logoHeight: 36
       },
       hero: {
         sub: "Genius Media Channel mentransformasi ide bisnis Anda menjadi Web Application performa tinggi, Mobile App native, dan Ekosistem Software enterprise dengan arsitektur masa depan.",
@@ -1408,6 +1926,11 @@
         AppData.brand.wa = document.getElementById('f-wa').value.trim() || DEFAULT_DATA.brand.wa;
         AppData.brand.badge = document.getElementById('f-badge').value.trim() || DEFAULT_DATA.brand.badge;
         AppData.brand.footer = document.getElementById('f-footer').value.trim() || DEFAULT_DATA.brand.footer;
+        AppData.brand.favicon = document.getElementById('f-favicon-url') ? document.getElementById('f-favicon-url').value.trim() : (AppData.brand.favicon || '');
+        AppData.brand.logoType = document.getElementById('f-logo-type') ? document.getElementById('f-logo-type').value : (AppData.brand.logoType || 'text');
+        AppData.brand.logoText = document.getElementById('f-logo-text') ? document.getElementById('f-logo-text').value.trim() : (AppData.brand.logoText || 'G');
+        AppData.brand.logoImg = document.getElementById('f-logo-img') ? document.getElementById('f-logo-img').value.trim() : (AppData.brand.logoImg || '');
+        AppData.brand.logoHeight = document.getElementById('f-logo-height') ? (parseInt(document.getElementById('f-logo-height').value) || 36) : (AppData.brand.logoHeight || 36);
       }
 
       if (document.getElementById('f-hero-sub')) {
@@ -1464,6 +1987,52 @@
 
     document.getElementById('btn-save-all').onclick = saveData;
     document.getElementById('btn-quick-save').onclick = saveData;
+
+    window.preparePreview = function() {
+      // Gather inputs synchronously into AppData before opening tab
+      if (document.getElementById('f-b1')) {
+        AppData.brand.b1 = document.getElementById('f-b1').value.trim() || DEFAULT_DATA.brand.b1;
+        AppData.brand.b2 = document.getElementById('f-b2').value.trim() || DEFAULT_DATA.brand.b2;
+        AppData.brand.wa = document.getElementById('f-wa').value.trim() || DEFAULT_DATA.brand.wa;
+        AppData.brand.badge = document.getElementById('f-badge').value.trim() || DEFAULT_DATA.brand.badge;
+        AppData.brand.footer = document.getElementById('f-footer').value.trim() || DEFAULT_DATA.brand.footer;
+        AppData.brand.favicon = document.getElementById('f-favicon-url') ? document.getElementById('f-favicon-url').value.trim() : (AppData.brand.favicon || '');
+        AppData.brand.logoType = document.getElementById('f-logo-type') ? document.getElementById('f-logo-type').value : (AppData.brand.logoType || 'text');
+        AppData.brand.logoText = document.getElementById('f-logo-text') ? document.getElementById('f-logo-text').value.trim() : (AppData.brand.logoText || 'G');
+        AppData.brand.logoImg = document.getElementById('f-logo-img') ? document.getElementById('f-logo-img').value.trim() : (AppData.brand.logoImg || '');
+        AppData.brand.logoHeight = document.getElementById('f-logo-height') ? (parseInt(document.getElementById('f-logo-height').value) || 36) : (AppData.brand.logoHeight || 36);
+      }
+      if (document.getElementById('f-hero-sub')) {
+        AppData.hero.sub = document.getElementById('f-hero-sub').value.trim() || DEFAULT_DATA.hero.sub;
+        AppData.hero.words = document.getElementById('f-hero-words').value
+          .split('\n')
+          .map(w => w.trim())
+          .filter(Boolean);
+      }
+      document.querySelectorAll('.stat-input-row').forEach((row, i) => {
+        if (AppData.stats && AppData.stats[i]) {
+          AppData.stats[i].count = row.querySelector('.stat-count').value.trim();
+          AppData.stats[i].label = row.querySelector('.stat-label').value.trim();
+        }
+      });
+
+      // Synchronously write to localStorage and BroadcastChannel
+      const cleanData = JSON.parse(JSON.stringify(AppData));
+      try {
+        localStorage.setItem('genius_media_full_data', JSON.stringify(cleanData));
+      } catch (e) {}
+      try {
+        if (typeof BroadcastChannel !== 'undefined') {
+          const bc = new BroadcastChannel('genius_preview_channel');
+          bc.postMessage({ type: 'UPDATE_DATA', data: cleanData });
+          bc.close();
+        }
+      } catch (e) {}
+
+      // Fire off background save to Firebase Cloud
+      saveData();
+      return true;
+    };
 
     // Save Custom Firebase Config from Settings Tab
     document.getElementById('btn-save-firebase-cfg').onclick = () => {
@@ -1530,13 +2099,141 @@
       });
     });
 
+    // Favicon & Logo Brand Handlers
+    window.updateFaviconPreview = function(url) {
+      const img = document.getElementById('prev-favicon-img');
+      const def = document.getElementById('prev-favicon-default');
+      if (!img || !def) return;
+      if (url && url.trim()) {
+        img.src = url.trim();
+        img.style.display = 'inline-block';
+        def.style.display = 'none';
+      } else {
+        img.style.display = 'none';
+        def.style.display = 'inline-block';
+      }
+    };
+
+    window.handleFaviconUpload = function(input) {
+      if (!input.files || !input.files[0]) return;
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          canvas.width = 64;
+          canvas.height = 64;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, 64, 64);
+          const compressed = canvas.toDataURL('image/png');
+          document.getElementById('f-favicon-url').value = compressed;
+          AppData.brand.favicon = compressed;
+          updateFaviconPreview(compressed);
+          saveData();
+          showToast('Icon favicon berhasil diunggah! 🌐');
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    };
+
+    window.toggleLogoTypeUI = function() {
+      const type = document.getElementById('f-logo-type') ? document.getElementById('f-logo-type').value : 'text';
+      const boxText = document.getElementById('box-logo-text');
+      const boxImg = document.getElementById('box-logo-img');
+      if (!boxText || !boxImg) return;
+      if (type === 'image') {
+        boxText.style.display = 'none';
+        boxImg.style.display = 'flex';
+      } else {
+        boxText.style.display = 'block';
+        boxImg.style.display = 'none';
+      }
+      updateBrandLogoPreview();
+    };
+
+    window.updateBrandLogoPreview = function() {
+      const type = document.getElementById('f-logo-type') ? document.getElementById('f-logo-type').value : 'text';
+      const b1 = (document.getElementById('f-b1') ? document.getElementById('f-b1').value.trim() : '') || 'Genius';
+      const b2 = (document.getElementById('f-b2') ? document.getElementById('f-b2').value.trim() : '') || 'Media';
+      const prevB1 = document.getElementById('prev-b1-text');
+      const prevB2 = document.getElementById('prev-b2-text');
+      if (prevB1) prevB1.textContent = b1;
+      if (prevB2) prevB2.textContent = b2;
+
+      const container = document.getElementById('prev-brand-logo-container');
+      if (!container) return;
+
+      if (type === 'image') {
+        const imgUrl = (document.getElementById('f-logo-img') ? document.getElementById('f-logo-img').value.trim() : '') || AppData.brand.logoImg;
+        const h = document.getElementById('f-logo-height') ? document.getElementById('f-logo-height').value : 36;
+        if (imgUrl) {
+          container.innerHTML = `<img src="${imgUrl}" style="height:${h}px; max-width:160px; object-fit:contain; border-radius:6px; vertical-align:middle;">`;
+        } else {
+          container.innerHTML = `<div style="height:${h}px; width:${h}px; background:rgba(255,255,255,0.08); border:1px dashed var(--border); border-radius:8px; display:grid; place-items:center; font-size:0.8rem; color:var(--text-muted);">Logo</div>`;
+        }
+      } else {
+        const text = (document.getElementById('f-logo-text') ? document.getElementById('f-logo-text').value.trim() : '') || 'G';
+        container.innerHTML = `<div style="width:36px; height:36px; background:linear-gradient(135deg,#6366f1,#38bdf8); border-radius:10px; display:grid; place-items:center; font-size:1.15rem; font-weight:800; color:#fff; box-shadow:0 4px 12px rgba(99,102,241,0.35);">${text}</div>`;
+      }
+    };
+
+    window.handleLogoUpload = function(input) {
+      if (!input.files || !input.files[0]) return;
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          const maxDim = 400;
+          let w = img.width;
+          let h = img.height;
+          if (w > maxDim || h > maxDim) {
+            if (w > h) {
+              h = Math.round((h * maxDim) / w);
+              w = maxDim;
+            } else {
+              w = Math.round((w * maxDim) / h);
+              h = maxDim;
+            }
+          }
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          const compressed = canvas.toDataURL('image/png');
+          document.getElementById('f-logo-img').value = compressed;
+          AppData.brand.logoImg = compressed;
+          updateBrandLogoPreview();
+          saveData();
+          showToast('Logo brand berhasil diunggah! ✨');
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    };
+
     function renderForms() {
-      // Brand
+      // Brand & Logo
       document.getElementById('f-b1').value = AppData.brand.b1 || '';
       document.getElementById('f-b2').value = AppData.brand.b2 || '';
       document.getElementById('f-wa').value = AppData.brand.wa || '';
       document.getElementById('f-badge').value = AppData.brand.badge || '';
       document.getElementById('f-footer').value = AppData.brand.footer || '';
+      if (document.getElementById('f-favicon-url')) {
+        document.getElementById('f-favicon-url').value = AppData.brand.favicon || '';
+        updateFaviconPreview(AppData.brand.favicon || '');
+      }
+      if (document.getElementById('f-logo-type')) {
+        document.getElementById('f-logo-type').value = AppData.brand.logoType || 'text';
+        document.getElementById('f-logo-text').value = AppData.brand.logoText || 'G';
+        document.getElementById('f-logo-img').value = AppData.brand.logoImg || '';
+        document.getElementById('f-logo-height').value = AppData.brand.logoHeight || 36;
+        document.getElementById('f-logo-height-val').textContent = (AppData.brand.logoHeight || 36) + 'px';
+        toggleLogoTypeUI();
+      }
 
       // Hero
       document.getElementById('f-hero-sub').value = AppData.hero.sub || '';
@@ -1576,6 +2273,10 @@
         case 'scroll': return 'Snap Scroll Galeri';
         case 'cards_btn': return 'Grid Kartu & Tombol';
         case 'banner': return 'Split Banner CTA';
+        case 'editorial_text': return 'Editorial & Manifesto';
+        case 'pricing_table': return 'Tabel Paket & Harga';
+        case 'timeline_steps': return 'Roadmap & Linimasa';
+        case 'accordion_matrix': return 'Accordion & FAQ Matrix';
         default: return 'Kustom';
       }
     }
@@ -1610,7 +2311,7 @@
                   ${visBadge}
                 </div>
                 <div class="item-desc">
-                  ${isSystem ? `ID Bagian: <code>${sec.id}</code>` : `${sec.items ? sec.items.length : 0} item gambar/tombol • Template: ${getTemplateName(sec.template)}`}
+                  ${isSystem ? `ID Bagian: <code>${sec.id}</code>` : `${sec.items ? sec.items.length : 0} item konten • Template: ${getTemplateName(sec.template)}`}
                 </div>
               </div>
             </div>
@@ -1748,6 +2449,130 @@
             btnSecUrl: "https://wa.me/6280000000000"
           }
         ]
+      },
+      editorial_text: {
+        name: "📰 Editorial Manifesto & Spotlight Teks",
+        badge: "Filosofi & Komitmen",
+        title: "Membangun Software Bukan Sekadar Baris Kode",
+        subtitle: "Kami mengedepankan rekayasa sistem yang elegan, tahan uji, dan memberi dampak nyata pada pertumbuhan bisnis Anda.",
+        quote: "Keunggulan software tidak diukur dari seberapa rumit kodenya, melainkan seberapa sederhana dan handal ia menyelesaikan persoalan bisnis penggunanya.",
+        quoteAuthor: "— Genius Media Engineering Manifesto",
+        items: [
+          { title: "Arsitektur Zero-Debt", desc: "Setiap modul dibangun dengan prinsip modularitas tinggi agar mudah diekspansi bertahun-tahun ke depan tanpa perlu rebuild total.", badge: "Pondasi Kuat" },
+          { title: "Kecepatan Responsif", desc: "Optimalisasi performa di level query database, memory cache, dan asset bundling untuk loading di bawah 1 detik.", badge: "Performa Kilat" },
+          { title: "Keamanan Standar OWASP", desc: "Enkripsi end-to-end, proteksi injeksi, dan sanitasi payload untuk menjaga kerahasiaan data perusahaan.", badge: "Proteksi Data" }
+        ]
+      },
+      pricing_table: {
+        name: "💳 Tabel Paket Layanan & Harga",
+        badge: "Investasi Transparan",
+        title: "Pilihan Paket Solusi Digital",
+        subtitle: "Pilih paket yang paling sesuai dengan skala dan tahapan bisnis Anda. Semua paket mencakup garansi purna jual.",
+        items: [
+          {
+            title: "Starter MVP",
+            badge: "Bisnis Pemula",
+            price: "Rp 15.000.000",
+            period: "/ Project All-in",
+            desc: "Web App 1-3 Halaman Inti\nDesain UI/UX Modern & Responsif\nIntegrasi Database Cloud\nDomain .com + Cloud Server 1 Tahun\nGaransi Maintenance 30 Hari",
+            btnText: "Pilih Paket Starter",
+            btnUrl: "#kontak"
+          },
+          {
+            title: "Pro Business Suite",
+            badge: "Paling Populer 🔥",
+            price: "Rp 35.000.000",
+            period: "/ Project All-in",
+            desc: "Web App + Mobile App Android/iOS\nDashboard Admin CMS & RBAC Lengkap\nIntegrasi Payment Gateway Otomatis\nNotifikasi WhatsApp API Real-time\nGaransi Maintenance 90 Hari + SLA",
+            btnText: "Mulai Paket Pro",
+            btnUrl: "#kontak"
+          },
+          {
+            title: "Enterprise Ecosystem",
+            badge: "Skala Korporat",
+            price: "Konsultasi / Custom",
+            period: "/ Sesuai Arsitektur",
+            desc: "Sistem ERP / POS / Multi-Cabang\nArsitektur Microservices & High-Load\nAudit Keamanan & Pentest Berkala\nDedicated Engineer & Tim Khusus\nSLA Uptime 99.9% & Support 24/7",
+            btnText: "Konsultasi Khusus",
+            btnUrl: "#kontak"
+          }
+        ]
+      },
+      timeline_steps: {
+        name: "🗺️ Roadmap & Milestone Waktu",
+        badge: "Rencana Rilis",
+        title: "Alur Pengembangan & Rencana Rilis",
+        subtitle: "Tahapan terstruktur dari peluncuran fase alfa hingga adopsi penuh oleh pasar.",
+        items: [
+          {
+            title: "Fase 1: Research & Discovery",
+            badge: "Minggu 1-2",
+            badge2: "Selesai",
+            desc: "Penyusunan blueprint arsitektur, riset persona pengguna, dan finalisasi dokumen kebutuhan teknis (SRS).",
+            btnText: "Lihat Dokumen",
+            btnUrl: "#kontak"
+          },
+          {
+            title: "Fase 2: Core Engineering & Alpha",
+            badge: "Minggu 3-5",
+            badge2: "Proses",
+            desc: "Pengembangan engine utama, skema database, otentikasi aman, dan antarmuka pengguna interaktif.",
+            btnText: "Demo Internal",
+            btnUrl: "#kontak"
+          },
+          {
+            title: "Fase 3: Beta Testing & QA Security",
+            badge: "Minggu 6-7",
+            badge2: "Mendatang",
+            desc: "Uji beban (stress test), simulasi penetrasi keamanan OWASP, dan pengujian penerimaan pengguna (UAT).",
+            btnText: "Gabung Beta",
+            btnUrl: "#kontak"
+          },
+          {
+            title: "Fase 4: Production Deployment & Scale",
+            badge: "Minggu 8+",
+            badge2: "Mendatang",
+            desc: "Rilis resmi ke server produksi cloud berkapasitas tinggi, monitoring telemetri 24/7, dan pelatihan tim.",
+            btnText: "Peluncuran",
+            btnUrl: "#kontak"
+          }
+        ]
+      },
+      accordion_matrix: {
+        name: "📋 Fitur Detail & Accordion Matrix",
+        badge: "Detail Lengkap",
+        title: "Eksplorasi Fitur & Kapabilitas Teknis",
+        subtitle: "Klik setiap topik untuk membaca penjelasan mendalam mengenai arsitektur dan keandalan sistem kami.",
+        items: [
+          {
+            badge: "Arsitektur",
+            title: "Bagaimana sistem menangani lonjakan volume trafik tinggi?",
+            desc: "Infrastruktur kami dirancang stateless dengan container Docker dan auto-scaling di Kubernetes/Cloud Run, dipadukan Redis in-memory cache dan CDN multi-region sehingga mampu menampung lonjakan ribuan concurrent users tanpa lonjakan latency.",
+            btnText: "Konsultasi Skalabilitas",
+            btnUrl: "#kontak"
+          },
+          {
+            badge: "Keamanan",
+            title: "Bagaimana proteksi data dan keamanan transaksi perbankan?",
+            desc: "Semua lalu lintas dienkripsi TLS 1.3, password di-hash dengan Argon2/bcrypt, serta token akses menggunakan short-lived JWT dengan rotasi refresh token terisolasi. Pembayaran terhubung langsung dengan Payment Gateway berlisensi Bank Indonesia (PCI-DSS compliant).",
+            btnText: "Info Keamanan",
+            btnUrl: "#kontak"
+          },
+          {
+            badge: "Ownership",
+            title: "Apakah seluruh source code menjadi hak milik penuh klien?",
+            desc: "Ya, 100%! Setelah proyek selesai dan serah terima dilakukan, seluruh source code, repositori Git, skema database, file aset, dan hak cipta diserahkan seutuhnya kepada Anda tanpa ada biaya lisensi tersembunyi.",
+            btnText: "Tanya Lisensi",
+            btnUrl: "#kontak"
+          },
+          {
+            badge: "Garansi",
+            title: "Bagaimana dukungan purna jual dan penanganan bug?",
+            desc: "Setiap rilis software mendapatkan jaminan garansi bug free gratis selama 30 hingga 90 hari. Kami juga menyediakan paket SLA maintenance jangka panjang untuk pembaruan fitur berkala dan monitoring server.",
+            btnText: "Detail Garansi",
+            btnUrl: "#kontak"
+          }
+        ]
       }
     };
 
@@ -1759,10 +2584,17 @@
         type: "custom",
         template: tplKey,
         visible: true,
+        align: "center",
+        titleSize: "md",
+        titleColor: "gradient",
+        bgStyle: "transparent",
+        padding: "normal",
         badge: preset.badge,
         title: preset.title,
         subtitle: preset.subtitle,
-        items: JSON.parse(JSON.stringify(preset.items))
+        quote: preset.quote || "",
+        quoteAuthor: preset.quoteAuthor || "",
+        items: JSON.parse(JSON.stringify(preset.items || []))
       };
       AppData.sections.push(newSec);
       renderSectionsLayout();
@@ -1775,6 +2607,68 @@
     };
 
     let currentCustomItems = [];
+    let currentCustomQuote = "";
+    let currentCustomQuoteAuthor = "";
+
+    window.switchCsModalTab = function(tab) {
+      const btnForm = document.getElementById('modal-tab-btn-form');
+      const btnPrev = document.getElementById('modal-tab-btn-preview');
+      const tabForm = document.getElementById('cs-modal-tab-form');
+      const tabPrev = document.getElementById('cs-modal-tab-preview');
+
+      if (tab === 'preview') {
+        syncCustomItemsFromDOM();
+        btnForm.classList.remove('active');
+        btnPrev.classList.add('active');
+        tabForm.style.display = 'none';
+        tabPrev.style.display = 'flex';
+        renderCsLivePreview();
+      } else {
+        btnPrev.classList.remove('active');
+        btnForm.classList.add('active');
+        tabPrev.style.display = 'none';
+        tabForm.style.display = 'flex';
+      }
+    };
+
+    function syncCustomItemsFromDOM() {
+      const tpl = document.getElementById('cs-template').value;
+      if (tpl === 'editorial_text') {
+        const qEl = document.getElementById('cs-editorial-quote');
+        const qaEl = document.getElementById('cs-editorial-quote-author');
+        if (qEl) currentCustomQuote = qEl.value;
+        if (qaEl) currentCustomQuoteAuthor = qaEl.value;
+      }
+
+      const itemBoxes = document.querySelectorAll('#cs-items-container .cs-item-box');
+      if (itemBoxes.length) {
+        const freshItems = [];
+        itemBoxes.forEach((box, i) => {
+          const imgInput = box.querySelector('.cs-inp-img');
+          const titleInput = box.querySelector('.cs-inp-title');
+          const badgeInput = box.querySelector('.cs-inp-badge');
+          const badge2Input = box.querySelector('.cs-inp-badge2');
+          const priceInput = box.querySelector('.cs-inp-price');
+          const periodInput = box.querySelector('.cs-inp-period');
+          const descInput = box.querySelector('.cs-inp-desc');
+          const btnTextInput = box.querySelector('.cs-inp-btn-text');
+          const btnUrlInput = box.querySelector('.cs-inp-btn-url');
+
+          freshItems.push({
+            img: imgInput ? imgInput.value.trim() : (currentCustomItems[i]?.img || ''),
+            title: titleInput ? titleInput.value.trim() : (currentCustomItems[i]?.title || ''),
+            badge: badgeInput ? badgeInput.value.trim() : (currentCustomItems[i]?.badge || ''),
+            badge2: badge2Input ? badge2Input.value.trim() : (currentCustomItems[i]?.badge2 || ''),
+            price: priceInput ? priceInput.value.trim() : (currentCustomItems[i]?.price || ''),
+            period: periodInput ? periodInput.value.trim() : (currentCustomItems[i]?.period || ''),
+            desc: descInput ? descInput.value.trim() : (currentCustomItems[i]?.desc || ''),
+            btnText: btnTextInput ? btnTextInput.value.trim() : (currentCustomItems[i]?.btnText || ''),
+            btnUrl: btnUrlInput ? btnUrlInput.value.trim() : (currentCustomItems[i]?.btnUrl || '')
+          });
+        });
+        currentCustomItems = freshItems;
+      }
+    }
 
     window.openCustomSectionModal = function(idx) {
       document.getElementById('cs-edit-index').value = idx;
@@ -1785,19 +2679,34 @@
         const sec = AppData.sections[idx];
         titleEl.textContent = `Edit Bagian: ${sec.name || sec.title}`;
         document.getElementById('cs-template').value = sec.template || 'rolling';
+        document.getElementById('cs-align').value = sec.align || 'center';
+        document.getElementById('cs-title-size').value = sec.titleSize || 'md';
+        document.getElementById('cs-title-color').value = sec.titleColor || 'gradient';
+        document.getElementById('cs-bg-style').value = sec.bgStyle || 'transparent';
+        document.getElementById('cs-padding').value = sec.padding || 'normal';
         document.getElementById('cs-badge').value = sec.badge || '';
         document.getElementById('cs-title').value = sec.title || sec.name || '';
         document.getElementById('cs-subtitle').value = sec.subtitle || '';
+        currentCustomQuote = sec.quote || '';
+        currentCustomQuoteAuthor = sec.quoteAuthor || '';
         currentCustomItems = JSON.parse(JSON.stringify(sec.items || []));
       } else {
         titleEl.textContent = 'Tambah Bagian Kustom Baru';
         document.getElementById('cs-template').value = 'rolling';
+        document.getElementById('cs-align').value = 'center';
+        document.getElementById('cs-title-size').value = 'md';
+        document.getElementById('cs-title-color').value = 'gradient';
+        document.getElementById('cs-bg-style').value = 'transparent';
+        document.getElementById('cs-padding').value = 'normal';
         document.getElementById('cs-badge').value = 'Showcase Unggulan';
         document.getElementById('cs-title').value = 'Koleksi Karya Digital Terbaru';
         document.getElementById('cs-subtitle').value = 'Dokumentasi visual dan aplikasi terkini yang kami ciptakan.';
+        currentCustomQuote = '';
+        currentCustomQuoteAuthor = '';
         currentCustomItems = JSON.parse(JSON.stringify(TEMPLATE_PRESETS.rolling.items));
       }
 
+      switchCsModalTab('form');
       onTemplateChange();
       renderCustomSecItems();
       modal.classList.add('open');
@@ -1810,81 +2719,233 @@
     window.onTemplateChange = function() {
       const tpl = document.getElementById('cs-template').value;
       const hintEl = document.getElementById('cs-items-hint');
-      if (tpl === 'rolling') {
-        hintEl.textContent = 'Model Marquee: Gambar akan bergulir otomatis. Isikan URL gambar/upload dan judul singkat.';
-      } else if (tpl === 'scroll') {
-        hintEl.textContent = 'Model Snap Scroll: Kartu gambar lebar dengan judul, deskripsi, dan tombol link.';
-      } else if (tpl === 'cards_btn') {
-        hintEl.textContent = 'Model Bento Cards: Grid kartu interaktif dengan gambar, badge, deskripsi, dan tombol CTA.';
-      } else if (tpl === 'banner') {
-        hintEl.textContent = 'Model Split Banner: Banner 2 kolom dengan gambar besar dan teks headline serta tombol.';
-      }
+      const hints = {
+        rolling: 'Model 1 (Marquee): Deretan foto/logo bergulir halus otomatis. Cukup masukkan URL gambar & judul.',
+        scroll: 'Model 2 (Snap Scroll): Galeri kartu horizontal interaktif yang bisa digeser ke samping dengan tombol aksi.',
+        cards_btn: 'Model 3 (Bento Cards): Grid kartu modern dengan foto, badge, deskripsi, dan tombol link.',
+        banner: 'Model 4 (Split Banner): Banner lebar 2 kolom dengan foto besar dan teks headline penawaran spesial.',
+        editorial_text: 'Model 5 (Editorial): Fokus pada narasi tulisan, manifesto bisnis, kutipan filosofis, dan nilai-nilai inti.',
+        pricing_table: 'Model 6 (Tabel Harga): Menampilkan paket layanan, nominal harga, dan daftar checklist fitur per paket.',
+        timeline_steps: 'Model 7 (Roadmap): Linimasa waktu bergaris alur untuk memperlihatkan milestone fase pengembangan.',
+        accordion_matrix: 'Model 8 (Accordion): Daftar topik lipat interaktif untuk tanya jawab atau detail fitur mendalam.'
+      };
+      if (hintEl) hintEl.textContent = hints[tpl] || 'Atur item-item konten sesuai model template yang dipilih.';
+      renderCustomSecItems();
     };
 
     window.renderCustomSecItems = function() {
+      const tpl = document.getElementById('cs-template').value;
       const container = document.getElementById('cs-items-container');
+      if (!container) return;
+
+      let editorialQuoteHtml = '';
+      if (tpl === 'editorial_text') {
+        editorialQuoteHtml = `
+          <div style="background:rgba(99,102,241,0.08); border:1px solid rgba(99,102,241,0.25); border-radius:10px; padding:14px; margin-bottom:12px;">
+            <div style="font-weight:700; font-size:0.85rem; color:var(--primary-light); margin-bottom:8px;">💬 Kutipan / Callout Manifesto Utama:</div>
+            <textarea id="cs-editorial-quote" rows="2" class="form-textarea" placeholder="Teks kutipan filosofis atau komitmen kualitas..." style="margin-bottom:8px;">${currentCustomQuote || ''}</textarea>
+            <input type="text" id="cs-editorial-quote-author" class="form-input" placeholder="Nama / Jabatan Pembuat Kutipan (misal: — Founder Genius Media)" value="${currentCustomQuoteAuthor || ''}">
+          </div>
+        `;
+      }
+
       if (!currentCustomItems.length) {
-        container.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-muted); font-size:0.85rem">Belum ada item gambar. Klik "+ Tambah Item / Gambar" di atas.</div>`;
+        container.innerHTML = editorialQuoteHtml + `<div style="text-align:center; padding:20px; color:var(--text-muted); font-size:0.85rem">Belum ada item konten. Klik "+ Tambah Item Baru" di atas.</div>`;
         return;
       }
 
-      container.innerHTML = currentCustomItems.map((it, i) => `
-        <div class="cs-item-box">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span style="font-weight:700; font-size:0.85rem; color:var(--text-muted);">Item #${i + 1}</span>
-            <button type="button" class="btn btn-danger btn-sm" onclick="removeCustomSecItem(${i})" style="padding:2px 8px; font-size:0.75rem">✕ Hapus</button>
-          </div>
-
-          <div style="display:flex; gap:14px; align-items:flex-start;">
-            <img src="${it.img || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=300&q=80'}" class="cs-img-preview" id="cs-preview-${i}" onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=300&q=80'">
-            
-            <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
-              <div style="display:flex; gap:8px;">
-                <input type="text" value="${it.img || ''}" placeholder="URL Gambar (https://...)" oninput="updateCustomSecItemImg(${i}, this.value)" style="flex:1">
-                <label class="btn btn-secondary btn-sm" style="margin:0; cursor:pointer; flex-shrink:0" title="Unggah File Gambar dari Komputer">
-                  <span>📁 Unggah</span>
-                  <input type="file" accept="image/*" style="display:none" onchange="handleCustomImgUpload(${i}, this)">
-                </label>
+      const itemsHtml = currentCustomItems.map((it, i) => {
+        // Template 6: Pricing Table
+        if (tpl === 'pricing_table') {
+          return `
+            <div class="cs-item-box">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-weight:700; font-size:0.85rem; color:var(--text-muted);">Paket Harga #${i + 1}</span>
+                <button type="button" class="btn btn-danger btn-sm" onclick="removeCustomSecItem(${i})" style="padding:2px 8px; font-size:0.75rem">✕ Hapus</button>
               </div>
-
               <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-                <input type="text" value="${it.title || ''}" placeholder="Judul Item" oninput="currentCustomItems[${i}].title = this.value">
-                <input type="text" value="${it.badge || ''}" placeholder="Badge (misal: Baru / Hot)" oninput="currentCustomItems[${i}].badge = this.value">
+                <input type="text" class="cs-inp-title" value="${it.title || ''}" placeholder="Nama Paket (misal: Starter MVP)">
+                <input type="text" class="cs-inp-badge" value="${it.badge || ''}" placeholder="Badge (misal: Paling Populer 🔥)">
               </div>
-
-              <textarea rows="2" placeholder="Deskripsi Singkat" oninput="currentCustomItems[${i}].desc = this.value">${it.desc || ''}</textarea>
-
               <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-                <input type="text" value="${it.btnText || ''}" placeholder="Teks Tombol (misal: Cek Detail)" oninput="currentCustomItems[${i}].btnText = this.value">
-                <input type="text" value="${it.btnUrl || ''}" placeholder="Link Tombol (URL / WA)" oninput="currentCustomItems[${i}].btnUrl = this.value">
+                <input type="text" class="cs-inp-price" value="${it.price || it.badge2 || ''}" placeholder="Harga (misal: Rp 15.000.000)">
+                <input type="text" class="cs-inp-period" value="${it.period || ''}" placeholder="Periode (misal: / Project All-in)">
+              </div>
+              <div>
+                <label style="font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:4px;">Checklist Fitur (1 fitur per baris):</label>
+                <textarea rows="3" class="cs-inp-desc" placeholder="Fitur 1&#10;Fitur 2&#10;Fitur 3">${it.desc || ''}</textarea>
+              </div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                <input type="text" class="cs-inp-btn-text" value="${it.btnText || ''}" placeholder="Teks Tombol (misal: Pilih Paket)">
+                <input type="text" class="cs-inp-btn-url" value="${it.btnUrl || ''}" placeholder="Link Tombol (misal: #kontak atau URL WA)">
               </div>
             </div>
-          </div>
-        </div>
-      `).join('');
+          `;
+        }
+        // Template 7: Timeline / Roadmap
+        else if (tpl === 'timeline_steps') {
+          return `
+            <div class="cs-item-box">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-weight:700; font-size:0.85rem; color:var(--text-muted);">Milestone #${i + 1}</span>
+                <button type="button" class="btn btn-danger btn-sm" onclick="removeCustomSecItem(${i})" style="padding:2px 8px; font-size:0.75rem">✕ Hapus</button>
+              </div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                <input type="text" class="cs-inp-title" value="${it.title || ''}" placeholder="Judul Tahap (misal: Fase 1: Discovery)">
+                <input type="text" class="cs-inp-badge" value="${it.badge || ''}" placeholder="Label Waktu (misal: Minggu 1-2)">
+              </div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                <input type="text" class="cs-inp-badge2" value="${it.badge2 || ''}" placeholder="Status Badge (misal: Selesai / Proses / Mendatang)">
+                <input type="text" class="cs-inp-btn-text" value="${it.btnText || ''}" placeholder="Teks Tombol (Opsional)">
+              </div>
+              <textarea rows="2" class="cs-inp-desc" placeholder="Penjelasan tahapan pekerjaan atau rilis...">${it.desc || ''}</textarea>
+              <input type="text" class="cs-inp-btn-url" value="${it.btnUrl || ''}" placeholder="Link Tombol (Opsional: #kontak)">
+            </div>
+          `;
+        }
+        // Template 8: Accordion Matrix
+        else if (tpl === 'accordion_matrix') {
+          return `
+            <div class="cs-item-box">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-weight:700; font-size:0.85rem; color:var(--text-muted);">Topik / Tanya Jawab #${i + 1}</span>
+                <button type="button" class="btn btn-danger btn-sm" onclick="removeCustomSecItem(${i})" style="padding:2px 8px; font-size:0.75rem">✕ Hapus</button>
+              </div>
+              <div style="display:grid; grid-template-columns:2fr 1fr; gap:8px;">
+                <input type="text" class="cs-inp-title" value="${it.title || ''}" placeholder="Pertanyaan / Topik Bahasan">
+                <input type="text" class="cs-inp-badge" value="${it.badge || ''}" placeholder="Kategori (misal: Keamanan)">
+              </div>
+              <textarea rows="3" class="cs-inp-desc" placeholder="Uraian jawaban atau penjelasan teknis mendalam...">${it.desc || ''}</textarea>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                <input type="text" class="cs-inp-btn-text" value="${it.btnText || ''}" placeholder="Teks Tombol (Opsional: Pelajari Lebih Lanjut)">
+                <input type="text" class="cs-inp-btn-url" value="${it.btnUrl || ''}" placeholder="Link Tombol (misal: #kontak)">
+              </div>
+            </div>
+          `;
+        }
+        // Template 5: Editorial Manifesto Cards
+        else if (tpl === 'editorial_text') {
+          return `
+            <div class="cs-item-box">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-weight:700; font-size:0.85rem; color:var(--text-muted);">Poin Nilai #${i + 1}</span>
+                <button type="button" class="btn btn-danger btn-sm" onclick="removeCustomSecItem(${i})" style="padding:2px 8px; font-size:0.75rem">✕ Hapus</button>
+              </div>
+              <div style="display:grid; grid-template-columns:2fr 1fr; gap:8px;">
+                <input type="text" class="cs-inp-title" value="${it.title || ''}" placeholder="Pilar Nilai (misal: Arsitektur Zero-Debt)">
+                <input type="text" class="cs-inp-badge" value="${it.badge || ''}" placeholder="Label (misal: Pondasi Kuat)">
+              </div>
+              <textarea rows="2" class="cs-inp-desc" placeholder="Uraian komitmen atau pilar teknologi...">${it.desc || ''}</textarea>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                <input type="text" class="cs-inp-btn-text" value="${it.btnText || ''}" placeholder="Teks Tombol (Opsional)">
+                <input type="text" class="cs-inp-btn-url" value="${it.btnUrl || ''}" placeholder="Link Tombol (Opsional)">
+              </div>
+            </div>
+          `;
+        }
+        // Standard Image Templates (rolling, scroll, cards_btn, banner)
+        else {
+          return `
+            <div class="cs-item-box">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-weight:700; font-size:0.85rem; color:var(--text-muted);">Item Media #${i + 1}</span>
+                <button type="button" class="btn btn-danger btn-sm" onclick="removeCustomSecItem(${i})" style="padding:2px 8px; font-size:0.75rem">✕ Hapus</button>
+              </div>
+
+              <div style="display:flex; gap:14px; align-items:flex-start;">
+                <img src="${it.img || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=300&q=80'}" class="cs-img-preview" id="cs-preview-${i}" onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=300&q=80'">
+                
+                <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
+                  <div style="display:flex; gap:8px;">
+                    <input type="text" class="cs-inp-img" value="${it.img || ''}" placeholder="URL Gambar (https://...)" oninput="updateCustomSecItemImg(${i}, this.value)" style="flex:1">
+                    <label class="btn btn-secondary btn-sm" style="margin:0; cursor:pointer; flex-shrink:0" title="Unggah File Gambar dari Komputer">
+                      <span>📁 Unggah</span>
+                      <input type="file" accept="image/*" style="display:none" onchange="handleCustomImgUpload(${i}, this)">
+                    </label>
+                  </div>
+
+                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                    <input type="text" class="cs-inp-title" value="${it.title || ''}" placeholder="Judul Item">
+                    <input type="text" class="cs-inp-badge" value="${it.badge || ''}" placeholder="Badge (misal: Baru / Hot)">
+                  </div>
+
+                  <textarea rows="2" class="cs-inp-desc" placeholder="Deskripsi Singkat">${it.desc || ''}</textarea>
+
+                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                    <input type="text" class="cs-inp-btn-text" value="${it.btnText || ''}" placeholder="Teks Tombol (misal: Cek Detail)">
+                    <input type="text" class="cs-inp-btn-url" value="${it.btnUrl || ''}" placeholder="Link Tombol (URL / WA)">
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+      }).join('');
+
+      container.innerHTML = editorialQuoteHtml + itemsHtml;
     };
 
     window.addCustomSecItem = function() {
-      currentCustomItems.push({
-        img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80",
-        title: "Item Baru",
-        badge: "Fitur",
-        desc: "Keterangan singkat mengenai produk atau keunggulan ini.",
-        btnText: "Lihat Detail",
-        btnUrl: "#kontak"
-      });
+      syncCustomItemsFromDOM();
+      const tpl = document.getElementById('cs-template').value;
+      if (tpl === 'pricing_table') {
+        currentCustomItems.push({
+          title: "Paket Baru",
+          badge: "Rekomendasi",
+          price: "Rp 20.000.000",
+          period: "/ Project",
+          desc: "Fitur A\nFitur B\nFitur C\nSupport Teknis",
+          btnText: "Pilih Paket",
+          btnUrl: "#kontak"
+        });
+      } else if (tpl === 'timeline_steps') {
+        currentCustomItems.push({
+          title: "Fase Baru",
+          badge: "Minggu X",
+          badge2: "Mendatang",
+          desc: "Keterangan deliverable dan milestone pada tahapan ini.",
+          btnText: "Pelajari",
+          btnUrl: "#kontak"
+        });
+      } else if (tpl === 'accordion_matrix') {
+        currentCustomItems.push({
+          badge: "Informasi",
+          title: "Topik bahasan atau pertanyaan baru?",
+          desc: "Penjelasan lengkap dan komprehensif mengenai fitur atau kapabilitas ini.",
+          btnText: "Hubungi Kami",
+          btnUrl: "#kontak"
+        });
+      } else if (tpl === 'editorial_text') {
+        currentCustomItems.push({
+          badge: "Standar",
+          title: "Pilar Kualitas Baru",
+          desc: "Penjelasan filosofi dan standar kualitas yang diterapkan oleh tim engineering.",
+          btnText: "Konsultasi",
+          btnUrl: "#kontak"
+        });
+      } else {
+        currentCustomItems.push({
+          img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80",
+          title: "Item Baru",
+          badge: "Fitur",
+          desc: "Keterangan singkat mengenai produk atau keunggulan ini.",
+          btnText: "Lihat Detail",
+          btnUrl: "#kontak"
+        });
+      }
       renderCustomSecItems();
       const container = document.getElementById('cs-items-container');
       if (container) container.scrollTop = container.scrollHeight;
     };
 
     window.removeCustomSecItem = function(i) {
+      syncCustomItemsFromDOM();
       currentCustomItems.splice(i, 1);
       renderCustomSecItems();
     };
 
     window.updateCustomSecItemImg = function(i, url) {
-      currentCustomItems[i].img = url;
+      if (currentCustomItems[i]) currentCustomItems[i].img = url;
       const preview = document.getElementById(`cs-preview-${i}`);
       if (preview) preview.src = url || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=300&q=80';
     };
@@ -1915,12 +2976,229 @@
           ctx.drawImage(img, 0, 0, w, h);
           const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.82);
           updateCustomSecItemImg(i, compressedDataUrl);
-          renderCustomSecItems();
+          const inp = document.querySelectorAll('#cs-items-container .cs-inp-img')[i];
+          if (inp) inp.value = compressedDataUrl;
         };
         img.src = e.target.result;
       };
       reader.readAsDataURL(file);
     };
+
+    // Live Visual Preview Renderer
+    function renderCsLivePreview() {
+      const box = document.getElementById('cs-live-preview-box');
+      if (!box) return;
+
+      const tpl = document.getElementById('cs-template').value;
+      const align = document.getElementById('cs-align').value;
+      const titleSize = document.getElementById('cs-title-size').value;
+      const titleColor = document.getElementById('cs-title-color').value;
+      const bgStyle = document.getElementById('cs-bg-style').value;
+      const padding = document.getElementById('cs-padding').value;
+      const badge = document.getElementById('cs-badge').value.trim();
+      const title = document.getElementById('cs-title').value.trim() || 'Judul Bagian Kustom';
+      const subtitle = document.getElementById('cs-subtitle').value.trim();
+      const items = currentCustomItems || [];
+
+      let headerHtml = `
+        <div class="sec-header sec-align-${align}" style="margin-bottom:32px;">
+          ${badge ? `<div class="badge-pill" style="display:inline-flex;">${badge}</div>` : ''}
+          <h2 class="sec-title sec-title-${titleColor} sec-size-${titleSize}">${title}</h2>
+          ${subtitle ? `<p class="sec-desc" style="max-width:640px; margin:${align === 'center' ? '0 auto' : '0'};">${subtitle}</p>` : ''}
+        </div>
+      `;
+
+      let bodyHtml = '';
+
+      // Template 1: Marquee
+      if (tpl === 'rolling') {
+        const doubleItems = [...items, ...items];
+        bodyHtml = `
+          <div class="custom-rolling-wrapper">
+            <div class="custom-rolling-track">
+              ${doubleItems.map(it => `
+                <div class="custom-rolling-item">
+                  <img src="${it.img || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80'}" alt="${it.title || ''}">
+                  ${it.title ? `<div class="custom-rolling-caption">${it.title}</div>` : ''}
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+      // Template 2: Snap Scroll
+      else if (tpl === 'scroll') {
+        bodyHtml = `
+          <div class="custom-scroll-container">
+            ${items.map(it => `
+              <div class="custom-scroll-card">
+                <img src="${it.img || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80'}" class="custom-scroll-img" alt="${it.title || ''}">
+                <div class="custom-scroll-body">
+                  ${it.badge ? `<span style="font-size:0.75rem; color:var(--secondary); font-weight:700; margin-bottom:4px">${it.badge}</span>` : ''}
+                  <h3 style="font-size:1.15rem; font-weight:700; margin-bottom:8px">${it.title}</h3>
+                  <p style="color:var(--text-muted); font-size:0.88rem; line-height:1.5; margin-bottom:14px; flex-grow:1">${it.desc || ''}</p>
+                  ${it.btnText ? `<a href="javascript:void(0)" class="btn btn-secondary btn-sm" style="align-self:flex-start">${it.btnText} ➔</a>` : ''}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      }
+      // Template 3: Bento Cards
+      else if (tpl === 'cards_btn') {
+        bodyHtml = `
+          <div class="custom-cards-grid">
+            ${items.map(it => `
+              <div class="custom-card-item">
+                <div class="custom-card-img-wrap">
+                  <img src="${it.img || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80'}" alt="${it.title || ''}">
+                  ${it.badge ? `<div class="custom-card-badge">${it.badge}</div>` : ''}
+                </div>
+                <div class="custom-card-body">
+                  <h3>${it.title}</h3>
+                  <p>${it.desc || ''}</p>
+                  ${it.btnText ? `<a href="javascript:void(0)" class="btn btn-secondary btn-sm" style="align-self:flex-start">${it.btnText} ➔</a>` : ''}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      }
+      // Template 4: Split Banner
+      else if (tpl === 'banner') {
+        const it = items[0] || {
+          img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80",
+          title: "Headline Banner Menarik",
+          desc: "Keterangan lengkap penawaran khusus.",
+          btnText: "Tombol Utama",
+          btnSecText: "Tombol Kedua"
+        };
+        bodyHtml = `
+          <div class="custom-banner-grid">
+            <div>
+              ${it.badge ? `<div class="badge-pill" style="margin-bottom:12px">${it.badge}</div>` : ''}
+              <h2 style="font-size:1.8rem; font-weight:800; margin-bottom:14px; line-height:1.3">${it.title}</h2>
+              <p style="color:var(--text-muted); font-size:0.95rem; line-height:1.6; margin-bottom:22px">${it.desc || ''}</p>
+              <div style="display:flex; gap:12px; flex-wrap:wrap">
+                ${it.btnText ? `<a href="javascript:void(0)" class="btn btn-primary">${it.btnText}</a>` : ''}
+                ${it.btnSecText ? `<a href="javascript:void(0)" class="btn btn-secondary">${it.btnSecText}</a>` : ''}
+              </div>
+            </div>
+            <div>
+              <img src="${it.img || 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80'}" class="custom-banner-img" alt="${it.title}">
+            </div>
+          </div>
+        `;
+      }
+      // Template 5: Editorial Manifesto
+      else if (tpl === 'editorial_text') {
+        bodyHtml = `
+          <div class="custom-editorial-wrap">
+            ${currentCustomQuote ? `
+              <div class="custom-quote-callout">
+                "${currentCustomQuote}"
+                ${currentCustomQuoteAuthor ? `<div style="font-size:0.85rem; color:var(--secondary); margin-top:8px; font-weight:700; font-style:normal;">${currentCustomQuoteAuthor}</div>` : ''}
+              </div>
+            ` : ''}
+            ${items.length ? `
+              <div class="custom-manifesto-grid">
+                ${items.map(it => `
+                  <div class="custom-manifesto-card">
+                    ${it.badge ? `<span style="font-size:0.75rem; background:rgba(99,102,241,0.18); color:var(--primary-light); padding:2px 8px; border-radius:4px; font-weight:700;">${it.badge}</span>` : ''}
+                    <h3 style="font-size:1.15rem; font-weight:700; margin:10px 0 6px;">${it.title}</h3>
+                    <p style="color:var(--text-muted); font-size:0.88rem; line-height:1.6; margin-bottom:12px">${it.desc || ''}</p>
+                    ${it.btnText ? `<a href="javascript:void(0)" class="btn btn-secondary btn-sm">${it.btnText} ➔</a>` : ''}
+                  </div>
+                `).join('')}
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }
+      // Template 6: Pricing Table
+      else if (tpl === 'pricing_table') {
+        bodyHtml = `
+          <div class="custom-pricing-grid">
+            ${items.map((it, idx) => {
+              const isPopular = (it.badge && it.badge.toLowerCase().includes('populer')) || idx === 1;
+              const feats = (it.desc || '').split('\n').map(f => f.trim()).filter(Boolean);
+              return `
+                <div class="custom-pricing-card ${isPopular ? 'popular' : ''}">
+                  ${it.badge ? `<div class="custom-pricing-badge">${it.badge}</div>` : ''}
+                  <h3 style="font-size:1.25rem; font-weight:700; margin-top:${isPopular ? '6px' : '0'}; margin-bottom:6px">${it.title}</h3>
+                  <div class="custom-pricing-amount">${it.price || it.badge2 || 'Rp 15.000.000'}</div>
+                  <div class="custom-pricing-period">${it.period || '/ Sesuai Scope'}</div>
+                  <ul class="custom-pricing-list">
+                    ${feats.map(f => `<li><span class="check-icon">✓</span> <span>${f}</span></li>`).join('')}
+                  </ul>
+                  ${it.btnText ? `
+                    <a href="javascript:void(0)" class="btn ${isPopular ? 'btn-primary' : 'btn-secondary'}" style="justify-content:center">
+                      ${it.btnText}
+                    </a>
+                  ` : ''}
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `;
+      }
+      // Template 7: Roadmap
+      else if (tpl === 'timeline_steps') {
+        bodyHtml = `
+          <div class="custom-timeline-wrap">
+            ${items.map(it => `
+              <div class="custom-timeline-item">
+                <div class="custom-timeline-node"></div>
+                <div class="custom-timeline-content">
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:8px">
+                    <span style="font-size:0.8rem; font-weight:800; color:var(--secondary); text-transform:uppercase">${it.badge || 'Tahap'}</span>
+                    ${it.badge2 ? `<span style="font-size:0.75rem; background:rgba(255,255,255,0.06); padding:2px 8px; border-radius:4px">${it.badge2}</span>` : ''}
+                  </div>
+                  <h3 style="font-size:1.15rem; font-weight:700; margin-bottom:8px">${it.title}</h3>
+                  <p style="color:var(--text-muted); font-size:0.88rem; line-height:1.6; margin-bottom:12px">${it.desc || ''}</p>
+                  ${it.btnText ? `<a href="javascript:void(0)" class="btn btn-secondary btn-sm">${it.btnText} ➔</a>` : ''}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      }
+      // Template 8: Accordion Matrix
+      else if (tpl === 'accordion_matrix') {
+        bodyHtml = `
+          <div class="custom-accordion-wrap">
+            ${items.map((it, idx) => `
+              <div class="custom-accordion-item ${idx === 0 ? 'active' : ''}">
+                <div class="custom-accordion-head" onclick="this.parentElement.classList.toggle('active')">
+                  <h3>
+                    ${it.badge ? `<span style="font-size:0.75rem; background:rgba(99,102,241,0.18); color:var(--primary-light); padding:3px 8px; border-radius:4px">${it.badge}</span>` : ''}
+                    <span>${it.title}</span>
+                  </h3>
+                  <span class="custom-accordion-arrow">▼</span>
+                </div>
+                <div class="custom-accordion-body">
+                  ${it.desc || ''}
+                  ${it.btnText ? `
+                    <div style="margin-top:12px">
+                      <a href="javascript:void(0)" class="btn btn-secondary btn-sm">${it.btnText} ➔</a>
+                    </div>
+                  ` : ''}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      }
+
+      box.innerHTML = `
+        <div class="custom-section sec-bg-${bgStyle} sec-pad-${padding}" style="padding:20px 0;">
+          <div class="container">
+            ${headerHtml}
+            ${bodyHtml}
+          </div>
+        </div>
+      `;
+    }
 
     window.saveCustomSection = async function() {
       const idx = parseInt(document.getElementById('cs-edit-index').value, 10);
@@ -1930,39 +3208,30 @@
         return;
       }
       const tpl = document.getElementById('cs-template').value;
+      const align = document.getElementById('cs-align').value;
+      const titleSize = document.getElementById('cs-title-size').value;
+      const titleColor = document.getElementById('cs-title-color').value;
+      const bgStyle = document.getElementById('cs-bg-style').value;
+      const padding = document.getElementById('cs-padding').value;
       const badge = document.getElementById('cs-badge').value.trim();
       const subtitle = document.getElementById('cs-subtitle').value.trim();
 
-      // Gather item inputs directly from DOM so nothing is missed
-      const itemBoxes = document.querySelectorAll('#cs-items-container .cs-item-box');
-      if (itemBoxes.length) {
-        const freshItems = [];
-        itemBoxes.forEach((box, i) => {
-          const imgInput = box.querySelector('input[placeholder*="URL Gambar"]');
-          const titleInput = box.querySelector('input[placeholder="Judul Item"]');
-          const badgeInput = box.querySelector('input[placeholder*="Badge"]');
-          const descInput = box.querySelector('textarea');
-          const btnTextInput = box.querySelector('input[placeholder*="Teks Tombol"]');
-          const btnUrlInput = box.querySelector('input[placeholder*="Link Tombol"]');
-          freshItems.push({
-            img: imgInput ? imgInput.value.trim() : (currentCustomItems[i]?.img || ''),
-            title: titleInput ? titleInput.value.trim() : (currentCustomItems[i]?.title || ''),
-            badge: badgeInput ? badgeInput.value.trim() : (currentCustomItems[i]?.badge || ''),
-            desc: descInput ? descInput.value.trim() : (currentCustomItems[i]?.desc || ''),
-            btnText: btnTextInput ? btnTextInput.value.trim() : (currentCustomItems[i]?.btnText || ''),
-            btnUrl: btnUrlInput ? btnUrlInput.value.trim() : (currentCustomItems[i]?.btnUrl || '')
-          });
-        });
-        currentCustomItems = freshItems;
-      }
+      syncCustomItemsFromDOM();
 
       if (idx >= 0) {
         const sec = AppData.sections[idx];
         sec.name = title;
         sec.title = title;
         sec.template = tpl;
+        sec.align = align;
+        sec.titleSize = titleSize;
+        sec.titleColor = titleColor;
+        sec.bgStyle = bgStyle;
+        sec.padding = padding;
         sec.badge = badge;
         sec.subtitle = subtitle;
+        sec.quote = currentCustomQuote;
+        sec.quoteAuthor = currentCustomQuoteAuthor;
         sec.items = currentCustomItems;
       } else {
         const newSec = {
@@ -1971,9 +3240,16 @@
           type: "custom",
           template: tpl,
           visible: true,
+          align: align,
+          titleSize: titleSize,
+          titleColor: titleColor,
+          bgStyle: bgStyle,
+          padding: padding,
           badge: badge,
           title: title,
           subtitle: subtitle,
+          quote: currentCustomQuote,
+          quoteAuthor: currentCustomQuoteAuthor,
           items: currentCustomItems
         };
         AppData.sections.push(newSec);
