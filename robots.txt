@@ -1,0 +1,13 @@
+# ==============================================================================
+# robots.txt for Genius Media Channel
+# Directs Googlebot and search engines to index public pages
+# ==============================================================================
+
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /admin
+Disallow: /*.json$
+
+# Sitemap location
+Sitemap: https://geniusmedia.id/sitemap.xml

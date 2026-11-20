@@ -3,9 +3,45 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Genius Media Channel — Software House & Web App Development Studio</title>
-  <meta name="description" content="Genius Media Channel adalah partner digital terpercaya untuk pengembangan Web Application canggih, Aplikasi Mobile (iOS/Android), Software Desktop, dan Solusi AI terintegrasi.">
-  <meta name="keywords" content="web app development, software house indonesia, aplikasi mobile, bikin website aplikasi, genius media channel, flutter, react, next.js">
+  <title id="seo-page-title">Genius Media Channel — Software House &amp; Web App Development Studio</title>
+  <meta name="description" id="seo-meta-desc" content="Genius Media Channel adalah partner digital terpercaya untuk pengembangan Web Application canggih, Aplikasi Mobile (iOS/Android), Software Desktop, dan Solusi AI terintegrasi.">
+  <meta name="keywords" id="seo-meta-keywords" content="web app development, software house indonesia, aplikasi mobile, bikin website aplikasi, genius media channel, flutter, react, next.js">
+  <meta name="robots" id="seo-meta-robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <link rel="canonical" id="seo-canonical" href="https://geniusmedia.id">
+
+  <!-- Open Graph & Social Cards (WhatsApp, Facebook, LinkedIn) -->
+  <meta property="og:locale" content="id_ID">
+  <meta property="og:type" content="website">
+  <meta property="og:title" id="seo-og-title" content="Genius Media Channel — Software House &amp; Web App Development Studio">
+  <meta property="og:description" id="seo-og-desc" content="Partner teknologi terpercaya untuk membangun web app scalable, mobile app native, dan automasi bisnis enterprise.">
+  <meta property="og:url" id="seo-og-url" content="https://geniusmedia.id">
+  <meta property="og:site_name" id="seo-og-sitename" content="Genius Media Channel">
+  <meta property="og:image" id="seo-og-img" content="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&amp;h=630&amp;fit=crop&amp;q=80">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" id="seo-tw-title" content="Genius Media Channel — Software House &amp; Web App Development Studio">
+  <meta name="twitter:description" id="seo-tw-desc" content="Partner teknologi terpercaya untuk membangun web app scalable, mobile app native, dan automasi bisnis enterprise.">
+  <meta name="twitter:image" id="seo-tw-img" content="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&amp;h=630&amp;fit=crop&amp;q=80">
+
+  <!-- Structured Data: Google Schema.org JSON-LD -->
+  <script id="seo-schema-jsonld" type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Genius Media Channel",
+    "url": "https://geniusmedia.id",
+    "description": "Studio rekayasa software terdepan di Indonesia. Spesialis pengembangan Web Application canggih, Aplikasi Mobile, dan Solusi Digital yang terukur.",
+    "priceRange": "Rp 15.000.000 - Rp 100.000.000+",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Jakarta",
+      "addressCountry": "ID"
+    }
+  }
+  </script>
   
   <!-- Favicon & Fonts -->
   <link rel="icon" id="dynamic-favicon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='25' fill='%236366f1'/><text x='50%' y='55%' font-size='55' font-family='sans-serif' font-weight='900' fill='white' dominant-baseline='middle' text-anchor='middle'>G</text></svg>">
@@ -17,6 +53,20 @@
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
   <script src="firebase-config.js"></script>
+  <script>
+    // Fallback Firebase Configuration (memastikan HP/Hosting selalu terhubung meskipun firebase-config.js belum diunggah)
+    if (typeof firebaseConfig === 'undefined') {
+      window.firebaseConfig = {
+        apiKey: "AIzaSyD8FtbDC6_-nR65HRcgXh8IZaA0QgA4fuQ",
+        authDomain: "genius-media-lp-db.firebaseapp.com",
+        projectId: "genius-media-lp-db",
+        storageBucket: "genius-media-lp-db.firebasestorage.app",
+        messagingSenderId: "526537297857",
+        appId: "1:526537297857:web:3566f4442b930f06a06940",
+        measurementId: "G-6Z73HCLHN4"
+      };
+    }
+  </script>
 
   <style>
     :root {
@@ -2442,6 +2492,20 @@
         logoImg: "",
         logoHeight: 36
       },
+      seo: {
+        title: "Genius Media Channel — Software House & Web App Development Studio",
+        desc: "Jasa pembuatan Web Application canggih, Aplikasi Mobile (iOS/Android), Software Desktop Kasir/ERP, dan Solusi AI bisnis terdepan di Indonesia.",
+        keywords: "jasa pembuatan web app, software house indonesia, aplikasi mobile flutter, bikin website aplikasi, genius media channel, erp desktop",
+        canonical: "https://geniusmedia.id",
+        robots: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+        ogTitle: "Genius Media Channel — Rekayasa Software & Solusi Digital",
+        ogDesc: "Partner teknologi terpercaya untuk membangun web app scalable, mobile app native, dan automasi bisnis enterprise.",
+        ogImg: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=630&fit=crop&q=80",
+        businessType: "ProfessionalService",
+        priceRange: "Rp 15.000.000 - Rp 100.000.000+",
+        city: "Jakarta, Indonesia",
+        enableFaqSchema: true
+      },
       hero: {
         sub: "Genius Media Channel mentransformasi ide bisnis Anda menjadi Web Application performa tinggi, Mobile App native, dan Ekosistem Software enterprise dengan arsitektur masa depan.",
         words: [
@@ -2724,6 +2788,85 @@
       document.getElementById('floating-wa-btn').href = waLink;
       document.getElementById('ft-wa-text').textContent = `WhatsApp: +${b.wa}`;
       document.getElementById('ft-wa-text').href = waLink;
+
+      // Apply Dynamic SEO & Social Meta Tags
+      const s = AppData.seo || DEFAULT_MASTER_DATA.seo || {};
+      const brandFullName = (b.b1 ? (b.b1 + ' ' + (b.b2 || '')) : 'Genius Media Channel').trim();
+      const docTitle = s.title || (brandFullName + ' — Software House & Web App Development Studio');
+      document.title = docTitle;
+
+      const pageTitleEl = document.getElementById('seo-page-title');
+      if (pageTitleEl) pageTitleEl.textContent = docTitle;
+
+      const metaDesc = document.getElementById('seo-meta-desc');
+      if (metaDesc) metaDesc.content = s.desc || b.footer || '';
+
+      const metaKeywords = document.getElementById('seo-meta-keywords');
+      if (metaKeywords && s.keywords) metaKeywords.content = s.keywords;
+
+      const metaRobots = document.getElementById('seo-meta-robots');
+      if (metaRobots && s.robots) metaRobots.content = s.robots;
+
+      const canonicalEl = document.getElementById('seo-canonical');
+      if (canonicalEl && s.canonical) canonicalEl.href = s.canonical;
+
+      // Open Graph Tags
+      const ogTitle = document.getElementById('seo-og-title');
+      if (ogTitle) ogTitle.content = s.ogTitle || docTitle;
+
+      const ogDesc = document.getElementById('seo-og-desc');
+      if (ogDesc) ogDesc.content = s.ogDesc || s.desc || b.footer || '';
+
+      const ogUrl = document.getElementById('seo-og-url');
+      if (ogUrl && s.canonical) ogUrl.content = s.canonical;
+
+      const ogSiteName = document.getElementById('seo-og-sitename');
+      if (ogSiteName) ogSiteName.content = brandFullName;
+
+      const ogImg = document.getElementById('seo-og-img');
+      if (ogImg && s.ogImg) ogImg.content = s.ogImg;
+
+      // Twitter Cards
+      const twTitle = document.getElementById('seo-tw-title');
+      if (twTitle) twTitle.content = s.ogTitle || docTitle;
+
+      const twDesc = document.getElementById('seo-tw-desc');
+      if (twDesc) twDesc.content = s.ogDesc || s.desc || b.footer || '';
+
+      const twImg = document.getElementById('seo-tw-img');
+      if (twImg && s.ogImg) twImg.content = s.ogImg;
+
+      // Google Schema.org JSON-LD Structured Data
+      const schemaEl = document.getElementById('seo-schema-jsonld');
+      if (schemaEl) {
+        const schemaData = {
+          "@context": "https://schema.org",
+          "@type": s.businessType || "ProfessionalService",
+          "name": brandFullName,
+          "url": s.canonical || window.location.href,
+          "description": s.desc || b.footer || "",
+          "priceRange": s.priceRange || "Rp 15.000.000 - Rp 100.000.000+",
+          "telephone": b.wa ? ("+" + b.wa) : undefined,
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": s.city || "Jakarta",
+            "addressCountry": "ID"
+          }
+        };
+
+        if (s.enableFaqSchema !== false && AppData.faq && AppData.faq.length) {
+          schemaData.mainEntity = AppData.faq.map(f => ({
+            "@type": "Question",
+            "name": f.q,
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": f.a
+            }
+          }));
+        }
+
+        schemaEl.textContent = JSON.stringify(schemaData, null, 2);
+      }
 
       // Render Services
       const servContainer = document.getElementById('services-container');
@@ -3137,22 +3280,42 @@
           if (!firebase.apps.length) firebase.initializeApp(activeConfig);
           const db = firebase.firestore();
           try { db.settings({ ignoreUndefinedProperties: true }); } catch(e){}
-          db.collection('content').doc('landing_page').onSnapshot(doc => {
+
+          const docRef = db.collection('content').doc('landing_page');
+
+          // Immediate fetch for fast mobile rendering
+          docRef.get().then(doc => {
             if (doc.exists) {
               const cloudData = doc.data() || {};
-              // Preserve custom sections if cloud doesn't have them yet but local does
-              if (!cloudData.sections || !cloudData.sections.some(s => s.type === 'custom')) {
-                if (AppData.sections && AppData.sections.some(s => s.type === 'custom')) {
-                  cloudData.sections = AppData.sections;
-                }
-              }
               AppData = { ...DEFAULT_MASTER_DATA, ...cloudData };
               if (!AppData.sections || !AppData.sections.length) {
                 AppData.sections = JSON.parse(JSON.stringify(DEFAULT_MASTER_DATA.sections));
               }
+              try {
+                localStorage.setItem('genius_media_full_data', JSON.stringify(AppData));
+              } catch (e) {}
               applyDynamicData();
             }
-          }, err => console.warn('Firestore live sync:', err));
+          }).catch(err => {
+            console.warn('Firestore initial fetch:', err.message);
+          });
+
+          // Real-time listener
+          docRef.onSnapshot(doc => {
+            if (doc.exists) {
+              const cloudData = doc.data() || {};
+              AppData = { ...DEFAULT_MASTER_DATA, ...cloudData };
+              if (!AppData.sections || !AppData.sections.length) {
+                AppData.sections = JSON.parse(JSON.stringify(DEFAULT_MASTER_DATA.sections));
+              }
+              try {
+                localStorage.setItem('genius_media_full_data', JSON.stringify(AppData));
+              } catch (e) {}
+              applyDynamicData();
+            }
+          }, err => {
+            console.warn('Firestore live sync error (Periksa Rules di Firebase Console):', err.message);
+          });
         } catch (err) {
           console.warn('Firebase landing page init error:', err);
         }

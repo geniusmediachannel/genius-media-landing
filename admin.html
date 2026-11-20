@@ -718,6 +718,7 @@
       <button class="nav-btn" data-tab="tab-faq"><span class="icon">❓</span> FAQ Tanya Jawab</button>
       <button class="nav-btn" data-tab="tab-calc"><span class="icon">🧮</span> Sistem Kalkulator</button>
       <button class="nav-btn" data-tab="tab-settings"><span class="icon">⚙️</span> Database &amp; PIN</button>
+      <button class="nav-btn" data-tab="tab-seo"><span class="icon">🔍</span> SEO &amp; Google Search</button>
       <button class="nav-btn" data-tab="tab-deploy"><span class="icon">📦</span> Download Backup</button>
     </nav>
 
@@ -736,6 +737,9 @@
 
   <!-- Main Content -->
   <main>
+    <!-- Firebase Cloud Diagnostic Alert Banner -->
+    <div id="firebase-alert-banner" style="display:none; margin-bottom:20px;"></div>
+
     <div class="page-header">
       <div>
         <h1 class="page-title" id="page-heading">Brand &amp; Kontak Bisnis</h1>
@@ -1373,9 +1377,218 @@
             <label>appId</label>
             <input type="text" id="cfg-appid" placeholder="1:123456:web:abcdef">
           </div>
-          <div class="form-group form-full" style="margin-top:8px">
+          <div class="form-group form-full" style="margin-top:8px; display:flex; gap:10px; flex-wrap:wrap;">
             <button class="btn btn-primary btn-sm" id="btn-save-firebase-cfg">💾 Simpan Kunci Firebase</button>
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-test-firebase">🧪 Tes Izin Baca &amp; Tulis Cloud Sekarang</button>
           </div>
+          <div id="test-firebase-result" style="grid-column:1/-1; display:none; margin-top:8px;"></div>
+        </div>
+
+        <!-- Panduan Aturan Keamanan (Rules) Firebase -->
+        <div style="margin-top:24px; padding:18px; background:rgba(0,0,0,0.35); border:1px solid rgba(255,255,255,0.08); border-radius:12px;">
+          <h4 style="margin:0 0 8px; font-size:0.95rem; color:#f1f5f9; display:flex; align-items:center; gap:6px;">
+            <span>🛡️ Aturan Keamanan (Security Rules) Firebase — Wajib Agar Muncul di HP</span>
+          </h4>
+          <p style="font-size:0.83rem; color:var(--text-muted); line-height:1.6; margin-bottom:12px;">
+            Jika website di HP tidak memuat perubahan, penyebab nomor satu adalah <strong>Rules Firebase masih terkunci</strong> (default dari Google). Buka <a href="https://console.firebase.google.com/" target="_blank" style="color:var(--secondary); text-decoration:underline;">Firebase Console</a> &gt; <strong>Firestore Database</strong> &gt; Tab <strong>Rules</strong>, pastikan kodenya seperti ini:
+          </p>
+          <pre style="background:#050711; padding:12px 16px; border-radius:8px; border:1px solid var(--border); font-family:monospace; font-size:0.82rem; color:#10b981; overflow-x:auto; margin:0 0 10px;">rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}</pre>
+          <div style="font-size:0.78rem; color:var(--text-muted);">
+            Klik <strong>"Publish"</strong> di Firebase Console setelah mengubah aturan di atas.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: SEO & GOOGLE SEARCH -->
+    <div class="tab-panel" id="tab-seo">
+      <!-- 1. Live Google Search SERP Simulator -->
+      <div class="panel-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
+          <div>
+            <h3 style="margin:0; font-size:1.1rem;">🔍 Simulasi Pratinjau Google Search (SERP)</h3>
+            <p style="color:var(--text-muted); font-size:0.83rem; margin-top:2px;">
+              Beginilah tampilan website Anda saat dicari oleh calon klien di mesin pencari Google:
+            </p>
+          </div>
+          <span class="badge-pill" style="margin:0; font-size:0.75rem; background:rgba(66,133,244,0.15); color:#8ab4f8; border:1px solid rgba(66,133,244,0.3);">Google Mobile &amp; Desktop SERP</span>
+        </div>
+
+        <div style="background:#202124; border:1px solid rgba(255,255,255,0.12); border-radius:12px; padding:18px 22px; max-width:640px; font-family:Arial, sans-serif;">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px; font-size:0.82rem; color:#dadce0;">
+            <div style="width:20px; height:20px; border-radius:50%; background:#303134; display:grid; place-items:center; overflow:hidden;">
+              <img id="serp-fav-img" src="" style="width:14px; height:14px; object-fit:contain; display:none;">
+              <span id="serp-fav-def" style="font-size:0.75rem;">🌐</span>
+            </div>
+            <div style="display:flex; flex-direction:column; line-height:1.2;">
+              <span id="serp-sitename" style="font-weight:700; color:#fff; font-size:0.82rem;">Genius Media Channel</span>
+              <span id="serp-breadcrumb" style="color:#bdc1c6; font-size:0.75rem;">https://geniusmedia.id</span>
+            </div>
+          </div>
+          <div id="serp-title-prev" style="color:#8ab4f8; font-size:1.22rem; font-weight:400; line-height:1.35; margin-bottom:6px; cursor:pointer;">
+            Genius Media Channel — Software House &amp; Web App Development Studio
+          </div>
+          <div id="serp-desc-prev" style="color:#bdc1c6; font-size:0.86rem; line-height:1.55;">
+            Jasa pembuatan Web Application canggih, Aplikasi Mobile (iOS/Android), Software Desktop Kasir/ERP, dan Solusi AI bisnis terdepan di Indonesia.
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Pengaturan Meta Tags Dasar -->
+      <div class="panel-card" style="margin-top:20px;">
+        <h3>🏷️ Meta Title, Deskripsi &amp; Kata Kunci Google</h3>
+        <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:16px;">
+          Tentukan kata kunci dan kalimat yang tepat untuk memikat bot Google dan menaikkan rasio klik (CTR).
+        </p>
+
+        <div class="form-grid">
+          <div class="form-group form-full">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <label>Judul Halaman Google (Meta Title) *</label>
+              <span id="seo-title-count" style="font-size:0.75rem; color:var(--text-muted); font-weight:700;">0 / 60 karakter</span>
+            </div>
+            <input type="text" id="f-seo-title" placeholder="Contoh: Jasa Pembuatan Web App &amp; Software House — Genius Media" oninput="updateSeoPreview()">
+            <span style="font-size:0.78rem; color:var(--text-muted); margin-top:4px; display:block;">Disarankan 50–60 karakter. Letakkan kata kunci utama di depan.</span>
+          </div>
+
+          <div class="form-group form-full">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <label>Deskripsi Ringkasan Google (Meta Description) *</label>
+              <span id="seo-desc-count" style="font-size:0.75rem; color:var(--text-muted); font-weight:700;">0 / 160 karakter</span>
+            </div>
+            <textarea id="f-seo-desc" rows="3" placeholder="Jelaskan spesialisasi, penawaran menarik, garansi, dan ajakan konsultasi gratis..." oninput="updateSeoPreview()"></textarea>
+            <span style="font-size:0.78rem; color:var(--text-muted); margin-top:4px; display:block;">Disarankan 140–160 karakter. Teks ini menjadi cuplikan penentu calon klien mengklik link Anda.</span>
+          </div>
+
+          <div class="form-group">
+            <label>Kata Kunci Fokus (Focus Keywords)</label>
+            <input type="text" id="f-seo-keywords" placeholder="web app, software house, aplikasi mobile, pos kasir, flutter">
+            <span style="font-size:0.78rem; color:var(--text-muted); margin-top:4px; display:block;">Pisahkan dengan koma. Masukkan kata kunci yang sering dicari klien.</span>
+          </div>
+
+          <div class="form-group">
+            <label>URL Resmi Website (Canonical URL)</label>
+            <input type="text" id="f-seo-canonical" placeholder="https://geniusmedia.id" oninput="updateSeoPreview()">
+            <span style="font-size:0.78rem; color:var(--text-muted); margin-top:4px; display:block;">URL domain utama Anda (mencegah penalti duplikat konten oleh Google).</span>
+          </div>
+
+          <div class="form-group">
+            <label>Instruksi Robot Perayap (Meta Robots)</label>
+            <select id="f-seo-robots">
+              <option value="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">index, follow (Disarankan: Izinkan Google Mengindeks Penuh)</option>
+              <option value="noindex, follow">noindex, follow (Jangan tampil di Google, tapi ikuti link)</option>
+              <option value="noindex, nofollow">noindex, nofollow (Privat / Jangan diindeks)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Open Graph & Social Share Preview (WhatsApp Card) -->
+      <div class="panel-card" style="margin-top:20px;">
+        <h3>💬 Thumbnail &amp; Kartu Berbagi Sosial Media (WhatsApp, FB, LinkedIn)</h3>
+        <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:16px;">
+          Ketika link landing page Anda dikirim via chat WhatsApp atau media sosial, kartu pratinjau mewah ini yang akan muncul.
+        </p>
+
+        <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start;">
+          <!-- Form Inputs -->
+          <div style="flex:1; min-width:280px; display:flex; flex-direction:column; gap:12px;">
+            <div class="form-group">
+              <label>Judul Kartu Share (OG Title)</label>
+              <input type="text" id="f-seo-og-title" placeholder="Genius Media Channel — Software House &amp; Web App Studio" oninput="updateSeoPreview()">
+            </div>
+
+            <div class="form-group">
+              <label>Deskripsi Kartu Share (OG Description)</label>
+              <textarea id="f-seo-og-desc" rows="2" placeholder="Partner teknologi terpercaya untuk membangun web app scalable dan mobile app native..." oninput="updateSeoPreview()"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>Gambar Banner Thumbnail (Rasio 1.91:1 / 1200x630px)</label>
+              <div style="display:flex; gap:10px;">
+                <input type="text" id="f-seo-og-img" placeholder="https://.../og-banner.jpg" oninput="updateSeoPreview()" style="flex:1">
+                <label class="btn btn-secondary btn-sm" style="margin:0; cursor:pointer; flex-shrink:0;">
+                  <span>📁 Unggah Banner</span>
+                  <input type="file" accept="image/*" style="display:none" onchange="handleOgImageUpload(this)">
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Social Card Mockup -->
+          <div style="width:340px; background:#0b0f19; border:1px solid rgba(255,255,255,0.12); border-radius:12px; overflow:hidden;">
+            <div style="font-size:0.75rem; color:var(--text-muted); padding:8px 12px; background:rgba(255,255,255,0.03); border-bottom:1px solid rgba(255,255,255,0.06); font-weight:700;">
+              Simulasi Pratinjau Chat WhatsApp &amp; Sosmed
+            </div>
+            <img id="og-prev-img" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=630&fit=crop&q=80" style="width:100%; height:180px; object-fit:cover; display:block;" onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=630&fit=crop&q=80'">
+            <div style="padding:12px 14px;">
+              <div id="og-prev-domain" style="font-size:0.72rem; text-transform:uppercase; color:#94a3b8; font-weight:700; letter-spacing:0.05em; margin-bottom:4px;">GENIUSMEDIA.ID</div>
+              <div id="og-prev-title" style="font-size:0.92rem; font-weight:700; color:#fff; margin-bottom:4px; line-height:1.35;">Genius Media Channel — Software House</div>
+              <div id="og-prev-desc" style="font-size:0.78rem; color:#94a3b8; line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">Partner teknologi terpercaya untuk membangun web app scalable...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Google Schema.org Structured Data (JSON-LD) -->
+      <div class="panel-card" style="margin-top:20px;">
+        <h3>🤖 Google Structured Data (Schema.org JSON-LD Rich Snippet)</h3>
+        <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:16px;">
+          Metadata resmi format Google yang membantu Google memahami entitas bisnis Anda, menampilkan rating bintang, dan FAQ tanya jawab langsung di hasil pencarian.
+        </p>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Tipe Entitas Bisnis (Schema Type)</label>
+            <select id="f-seo-biz-type">
+              <option value="ProfessionalService">ProfessionalService (Jasa Profesional &amp; Konsultan)</option>
+              <option value="Organization">Organization (Perusahaan / Organisasi)</option>
+              <option value="Corporation">Corporation (Korporat / Bisnis)</option>
+              <option value="SoftwareApplication">SoftwareApplication (Produk Software)</option>
+              <option value="LocalBusiness">LocalBusiness (Bisnis Lokal)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Rentang Estimasi Biaya (Price Range)</label>
+            <input type="text" id="f-seo-price-range" placeholder="Rp 15.000.000 - Rp 100.000.000+">
+          </div>
+
+          <div class="form-group">
+            <label>Kota &amp; Negara Basis Usaha</label>
+            <input type="text" id="f-seo-city" placeholder="Jakarta, Indonesia">
+          </div>
+
+          <div class="form-group" style="display:flex; align-items:center; gap:10px; margin-top:24px;">
+            <input type="checkbox" id="f-seo-faq-schema" checked style="width:20px; height:20px; cursor:pointer;">
+            <label for="f-seo-faq-schema" style="margin:0; cursor:pointer;">
+              Aktifkan <strong>Google FAQ Rich Snippet</strong> otomatis dari daftar menu FAQ Anda
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Download File SEO: robots.txt & sitemap.xml -->
+      <div class="panel-card" style="margin-top:20px;">
+        <h3>📄 File Peta Situs &amp; Petunjuk Robot (sitemap.xml &amp; robots.txt)</h3>
+        <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:16px;">
+          Unduh file ini dan letakkan di folder utama (*root/public_html*) web hosting Anda untuk mempercepat Google mengindeks seluruh halaman.
+        </p>
+
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="downloadRobotsTxt()">
+            <span>🤖 Unduh robots.txt</span>
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="downloadSitemapXml()">
+            <span>🗺️ Unduh sitemap.xml</span>
+          </button>
         </div>
       </div>
     </div>
@@ -1628,6 +1841,20 @@
         logoImg: "",
         logoHeight: 36
       },
+      seo: {
+        title: "Genius Media Channel — Software House & Web App Development Studio",
+        desc: "Jasa pembuatan Web Application canggih, Aplikasi Mobile (iOS/Android), Software Desktop Kasir/ERP, dan Solusi AI bisnis terdepan di Indonesia.",
+        keywords: "jasa pembuatan web app, software house indonesia, aplikasi mobile flutter, bikin website aplikasi, genius media channel, erp desktop",
+        canonical: "https://geniusmedia.id",
+        robots: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+        ogTitle: "Genius Media Channel — Rekayasa Software & Solusi Digital",
+        ogDesc: "Partner teknologi terpercaya untuk membangun web app scalable, mobile app native, dan automasi bisnis enterprise.",
+        ogImg: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=630&fit=crop&q=80",
+        businessType: "ProfessionalService",
+        priceRange: "Rp 15.000.000 - Rp 100.000.000+",
+        city: "Jakarta, Indonesia",
+        enableFaqSchema: true
+      },
       hero: {
         sub: "Genius Media Channel mentransformasi ide bisnis Anda menjadi Web Application performa tinggi, Mobile App native, dan Ekosistem Software enterprise dengan arsitektur masa depan.",
         words: [
@@ -1854,9 +2081,6 @@
           }
           db = firebase.firestore();
           try { db.settings({ ignoreUndefinedProperties: true }); } catch(e){}
-          isCloudConnected = true;
-          document.getElementById('cloud-badge').classList.remove('offline');
-          document.getElementById('cloud-status-text').textContent = '🟢 Terhubung ke Firebase Cloud';
 
           // Pre-fill config form in Settings
           document.getElementById('cfg-apikey').value = activeConfig.apiKey || '';
@@ -1866,7 +2090,7 @@
           document.getElementById('cfg-sender').value = activeConfig.messagingSenderId || '';
           document.getElementById('cfg-appid').value = activeConfig.appId || '';
 
-          // Load live cloud data
+          // Actively verify live cloud permissions & load data
           loadCloudData();
           return;
         } catch (err) {
@@ -1887,12 +2111,24 @@
       renderForms();
     }
 
-    // Load data from Firestore
+    // Load data from Firestore & Validate Permissions
     async function loadCloudData() {
       if (!db) return;
+      const statusText = document.getElementById('cloud-status-text');
+      const cloudBadge = document.getElementById('cloud-badge');
+      const alertBanner = document.getElementById('firebase-alert-banner');
+
       try {
+        statusText.textContent = 'Memverifikasi Cloud Database... ⏳';
         const docRef = db.collection('content').doc('landing_page');
         const docSnap = await docRef.get();
+
+        // If read succeeded, Cloud read permissions are active!
+        isCloudConnected = true;
+        cloudBadge.classList.remove('offline');
+        statusText.textContent = '🟢 Terhubung ke Firebase Cloud (Sinkron Aktif)';
+        if (alertBanner) alertBanner.style.display = 'none';
+
         if (docSnap.exists) {
           const cloudData = docSnap.data() || {};
           // Preserve custom sections if cloud doesn't have custom sections yet
@@ -1906,13 +2142,51 @@
             AppData.sections = JSON.parse(JSON.stringify(DEFAULT_DATA.sections));
           }
           localStorage.setItem('genius_media_full_data', JSON.stringify(AppData));
-          showToast('Data terbaru dimuat dari Cloud! ☁️');
+          showToast('Data terbaru sukses dimuat dari Cloud! ☁️');
         } else {
           // Initialize first cloud document with clean data
           await docRef.set(JSON.parse(JSON.stringify(AppData)));
         }
       } catch (err) {
-        console.warn('Firestore load error:', err);
+        console.warn('Firestore load/permission error:', err);
+        isCloudConnected = false;
+        cloudBadge.classList.add('offline');
+
+        if (err.code === 'permission-denied' || (err.message && err.message.toLowerCase().includes('permission'))) {
+          statusText.textContent = '🔴 Izin Ditolak: Atur Rules di Firebase Console';
+          if (alertBanner) {
+            alertBanner.style.display = 'block';
+            alertBanner.innerHTML = `
+              <div style="background:rgba(239,68,68,0.12); border:1px solid #ef4444; border-radius:12px; padding:18px 22px;">
+                <div style="display:flex; align-items:center; gap:8px; font-weight:800; color:#ef4444; font-size:1.05rem; margin-bottom:8px;">
+                  <span>⚠️ Database Firebase Terkunci (Penyebab HP Tidak Memuat Perubahan)</span>
+                </div>
+                <div style="color:#f1f5f9; font-size:0.9rem; line-height:1.65;">
+                  Google Firebase secara default mengunci database dengan aturan <strong>permission-denied</strong>. Akibatnya data dari laptop ini tidak dapat dibaca oleh HP.<br>
+                  <strong>Langkah Cepat Memperbaiki (Hanya 1 Menit):</strong>
+                  <ol style="margin:10px 0 10px 22px; padding:0;">
+                    <li>Buka <a href="https://console.firebase.google.com/" target="_blank" style="color:#38bdf8; text-decoration:underline; font-weight:700">Firebase Console (console.firebase.google.com)</a> &gt; Pilih project <code>genius-media-lp-db</code>.</li>
+                    <li>Di menu sebelah kiri, klik <strong>Build &gt; Firestore Database &gt; Tab Rules</strong>.</li>
+                    <li>Ubah kode aturan menjadi: <br>
+                      <pre style="background:#090d1f; padding:8px 12px; border-radius:6px; margin:6px 0; color:#10b981; font-family:monospace; display:inline-block;">rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}</pre>
+                    </li>
+                    <li>Klik tombol biru <strong>"Publish"</strong>.</li>
+                    <li>Kembali ke halaman ini dan klik tombol <strong>"Simpan ke Cloud"</strong>. Setelah itu buka HP Anda, perubahan akan langsung muncul!</li>
+                  </ol>
+                </div>
+              </div>
+            `;
+          }
+        } else {
+          statusText.textContent = '🟡 Cloud Terputus: ' + (err.message || 'Offline');
+        }
       }
       renderForms();
     }
@@ -1948,17 +2222,33 @@
         }
       });
 
+      if (document.getElementById('f-seo-title')) {
+        if (!AppData.seo) AppData.seo = {};
+        AppData.seo.title = document.getElementById('f-seo-title').value.trim();
+        AppData.seo.desc = document.getElementById('f-seo-desc').value.trim();
+        AppData.seo.keywords = document.getElementById('f-seo-keywords').value.trim();
+        AppData.seo.canonical = document.getElementById('f-seo-canonical').value.trim();
+        AppData.seo.robots = document.getElementById('f-seo-robots').value;
+        AppData.seo.ogTitle = document.getElementById('f-seo-og-title').value.trim();
+        AppData.seo.ogDesc = document.getElementById('f-seo-og-desc').value.trim();
+        AppData.seo.ogImg = document.getElementById('f-seo-og-img').value.trim();
+        AppData.seo.bizType = document.getElementById('f-seo-biz-type').value;
+        AppData.seo.priceRange = document.getElementById('f-seo-price-range').value.trim();
+        AppData.seo.city = document.getElementById('f-seo-city').value.trim();
+        AppData.seo.faqSchema = document.getElementById('f-seo-faq-schema').checked;
+      }
+
       // Clean of any undefined values
       const cleanData = JSON.parse(JSON.stringify(AppData));
 
-      // Always save to localStorage
+      // Always save to localStorage on laptop
       try {
         localStorage.setItem('genius_media_full_data', JSON.stringify(cleanData));
       } catch (err) {
         console.warn('localStorage error:', err);
       }
 
-      // Broadcast to any open tabs (instant real-time sync)
+      // Broadcast to any open tabs (instant real-time sync on same device)
       try {
         if (typeof BroadcastChannel !== 'undefined') {
           const bc = new BroadcastChannel('genius_preview_channel');
@@ -1967,16 +2257,29 @@
         }
       } catch (e) {}
 
-      // Save to Firebase Cloud if connected
-      if (db && isCloudConnected) {
+      // Save to Firebase Cloud (Sync to HP & Worldwide)
+      if (db) {
         showToast('Menyimpan ke Cloud Database... ⏳');
         try {
           await db.collection('content').doc('landing_page').set(cleanData);
+          isCloudConnected = true;
+          document.getElementById('cloud-badge').classList.remove('offline');
+          document.getElementById('cloud-status-text').textContent = '🟢 Terhubung ke Firebase Cloud (Sinkron Aktif)';
+          const alertBanner = document.getElementById('firebase-alert-banner');
+          if (alertBanner) alertBanner.style.display = 'none';
           showToast('✅ Berhasil disimpan ke Cloud! Landing page langsung terupdate otomatis di seluruh dunia 🚀');
           return true;
         } catch (err) {
           console.error('Firebase save error:', err);
-          showToast('⚠️ Gagal simpan ke Firebase: ' + err.message);
+          isCloudConnected = false;
+          document.getElementById('cloud-badge').classList.add('offline');
+          document.getElementById('cloud-status-text').textContent = '🔴 Gagal Simpan ke Cloud';
+          
+          let alertMsg = err.message;
+          if (err.code === 'permission-denied' || (err.message && err.message.toLowerCase().includes('permission'))) {
+            alertMsg = 'Izin Firebase Ditolak (permission-denied)!\n\nPerubahan saat ini HANYA tersimpan di laptop ini dan TIDAK BISA muncul di HP.\n\nSOLUSI: Buka Firebase Console > Firestore Database > Rules, ubah menjadi "allow read, write: if true;" lalu klik Publish.';
+          }
+          alert('⚠️ PERHATIAN PENTING:\n\n' + alertMsg);
           return false;
         }
       } else {
@@ -1984,6 +2287,34 @@
         return true;
       }
     }
+
+    // Tester Button Handler in Settings
+    document.getElementById('btn-test-firebase').onclick = async () => {
+      const resBox = document.getElementById('test-firebase-result');
+      resBox.style.display = 'block';
+      resBox.innerHTML = '<div style="padding:10px; background:rgba(255,255,255,0.05); border-radius:6px; color:#f1f5f9; font-size:0.85rem">Menguji koneksi baca & tulis ke Firebase... ⏳</div>';
+      
+      if (!db) {
+        resBox.innerHTML = '<div style="padding:10px; background:rgba(239,68,68,0.2); border:1px solid #ef4444; border-radius:6px; color:#fca5a5; font-size:0.85rem">❌ Database Firebase belum diinisialisasi. Periksa apiKey &amp; projectId Anda.</div>';
+        return;
+      }
+
+      try {
+        // Test write
+        const testDoc = db.collection('content').doc('_ping_test');
+        await testDoc.set({ timestamp: Date.now(), ping: "ok" });
+        // Test read
+        const snap = await testDoc.get();
+        if (snap.exists) {
+          resBox.innerHTML = '<div style="padding:12px; background:rgba(16,185,129,0.15); border:1px solid #10b981; border-radius:6px; color:#6ee7b7; font-size:0.88rem; font-weight:700">✅ KONEKSI BERHASIL 100%! Izin Baca &amp; Tulis Firestore Aktif. Perubahan yang Anda simpan dijamin langsung muncul di HP.</div>';
+        }
+      } catch (err) {
+        resBox.innerHTML = `<div style="padding:12px; background:rgba(239,68,68,0.18); border:1px solid #ef4444; border-radius:6px; color:#fca5a5; font-size:0.85rem; line-height:1.6">
+          <strong>❌ KONEKSI GAGAL (${err.code || 'Error'}):</strong><br>${err.message}<br><br>
+          <em>Penyebab HP tidak berubah: Aturan Security Rules Firebase Anda menolak akses. Buka Firebase Console &gt; Firestore Database &gt; Rules, ubah jadi <code>allow read, write: if true;</code> lalu klik Publish.</em>
+        </div>`;
+      }
+    };
 
     document.getElementById('btn-save-all').onclick = saveData;
     document.getElementById('btn-quick-save').onclick = saveData;
@@ -2015,6 +2346,22 @@
           AppData.stats[i].label = row.querySelector('.stat-label').value.trim();
         }
       });
+
+      if (document.getElementById('f-seo-title')) {
+        if (!AppData.seo) AppData.seo = {};
+        AppData.seo.title = document.getElementById('f-seo-title').value.trim();
+        AppData.seo.desc = document.getElementById('f-seo-desc').value.trim();
+        AppData.seo.keywords = document.getElementById('f-seo-keywords').value.trim();
+        AppData.seo.canonical = document.getElementById('f-seo-canonical').value.trim();
+        AppData.seo.robots = document.getElementById('f-seo-robots').value;
+        AppData.seo.ogTitle = document.getElementById('f-seo-og-title').value.trim();
+        AppData.seo.ogDesc = document.getElementById('f-seo-og-desc').value.trim();
+        AppData.seo.ogImg = document.getElementById('f-seo-og-img').value.trim();
+        AppData.seo.bizType = document.getElementById('f-seo-biz-type').value;
+        AppData.seo.priceRange = document.getElementById('f-seo-price-range').value.trim();
+        AppData.seo.city = document.getElementById('f-seo-city').value.trim();
+        AppData.seo.faqSchema = document.getElementById('f-seo-faq-schema').checked;
+      }
 
       // Synchronously write to localStorage and BroadcastChannel
       const cleanData = JSON.parse(JSON.stringify(AppData));
@@ -2080,6 +2427,7 @@
       'tab-faq': ['FAQ Tanya Jawab', 'Jawaban pertanyaan umum calon klien.'],
       'tab-calc': ['Sistem Kalkulator Estimasi Biaya', 'Kelola pilihan platform, skala kompleksitas, dan checklist fitur tambahan beserta biaya & durasinya.'],
       'tab-settings': ['Pengaturan Database & PIN', 'Kelola kunci koneksi Firebase Cloud Database dan PIN login admin.'],
+      'tab-seo': ['Pengaturan SEO & Google Search', 'Optimasi kata kunci, judul hasil pencarian Google, thumbnail pratinjau WhatsApp/sosmed, dan Schema JSON-LD agar website muncul di peringkat teratas.'],
       'tab-deploy': ['Download & Deploy', 'Unduh file index.html terbaru untuk cadangan offline.']
     };
 
@@ -2215,6 +2563,201 @@
       reader.readAsDataURL(file);
     };
 
+    window.updateSeoPreview = function() {
+      const b1 = (document.getElementById('f-b1') ? document.getElementById('f-b1').value.trim() : '') || 'Genius';
+      const b2 = (document.getElementById('f-b2') ? document.getElementById('f-b2').value.trim() : '') || 'Media';
+      const brandFull = (b1 + ' ' + b2).trim();
+
+      const titleEl = document.getElementById('f-seo-title');
+      const descEl = document.getElementById('f-seo-desc');
+      const canEl = document.getElementById('f-seo-canonical');
+      const ogTitleEl = document.getElementById('f-seo-og-title');
+      const ogDescEl = document.getElementById('f-seo-og-desc');
+      const ogImgEl = document.getElementById('f-seo-og-img');
+
+      const title = titleEl ? titleEl.value.trim() : '';
+      const desc = descEl ? descEl.value.trim() : '';
+      const canonical = (canEl ? canEl.value.trim() : '') || 'https://geniusmedia.id';
+      const ogTitle = ogTitleEl ? ogTitleEl.value.trim() : '';
+      const ogDesc = ogDescEl ? ogDescEl.value.trim() : '';
+      const ogImg = ogImgEl ? ogImgEl.value.trim() : '';
+
+      // Counters
+      const titleCountEl = document.getElementById('seo-title-count');
+      if (titleCountEl) {
+        titleCountEl.textContent = `${title.length} / 60 karakter`;
+        titleCountEl.style.color = title.length > 60 ? '#f59e0b' : 'var(--text-muted)';
+      }
+      const descCountEl = document.getElementById('seo-desc-count');
+      if (descCountEl) {
+        descCountEl.textContent = `${desc.length} / 160 karakter`;
+        descCountEl.style.color = desc.length > 160 ? '#f59e0b' : 'var(--text-muted)';
+      }
+
+      // SERP Favicon & Sitename
+      const serpFavImg = document.getElementById('serp-fav-img');
+      const serpFavDef = document.getElementById('serp-fav-def');
+      const favUrl = (document.getElementById('f-favicon-url') ? document.getElementById('f-favicon-url').value.trim() : '') || (AppData.brand && AppData.brand.favicon);
+      if (serpFavImg && serpFavDef) {
+        if (favUrl) {
+          serpFavImg.src = favUrl;
+          serpFavImg.style.display = 'block';
+          serpFavDef.style.display = 'none';
+        } else {
+          serpFavImg.style.display = 'none';
+          serpFavDef.style.display = 'block';
+        }
+      }
+      const serpSiteEl = document.getElementById('serp-sitename');
+      if (serpSiteEl) serpSiteEl.textContent = brandFull;
+
+      const serpBreadEl = document.getElementById('serp-breadcrumb');
+      if (serpBreadEl) serpBreadEl.textContent = canonical;
+
+      // SERP Title & Snippet
+      const serpTitlePrev = document.getElementById('serp-title-prev');
+      if (serpTitlePrev) {
+        serpTitlePrev.textContent = title || (brandFull + ' — Software House & Web App Development Studio');
+      }
+      const serpDescPrev = document.getElementById('serp-desc-prev');
+      if (serpDescPrev) {
+        serpDescPrev.textContent = desc || (AppData.brand && AppData.brand.footer) || 'Jasa pembuatan Web Application canggih, Aplikasi Mobile (iOS/Android), Software Desktop Kasir/ERP, dan Solusi AI bisnis terdepan di Indonesia.';
+      }
+
+      // Social Share Card Mockup
+      let domainStr = 'GENIUSMEDIA.ID';
+      try {
+        const u = new URL(canonical.startsWith('http') ? canonical : 'https://' + canonical);
+        domainStr = u.hostname.toUpperCase();
+      } catch(e){}
+      const ogDomainEl = document.getElementById('og-prev-domain');
+      if (ogDomainEl) ogDomainEl.textContent = domainStr;
+
+      const ogTitlePrev = document.getElementById('og-prev-title');
+      if (ogTitlePrev) ogTitlePrev.textContent = ogTitle || title || (brandFull + ' — Software House');
+
+      const ogDescPrev = document.getElementById('og-prev-desc');
+      if (ogDescPrev) ogDescPrev.textContent = ogDesc || desc || 'Partner teknologi terpercaya untuk membangun web app scalable...';
+
+      const ogImgPrev = document.getElementById('og-prev-img');
+      if (ogImgPrev) {
+        ogImgPrev.src = ogImg || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=630&fit=crop&q=80';
+      }
+    };
+
+    window.handleOgImageUpload = function(input) {
+      if (!input.files || !input.files[0]) return;
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          const maxW = 1200;
+          const maxH = 630;
+          let w = img.width;
+          let h = img.height;
+          if (w > maxW || h > maxH) {
+            const ratio = Math.min(maxW / maxH, maxH / h);
+            w = Math.round(w * ratio);
+            h = Math.round(h * ratio);
+          }
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          const compressed = canvas.toDataURL('image/jpeg', 0.85);
+          document.getElementById('f-seo-og-img').value = compressed;
+          if (!AppData.seo) AppData.seo = {};
+          AppData.seo.ogImg = compressed;
+          updateSeoPreview();
+          saveData();
+          showToast('Banner thumbnail OG berhasil diunggah! 🖼️');
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    };
+
+    window.downloadRobotsTxt = function() {
+      const canonical = (document.getElementById('f-seo-canonical') ? document.getElementById('f-seo-canonical').value.trim() : '') || (AppData.seo && AppData.seo.canonical) || 'https://geniusmedia.id';
+      const cleanUrl = canonical.replace(/\/+$/, '');
+      const content = `# robots.txt generated by Genius Media Admin CMS
+User-agent: *
+Allow: /
+
+# Directives for major search crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Sitemap location
+Sitemap: ${cleanUrl}/sitemap.xml
+`;
+      const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'robots.txt';
+      a.click();
+      showToast('robots.txt berhasil diunduh! Letakkan di folder root domain.');
+    };
+
+    window.downloadSitemapXml = function() {
+      const canonical = (document.getElementById('f-seo-canonical') ? document.getElementById('f-seo-canonical').value.trim() : '') || (AppData.seo && AppData.seo.canonical) || 'https://geniusmedia.id';
+      const cleanUrl = canonical.replace(/\/+$/, '');
+      const today = new Date().toISOString().slice(0, 10);
+      const content = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>${cleanUrl}/</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>${cleanUrl}/#layanan</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${cleanUrl}/#kalkulator</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${cleanUrl}/#portfolio</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${cleanUrl}/#faq</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>${cleanUrl}/#kontak</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+</urlset>`;
+      const blob = new Blob([content], { type: 'application/xml;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'sitemap.xml';
+      a.click();
+      showToast('sitemap.xml berhasil diunduh! Letakkan di folder root domain.');
+    };
+
     function renderForms() {
       // Brand & Logo
       document.getElementById('f-b1').value = AppData.brand.b1 || '';
@@ -2262,6 +2805,25 @@
       renderCalcPlatforms();
       renderCalcScales();
       renderCalcFeatures();
+
+      // SEO & Google Search
+      if (!AppData.seo) AppData.seo = JSON.parse(JSON.stringify(DEFAULT_DATA.seo || {}));
+      const seo = AppData.seo;
+      if (document.getElementById('f-seo-title')) {
+        document.getElementById('f-seo-title').value = seo.title || '';
+        document.getElementById('f-seo-desc').value = seo.desc || '';
+        document.getElementById('f-seo-keywords').value = seo.keywords || '';
+        document.getElementById('f-seo-canonical').value = seo.canonical || 'https://geniusmedia.id';
+        if (seo.robots) document.getElementById('f-seo-robots').value = seo.robots;
+        document.getElementById('f-seo-og-title').value = seo.ogTitle || '';
+        document.getElementById('f-seo-og-desc').value = seo.ogDesc || '';
+        document.getElementById('f-seo-og-img').value = seo.ogImg || '';
+        if (seo.bizType) document.getElementById('f-seo-biz-type').value = seo.bizType;
+        document.getElementById('f-seo-price-range').value = seo.priceRange || 'Rp 15.000.000 - Rp 100.000.000+';
+        document.getElementById('f-seo-city').value = seo.city || 'Jakarta, Indonesia';
+        document.getElementById('f-seo-faq-schema').checked = seo.faqSchema !== false;
+        updateSeoPreview();
+      }
     }
 
     // --------------------------------------------------------------------------
