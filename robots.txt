@@ -10,4 +10,4 @@ Disallow: /admin
 Disallow: /*.json$
 
 # Sitemap location
-Sitemap: https://geniusmedia.id/sitemap.xml
+Sitemap: https://gmchannel.web.id/sitemap.xml
